@@ -1,0 +1,33 @@
+{
+  "name": "@open-rpc/schema-utils-js",
+  "private": false,
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/parse-schema.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "watch:test": "jest --watch",
+    "publish": "npm publish --access=public"
+  },
+  "files": [
+    "src/parse-schema.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/open-rpc/schema-utils-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/open-rpc/schema-utils-js/issues"
+  },
+  "homepage": "https://github.com/open-rpc/schema-utils-js#readme",
+  "dependencies": {
+    "fs-extra": "^7.0.1",
+    "json-schema-ref-parser": "^6.0.3",
+    "node-fetch": "^2.3.0"
+  },
+  "devDependencies": {
+    "jest": "^24.0.0"
+  }
+}
