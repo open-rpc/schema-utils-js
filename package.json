@@ -24,6 +24,7 @@
   "homepage": "https://github.com/open-rpc/schema-utils-js#readme",
   "dependencies": {
     "fs-extra": "^7.0.1",
+    "is-url": "^1.2.4",
     "json-schema-ref-parser": "^6.0.3",
     "node-fetch": "^2.3.0"
   },
