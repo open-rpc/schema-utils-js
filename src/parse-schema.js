@@ -33,7 +33,7 @@ const readSchemaFromFile = async (schema) => {
 };
 
 
-module.exports = async function parseSchema(schema) {
+async function parse(schema) {
   let parsedSchema;
 
   if (schema === undefined) {
@@ -54,3 +54,14 @@ module.exports = async function parseSchema(schema) {
     throw new Error(`The json schema provided cannot be dereferenced. Received Error: \n ${e.message}`);
   }
 }
+
+const makeIdForMethodContentDescriptors = (method, contentDescriptor) => {
+  const paramId = method.paramStructure === 'by-name' ? contentDescriptor.name : (method.params.indexOf(contentDescriptor) || method.result === contentDescriptor);
+  return `${method.name}/${paramId}`;
+};
+
+
+module.exports = {
+  parse,
+  makeIdForMethodContentDescriptors
+};
