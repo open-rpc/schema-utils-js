@@ -1,11 +1,14 @@
-import * as fs from "fs-extra";
-import {parse} from "./parse";
-
 jest.mock("fs-extra", () => ({
   readJson: jest.fn(),
 }));
 
+import * as _fs from "fs-extra";
+import {parse} from "./parse";
+
+const fs: any = _fs;
+
 describe("get-schema", () => {
+
   beforeEach(() => {
     fs.readJson.mockResolvedValue({ methods: [] });
   });
