@@ -26,7 +26,7 @@ describe("get-schema", () => {
   });
 
   it("handles urls", async () => {
-    const url = "https://raw.githubusercontent.com/open-rpc/examples/master/service-descriptions/petstore.json";
+    const url = "https://raw.githubusercontent.com/open-rpc/examples/master/service-descriptions/petstore-openrpc.json";
     const schema: any = await parse(url);
     expect(schema.methods).toBeDefined();
   });
