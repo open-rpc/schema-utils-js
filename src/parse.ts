@@ -1,7 +1,7 @@
 import { readJson } from "fs-extra";
+import isUrl = require("is-url");
 import refParser from "json-schema-ref-parser";
 import fetch from "node-fetch";
-const isUrl = require("is-url");
 
 const cwd = process.cwd();
 

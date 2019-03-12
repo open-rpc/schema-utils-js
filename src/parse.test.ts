@@ -1,10 +1,9 @@
+import * as fs from "fs-extra";
 import {parse} from "./parse";
 
 jest.mock("fs-extra", () => ({
   readJson: jest.fn(),
 }));
-
-const fs = require("fs-extra");
 
 describe("get-schema", () => {
   beforeEach(() => {
@@ -24,7 +23,8 @@ describe("get-schema", () => {
   });
 
   it("handles urls", async () => {
-    const schema: any = await parse("https://raw.githubusercontent.com/open-rpc/examples/master/service-descriptions/petstore.json");
+    const url = "https://raw.githubusercontent.com/open-rpc/examples/master/service-descriptions/petstore.json";
+    const schema: any = await parse(url);
     expect(schema.methods).toBeDefined();
   });
 
@@ -78,7 +78,8 @@ describe("get-schema", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
       fs.readJson.mockRejectedValue(new Error("SyntaxError: super duper bad one"));
-      return expect(parse("./node_modules/@open-rpc/examples/service-descriptions/petstore-openrpc.json")).rejects.toThrow();
+      const file = "./node_modules/@open-rpc/examples/service-descriptions/petstore-openrpc.json";
+      return expect(parse(file)).rejects.toThrow();
     });
   });
 });
