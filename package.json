@@ -6,7 +6,7 @@
   "main": "build/index.js",
   "scripts": {
     "build": "tsc",
-    "test": "ts-jest --coverage",
+    "test": "jest --coverage",
     "watch:test": "jest --watch",
     "publish": "npm run build && npm publish --access=public"
   },
