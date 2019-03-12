@@ -6,15 +6,14 @@ const isUrl = require("is-url");
 const cwd = process.cwd();
 
 const isJson = (jsonString: string) => {
-  try { JSON.parse(jsonString); return true; }
-  catch(e) { return false; }
+  try { JSON.parse(jsonString); return true; } catch (e) { return false; }
 };
 
 const fetchUrlSchemaFile = async (schema: string) => {
   try {
     const response = await fetch(schema);
     return await response.json();
-  } catch(e) {
+  } catch (e) {
     throw new Error(`Unable to download openrpc.json file located at the url: ${schema}`);
   }
 };
@@ -23,7 +22,7 @@ const readSchemaFromFile = async (schema: string) => {
   try {
     return await readJson(schema);
   } catch (e) {
-    if (e.message.includes('SyntaxError')) {
+    if (e.message.includes("SyntaxError")) {
       throw new Error(`Failed to parse json in file ${schema}`);
     } else {
       throw new Error(`Unable to read openrpc.json file located at ${schema}`);
@@ -48,7 +47,7 @@ export async function parse(schema?: string) {
 
   try {
     return await refParser.dereference(parsedSchema);
-  } catch(e) {
+  } catch (e) {
     throw new Error(`The json schema provided cannot be dereferenced. Received Error: \n ${e.message}`);
   }
 }

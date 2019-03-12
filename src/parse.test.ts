@@ -1,84 +1,84 @@
 import {parse} from "./parse";
 
-jest.mock('fs-extra', () => ({
-  readJson: jest.fn()
+jest.mock("fs-extra", () => ({
+  readJson: jest.fn(),
 }));
 
-const fs = require('fs-extra');
+const fs = require("fs-extra");
 
-describe('get-schema', () => {
+describe("get-schema", () => {
   beforeEach(() => {
     fs.readJson.mockResolvedValue({ methods: [] });
   });
 
-  it('defaults to looking for openrc.json in cwd', async () => {
+  it("defaults to looking for openrc.json in cwd", async () => {
     expect.assertions(1);
     const schema = await parse();
     expect(fs.readJson).toHaveBeenCalledWith(`${process.cwd()}/openrpc.json`);
   });
 
-  it('handles custom file path', async () => {
+  it("handles custom file path", async () => {
     expect.assertions(1);
-    const schema : any = await parse('./node_modules/@open-rpc/examples/service-descriptions/petstore.json');
+    const schema: any = await parse("./node_modules/@open-rpc/examples/service-descriptions/petstore.json");
     expect(schema.methods).toBeDefined();
   });
 
-  it('handles urls', async () => {
-    const schema : any = await parse('https://raw.githubusercontent.com/open-rpc/examples/master/service-descriptions/petstore.json');
+  it("handles urls", async () => {
+    const schema: any = await parse("https://raw.githubusercontent.com/open-rpc/examples/master/service-descriptions/petstore.json");
     expect(schema.methods).toBeDefined();
   });
 
-  it('handles json as string', async () => {
-    const schema : any = await parse(JSON.stringify({ methods: { foo: {} } }));
+  it("handles json as string", async () => {
+    const schema: any = await parse(JSON.stringify({ methods: { foo: {} } }));
     expect(schema.methods).toBeDefined();
   });
 
-  describe('errors', () => {
-    it('rejects when unable to find file via default', () => {
+  describe("errors", () => {
+    it("rejects when unable to find file via default", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
-      fs.readJson.mockRejectedValue(new Error('cannot compute error'));
-      return expect(parse()).rejects.toThrow('Unable to read');
+      fs.readJson.mockRejectedValue(new Error("cannot compute error"));
+      return expect(parse()).rejects.toThrow("Unable to read");
     });
 
-    it('rejects when unable to find file via custom path', () => {
+    it("rejects when unable to find file via custom path", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
-      fs.readJson.mockRejectedValue(new Error('cannot compute error'));
-      return expect(parse('./not/a/real/path.json')).rejects.toThrow('Unable to read');
+      fs.readJson.mockRejectedValue(new Error("cannot compute error"));
+      return expect(parse("./not/a/real/path.json")).rejects.toThrow("Unable to read");
     });
 
-    it('rejects when the url doesnt resolve to a schema', () => {
+    it("rejects when the url doesnt resolve to a schema", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
-      fs.readJson.mockRejectedValue(new Error('cannot compute error'));
-      return expect(parse('https://google.com')).rejects.toThrow('Unable to download');
+      fs.readJson.mockRejectedValue(new Error("cannot compute error"));
+      return expect(parse("https://google.com")).rejects.toThrow("Unable to download");
     });
 
-    it('rejects when the schema cannot be dereferenced', () => {
+    it("rejects when the schema cannot be dereferenced", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
       fs.readJson.mockResolvedValue({
         methods: [
           {
-            name: 'foo',
+            name: "foo",
             parameters: [
               {
-                name: 'bar',
-                schema: { $ref: '#/components/bar' }
-              }
-            ]
-          }
-        ]
+                name: "bar",
+                schema: { $ref: "#/components/bar" },
+              },
+            ],
+          },
+        ],
       });
-      return expect(parse()).rejects.toThrow('The json schema provided cannot be dereferenced');
+      return expect(parse()).rejects.toThrow("The json schema provided cannot be dereferenced");
     });
 
-    it('rejects when the json provided is invalid from file', () => {
+    it("rejects when the json provided is invalid from file", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
-      fs.readJson.mockRejectedValue(new Error('SyntaxError: super duper bad one'));
-      return expect(parse('./node_modules/@open-rpc/examples/service-descriptions/petstore-openrpc.json')).rejects.toThrow();
+      fs.readJson.mockRejectedValue(new Error("SyntaxError: super duper bad one"));
+      return expect(parse("./node_modules/@open-rpc/examples/service-descriptions/petstore-openrpc.json")).rejects.toThrow();
     });
   });
 });
