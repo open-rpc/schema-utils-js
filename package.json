@@ -28,7 +28,8 @@
     "fs-extra": "^7.0.1",
     "is-url": "^1.2.4",
     "json-schema-ref-parser": "^6.0.3",
-    "node-fetch": "^2.3.0"
+    "node-fetch": "^2.3.0",
+    "typescript": "^3.3.3333"
   },
   "devDependencies": {
     "@types/fs-extra": "^5.0.5",

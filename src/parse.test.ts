@@ -19,17 +19,17 @@ describe('get-schema', () => {
 
   it('handles custom file path', async () => {
     expect.assertions(1);
-    const schema = await parse('./node_modules/@open-rpc/examples/service-descriptions/petstore.json');
+    const schema : any = await parse('./node_modules/@open-rpc/examples/service-descriptions/petstore.json');
     expect(schema.methods).toBeDefined();
   });
 
   it('handles urls', async () => {
-    const schema = await parse('https://raw.githubusercontent.com/open-rpc/examples/master/service-descriptions/petstore.json');
+    const schema : any = await parse('https://raw.githubusercontent.com/open-rpc/examples/master/service-descriptions/petstore.json');
     expect(schema.methods).toBeDefined();
   });
 
   it('handles json as string', async () => {
-    const schema = await parse(JSON.stringify({ methods: { foo: {} } }));
+    const schema : any = await parse(JSON.stringify({ methods: { foo: {} } }));
     expect(schema.methods).toBeDefined();
   });
 
@@ -78,7 +78,7 @@ describe('get-schema', () => {
       expect.assertions(1);
       fs.readJson.mockClear();
       fs.readJson.mockRejectedValue(new Error('SyntaxError: super duper bad one'));
-      return expect(parse('./node_modules/@open-rpc/examples/service-descriptions/petstore.json')).rejects.toThrow();
+      return expect(parse('./node_modules/@open-rpc/examples/service-descriptions/petstore-openrpc.json')).rejects.toThrow();
     });
   });
 });
