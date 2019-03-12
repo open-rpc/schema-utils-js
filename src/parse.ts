@@ -1,30 +1,28 @@
-const { readJson } = require('fs-extra');
-const refParser = require('json-schema-ref-parser');
-const fetch = require('node-fetch');
-const isUrl = require('is-url');
+import { readJson } from "fs-extra";
+import isUrl = require("is-url");
+import refParser from "json-schema-ref-parser";
+import fetch from "node-fetch";
 
 const cwd = process.cwd();
 
-const isJson = (jsonString) => {
-  try { JSON.parse(jsonString); return true; }
-  catch(e) { return false; }
+const isJson = (jsonString: string) => {
+  try { JSON.parse(jsonString); return true; } catch (e) { return false; }
 };
 
-const fetchUrlSchemaFile = async (schema) => {
+const fetchUrlSchemaFile = async (schema: string) => {
   try {
     const response = await fetch(schema);
     return await response.json();
-  } catch(e) {
+  } catch (e) {
     throw new Error(`Unable to download openrpc.json file located at the url: ${schema}`);
   }
 };
 
-
-const readSchemaFromFile = async (schema) => {
+const readSchemaFromFile = async (schema: string) => {
   try {
     return await readJson(schema);
   } catch (e) {
-    if (e.message.includes('SyntaxError')) {
+    if (e.message.includes("SyntaxError")) {
       throw new Error(`Failed to parse json in file ${schema}`);
     } else {
       throw new Error(`Unable to read openrpc.json file located at ${schema}`);
@@ -32,8 +30,7 @@ const readSchemaFromFile = async (schema) => {
   }
 };
 
-
-async function parse(schema) {
+export async function parse(schema?: string) {
   let parsedSchema;
 
   if (schema === undefined) {
@@ -50,18 +47,7 @@ async function parse(schema) {
 
   try {
     return await refParser.dereference(parsedSchema);
-  } catch(e) {
+  } catch (e) {
     throw new Error(`The json schema provided cannot be dereferenced. Received Error: \n ${e.message}`);
   }
 }
-
-const makeIdForMethodContentDescriptors = (method, contentDescriptor) => {
-  const paramId = method.paramStructure === 'by-name' ? contentDescriptor.name : (method.params.indexOf(contentDescriptor) || method.result === contentDescriptor);
-  return `${method.name}/${paramId}`;
-};
-
-
-module.exports = {
-  parse,
-  makeIdForMethodContentDescriptors
-};
