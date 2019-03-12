@@ -1,16 +1,16 @@
-const { readJson } = require('fs-extra');
-const refParser = require('json-schema-ref-parser');
-const fetch = require('node-fetch');
-const isUrl = require('is-url');
+import { readJson } from "fs-extra";
+import refParser from "json-schema-ref-parser";
+import fetch from "node-fetch";
+const isUrl = require("is-url");
 
 const cwd = process.cwd();
 
-const isJson = (jsonString) => {
+const isJson = (jsonString: string) => {
   try { JSON.parse(jsonString); return true; }
   catch(e) { return false; }
 };
 
-const fetchUrlSchemaFile = async (schema) => {
+const fetchUrlSchemaFile = async (schema: string) => {
   try {
     const response = await fetch(schema);
     return await response.json();
@@ -19,8 +19,7 @@ const fetchUrlSchemaFile = async (schema) => {
   }
 };
 
-
-const readSchemaFromFile = async (schema) => {
+const readSchemaFromFile = async (schema: string) => {
   try {
     return await readJson(schema);
   } catch (e) {
@@ -32,8 +31,7 @@ const readSchemaFromFile = async (schema) => {
   }
 };
 
-
-async function parse(schema) {
+export async function parse(schema?: string) {
   let parsedSchema;
 
   if (schema === undefined) {
