@@ -5,6 +5,7 @@
   "description": "",
   "main": "src/parse-schema.js",
   "scripts": {
+    "build": "tsc",
     "test": "jest --coverage",
     "watch:test": "jest --watch",
     "publish": "npm publish --access=public"
