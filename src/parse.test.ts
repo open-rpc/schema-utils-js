@@ -110,7 +110,7 @@ describe("get-schema", () => {
               name: "baz",
               schema: { $ref: "#/noponents/bazaaaooow" },
             },
-            afloobars: 123,
+            zfloobars: 123,
           },
         ],
       });
