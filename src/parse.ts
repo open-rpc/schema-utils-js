@@ -2,7 +2,7 @@ import { readJson } from "fs-extra";
 import isUrl = require("is-url");
 import refParser from "json-schema-ref-parser";
 import fetch from "node-fetch";
-import { getValidationErrors } from "./getValidationErrors";
+import { getValidationErrors } from "./get-validation-errors";
 
 const cwd = process.cwd();
 
