@@ -10,7 +10,7 @@ const makeNotFoundError = (method: types.MethodObject, contentDescriptor: types.
   return new Error(errorMessage);
 };
 
-export const makeIdForMethodContentDescriptors = (
+export const makeIdForMethodParam = (
   method: types.MethodObject,
   contentDescriptor: types.ContentDescriptorObject,
 ) => {

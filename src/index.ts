@@ -1,3 +1,3 @@
 export { parse } from "./parse";
-export { makeIdForMethodContentDescriptors } from "./make-id-for-method-content-descriptors";
+export { makeIdForMethodParam } from "./make-id-for-method-params";
 export { getValidationErrors } from "./getValidationErrors";

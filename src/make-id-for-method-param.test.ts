@@ -1,14 +1,14 @@
-import { makeIdForMethodContentDescriptors } from "./make-id-for-method-content-descriptors";
+import { makeIdForMethodParam } from "./make-id-for-method-param";
 import { types } from "@open-rpc/meta-schema";
 
-describe("makeIdForMethodContentDescriptors", () => {
+describe("makeIdForMethodParam", () => {
   it("returns an id", () => {
     const method = {
       name: "foo",
       params: [{ name: "bar" }],
       result: { name: "baz" },
     };
-    const result = makeIdForMethodContentDescriptors(method, method.params[0]);
+    const result = makeIdForMethodParam(method, method.params[0]);
     expect(result).toBe("foo/0");
   });
 
@@ -17,7 +17,7 @@ describe("makeIdForMethodContentDescriptors", () => {
       name: "foo",
       result: { name: "baz" },
     };
-    expect(() => makeIdForMethodContentDescriptors(method, { name: "123" }))
+    expect(() => makeIdForMethodParam(method, { name: "123" }))
       .toThrow("Content Descriptor not found in method.");
   });
 
@@ -29,7 +29,7 @@ describe("makeIdForMethodContentDescriptors", () => {
       result: { name: "baz" },
     } as types.MethodObject;
 
-    expect(makeIdForMethodContentDescriptors(method, { name: "123" })).toBe("foo/123");
+    expect(makeIdForMethodParam(method, { name: "123" })).toBe("foo/123");
   });
 
   it("throws when the content descriptor is not found in the params", () => {
@@ -39,7 +39,7 @@ describe("makeIdForMethodContentDescriptors", () => {
       result: { name: "baz" },
     } as types.MethodObject;
 
-    expect(() => makeIdForMethodContentDescriptors(method, { name: "123" }))
+    expect(() => makeIdForMethodParam(method, { name: "123" }))
       .toThrow("Content Descriptor not found in method.");
   });
 });
