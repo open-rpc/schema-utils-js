@@ -9,12 +9,12 @@ import { types } from "@open-rpc/meta-schema";
 const fs: any = _fs;
 
 const workingSchema: types.OpenRPC = {
-  openrpc: "1.0.0-rc1",
   info: {
     title: "foo",
     version: "1",
   },
   methods: [],
+  openrpc: "1.0.0-rc1",
 };
 
 describe("get-schema", () => {
