@@ -92,6 +92,31 @@ describe("get-schema", () => {
       return expect(parse()).rejects.toThrow("The json schema provided cannot be dereferenced");
     });
 
+    it("rejects when the schema is invalid", () => {
+      expect.assertions(1);
+      fs.readJson.mockClear();
+      fs.readJson.mockResolvedValue({
+        ...workingSchema,
+        methods: [
+          {
+            name: "foo",
+            params: [
+              {
+                name: "bar",
+                schema: { $ref: "#/components/bar" },
+              },
+            ],
+            result: {
+              name: "baz",
+              schema: { $ref: "#/noponents/bazaaaooow" },
+            },
+            afloobars: 123,
+          },
+        ],
+      });
+      return expect(parse()).rejects.toThrow(/Error Validating schema against meta-schema/);
+    });
+
     it("rejects when the json provided is invalid from file", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
