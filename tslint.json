@@ -1,9 +1,9 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
-    ],
-    "jsRules": {},
-    "rules": {},
-    "rulesDirectory": []
+  "extends": [
+    "tslint:recommended"
+  ],
+  "rules": {
+    "ordered-imports": false,
+    "indent": [true, "spaces", 2]
+  }
 }

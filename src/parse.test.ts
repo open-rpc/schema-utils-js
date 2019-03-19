@@ -3,14 +3,24 @@ jest.mock("fs-extra", () => ({
 }));
 
 import * as _fs from "fs-extra";
-import {parse} from "./parse";
+import { parse } from "./parse";
+import { types } from "@open-rpc/meta-schema";
 
 const fs: any = _fs;
+
+const workingSchema: types.OpenRPC = {
+  openrpc: "1.0.0-rc1",
+  info: {
+    title: "foo",
+    version: "1",
+  },
+  methods: [],
+};
 
 describe("get-schema", () => {
 
   beforeEach(() => {
-    fs.readJson.mockResolvedValue({ methods: [] });
+    fs.readJson.mockResolvedValue(workingSchema);
   });
 
   it("defaults to looking for openrc.json in cwd", async () => {
@@ -32,7 +42,7 @@ describe("get-schema", () => {
   });
 
   it("handles json as string", async () => {
-    const schema: any = await parse(JSON.stringify({ methods: { foo: {} } }));
+    const schema: any = await parse(JSON.stringify(workingSchema));
     expect(schema.methods).toBeDefined();
   });
 
@@ -62,15 +72,20 @@ describe("get-schema", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
       fs.readJson.mockResolvedValue({
+        ...workingSchema,
         methods: [
           {
             name: "foo",
-            parameters: [
+            params: [
               {
                 name: "bar",
                 schema: { $ref: "#/components/bar" },
               },
             ],
+            result: {
+              name: "baz",
+              schema: { $ref: "#/noponents/bazaaaooow" },
+            },
           },
         ],
       });
