@@ -2,6 +2,7 @@ import { readJson } from "fs-extra";
 import isUrl = require("is-url");
 import refParser from "json-schema-ref-parser";
 import fetch from "node-fetch";
+import { getValidationErrors } from "./getValidationErrors";
 
 const cwd = process.cwd();
 
@@ -43,6 +44,11 @@ export async function parse(schema?: string) {
     parsedSchema = await fetchUrlSchemaFile(schema);
   } else {
     parsedSchema = await readSchemaFromFile(schema);
+  }
+
+  const errors = getValidationErrors(parsedSchema);
+  if (errors) {
+    throw new Error(`Error Validating schema against meta-schema. \n ${JSON.stringify(errors, undefined, "  ")}`);
   }
 
   try {
