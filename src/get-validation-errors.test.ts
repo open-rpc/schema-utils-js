@@ -1,5 +1,5 @@
 import { types } from "@open-rpc/meta-schema";
-import { getValidationErrors } from "./getValidationErrors";
+import { getValidationErrors } from "./get-validation-errors";
 
 describe("getValidationErrors", () => {
   it("errors when passed an incorrect schema", () => {
