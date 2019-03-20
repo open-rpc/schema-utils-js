@@ -3,8 +3,7 @@ import { types } from "@open-rpc/meta-schema";
 
 export class ParameterValidationError extends Error {
   constructor(paramIndex: number, expectedSchema: types.Schema, receievedParam: any, public errors: ErrorObject[]) {
-    super();
-    this.message = [
+    super([
       "Expected param in position ",
       paramIndex,
       " to match the json schema: ",
@@ -12,6 +11,6 @@ export class ParameterValidationError extends Error {
       ". The function received instead ",
       receievedParam,
       ".",
-    ].join("");
+    ].join(""));
   }
 }
