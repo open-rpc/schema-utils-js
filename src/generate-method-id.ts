@@ -15,9 +15,6 @@ export const generateMethodParamId = (
   method: types.MethodObject,
   contentDescriptor: types.ContentDescriptorObject,
 ) => {
-  // remove this once updated meta-schema with this PR: https://github.com/open-rpc/meta-schema/pull/72
-  if (method.params === undefined) { throw makeNotFoundError(method, contentDescriptor); }
-
   if (!some(method.params, { name: contentDescriptor.name })) {
     throw makeNotFoundError(method, contentDescriptor);
   }
