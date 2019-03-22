@@ -1,4 +1,4 @@
 export { parse } from "./parse";
-export { makeIdForMethodParam } from "./make-id-for-method-param";
+export { generateMethodParamId, generateMethodResultId } from "./generate-method-id";
 export { getValidationErrors } from "./get-validation-errors";
 export { MethodCallValidator, ParameterValidationError } from "./method-call-validator";

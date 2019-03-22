@@ -1,6 +1,6 @@
 import Ajv, { ErrorObject } from "ajv";
 import * as _ from "lodash";
-import { makeIdForMethodParam } from "../make-id-for-method-param";
+import { generateMethodParamId } from "../generate-method-id";
 import { types } from "@open-rpc/meta-schema";
 import { ParameterValidationError } from "./parameter-validation-error";
 
@@ -17,7 +17,7 @@ export class MethodCallValidator {
       params.forEach((param: types.ContentDescriptorObject, i: number) => {
         if (param.schema === undefined) { return; }
 
-        this.ajvValidator.addSchema(param.schema, makeIdForMethodParam(method, param));
+        this.ajvValidator.addSchema(param.schema, generateMethodParamId(method, param));
       });
     });
   }
@@ -33,7 +33,7 @@ export class MethodCallValidator {
       .map((param: types.ContentDescriptorObject, index: number): ParameterValidationError | undefined => {
         if (param.schema === undefined) { return; }
 
-        const idForMethod = makeIdForMethodParam(method, param);
+        const idForMethod = generateMethodParamId(method, param);
         const isValid = this.ajvValidator.validate(idForMethod, params[index]);
         const errors = this.ajvValidator.errors as ErrorObject[];
 
