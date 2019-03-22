@@ -1,4 +1,5 @@
 import { types } from "@open-rpc/meta-schema";
+import { some } from "lodash";
 
 const makeNotFoundError = (method: types.MethodObject, contentDescriptor: types.ContentDescriptorObject) => {
   const errorMessage = [
@@ -10,24 +11,23 @@ const makeNotFoundError = (method: types.MethodObject, contentDescriptor: types.
   return new Error(errorMessage);
 };
 
-export const makeIdForMethodParam = (
+export const generateMethodParamId = (
   method: types.MethodObject,
   contentDescriptor: types.ContentDescriptorObject,
 ) => {
-  if (method.params === undefined) { throw makeNotFoundError(method, contentDescriptor); }
-
-  let paramId;
-  if (method.paramStructure === "by-name") {
-    paramId = contentDescriptor.name;
-  } else {
-    const indexOfContentDescriptor = method.params.indexOf(contentDescriptor);
-
-    if (indexOfContentDescriptor !== -1) {
-      paramId = indexOfContentDescriptor;
-    } else {
-      throw makeNotFoundError(method, contentDescriptor);
-    }
+  if (!some(method.params, { name: contentDescriptor.name })) {
+    throw makeNotFoundError(method, contentDescriptor);
   }
 
+  const isByName = method.paramStructure === "by-name";
+  const paramId = isByName ? contentDescriptor.name : method.params.indexOf(contentDescriptor);
+
   return `${method.name}/${paramId}`;
+};
+
+export const generateMethodResultId = (
+  method: types.MethodObject,
+  contentDescriptor: types.ContentDescriptorObject,
+) => {
+  return `${method.name}/result`;
 };
