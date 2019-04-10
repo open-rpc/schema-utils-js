@@ -9,7 +9,8 @@
     "test": "jest --coverage && npm run lint",
     "lint": "tslint -c tslint.json 'src/**/*.ts' --fix",
     "watch:test": "jest --watch",
-    "publish": "npm run build"
+    "publish": "npm run build",
+    "build:docs": "typedoc --out docs"
   },
   "files": [
     "build"
@@ -44,6 +45,7 @@
     "jest": "^24.0.0",
     "json-schema": "^0.2.3",
     "ts-jest": "^24.0.0",
-    "tslint": "^5.13.1"
+    "tslint": "^5.13.1",
+    "typedoc": "^0.14.2"
   }
 }

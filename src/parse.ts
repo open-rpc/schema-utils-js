@@ -31,12 +31,20 @@ const readSchemaFromFile = async (schema: string) => {
   }
 };
 
-export async function parse(schema?: string) {
+/**
+ * infers from the input how to resolve an OpenRPC document.
+ *
+ * @param schema The OpenRPC document or a reference to one.
+ *
+ * If schema is an object, it will use this as the openrpc document literally.
+ * If schema is a string, it may fall under 3 other categories:
+ *   1. schema is an OpenRPC document as a json string.
+ *   2. schema is a url that resolves to an OpenRPC document.
+ *   3. schema is a file path, where the file at the path contains an OpenRPC document.
+ *
+ */
+export async function parse(schema = "./openrpc.json") {
   let parsedSchema;
-
-  if (schema === undefined) {
-    schema = `${cwd}/openrpc.json`;
-  }
 
   if (isJson(schema)) {
     parsedSchema = JSON.parse(schema);
