@@ -32,7 +32,7 @@ const readSchemaFromFile = async (schema: string) => {
 };
 
 /**
- * infers from the input how to resolve an OpenRPC document.
+ * Resolves an OpenRPC document from a variety of input types. The resolved OpenRPC document will be dereferenced and validated against the [meta-schema](https://github.com/open-rpc/meta-schema).
  *
  * @param schema The OpenRPC document or a reference to one.
  *
