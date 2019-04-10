@@ -1,8 +1,9 @@
-import { readJson } from "fs-extra";
+import { readJson, pathExists } from "fs-extra";
 import isUrl = require("is-url");
 import refParser from "json-schema-ref-parser";
 import fetch from "node-fetch";
 import { getValidationErrors } from "./get-validation-errors";
+import { types } from "@open-rpc/meta-schema";
 
 const cwd = process.cwd();
 
@@ -31,19 +32,22 @@ const readSchemaFromFile = async (schema: string) => {
   }
 };
 
-export async function parse(schema?: string) {
-  let parsedSchema;
+export async function parse(schema?: string | types.OpenRPC) {
+  let parsedSchema: types.OpenRPC;
 
   if (schema === undefined) {
     schema = `${cwd}/openrpc.json`;
   }
 
-  if (isJson(schema)) {
-    parsedSchema = JSON.parse(schema);
-  } else if (isUrl(schema)) {
-    parsedSchema = await fetchUrlSchemaFile(schema);
+  if (typeof schema !== "string") {
+    parsedSchema = schema;
+  } else if (isJson(schema as string)) {
+    parsedSchema = JSON.parse(schema as string);
+  } else if (isUrl(schema as string)) {
+    parsedSchema = await fetchUrlSchemaFile(schema as string);
   } else {
-    parsedSchema = await readSchemaFromFile(schema);
+    const isCorrectPath = await pathExists(schema as string);
+    parsedSchema = await readSchemaFromFile(schema as string);
   }
 
   const errors = getValidationErrors(parsedSchema);
