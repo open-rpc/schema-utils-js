@@ -3,6 +3,7 @@ import isUrl = require("is-url");
 import refParser from "json-schema-ref-parser";
 import fetch from "node-fetch";
 import { getValidationErrors } from "./get-validation-errors";
+import { types } from "@open-rpc/meta-schema";
 
 const cwd = process.cwd();
 
@@ -31,7 +32,7 @@ const readSchemaFromFile = async (schema: string) => {
   }
 };
 
-export async function parse(schema?: string) {
+export async function parse(schema?: string): Promise<types.OpenRPC> {
   let parsedSchema;
 
   if (schema === undefined) {
@@ -52,7 +53,7 @@ export async function parse(schema?: string) {
   }
 
   try {
-    return await refParser.dereference(parsedSchema);
+    return await refParser.dereference(parsedSchema) as types.OpenRPC;
   } catch (e) {
     throw new Error(`The json schema provided cannot be dereferenced. Received Error: \n ${e.message}`);
   }
