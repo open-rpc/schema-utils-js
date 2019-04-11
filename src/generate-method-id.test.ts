@@ -5,8 +5,8 @@ describe("methodParamId", () => {
   it("returns an id for params", () => {
     const method = {
       name: "foo",
-      params: [{ name: "bar" }],
-      result: { name: "baz" },
+      params: [{ name: "bar", schema: {} }],
+      result: { name: "baz", schema: {} },
     };
     const result = generateMethodParamId(method, method.params[0]);
     expect(result).toBe("foo/0");
@@ -16,22 +16,22 @@ describe("methodParamId", () => {
     const method = {
       name: "foo",
       paramStructure: "by-name",
-      params: [{ name: "bar" }],
-      result: { name: "baz" },
+      params: [{ name: "bar", schema: {} }],
+      result: { name: "baz", schema: {} },
     } as types.MethodObject;
 
-    expect(generateMethodParamId(method, { name: "bar" })).toBe("foo/bar");
+    expect(generateMethodParamId(method, { name: "bar", schema: {} })).toBe("foo/bar");
   });
 
   describe("throws when the content descriptor is not found in the params", () => {
     it("by-position", () => {
       const method = {
         name: "foo",
-        params: [{ name: "u will never get dis" }],
-        result: { name: "baz" },
+        params: [{ name: "u will never get dis", schema: {} }],
+        result: { name: "baz", schema: {} },
       } as types.MethodObject;
 
-      expect(() => generateMethodParamId(method, { name: "123" }))
+      expect(() => generateMethodParamId(method, { name: "123", schema: {} }))
         .toThrow("Content Descriptor not found in method.");
     });
 
@@ -39,11 +39,11 @@ describe("methodParamId", () => {
       const method = {
         name: "foo",
         paramStructure: "by-name",
-        params: [{ name: "bar" }],
-        result: { name: "baz" },
+        params: [{ name: "bar", schema: {} }],
+        result: { name: "baz", schema: {} },
       } as types.MethodObject;
 
-      expect(() => generateMethodParamId(method, { name: "123" })).toThrow();
+      expect(() => generateMethodParamId(method, { name: "123", schema: {} })).toThrow();
     });
   });
 });
@@ -52,8 +52,8 @@ describe("methodResultId", () => {
   it("returns an id for result", () => {
     const method = {
       name: "foo",
-      params: [{ name: "bar" }],
-      result: { name: "baz" },
+      params: [{ name: "bar", schema: {} }],
+      result: { name: "baz", schema: {} },
     };
     const result = generateMethodResultId(method, method.result);
     expect(result).toBe("foo/result");
