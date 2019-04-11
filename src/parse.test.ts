@@ -1,4 +1,5 @@
 jest.mock("fs-extra", () => ({
+  pathExists: jest.fn(),
   readJson: jest.fn(),
 }));
 
@@ -43,6 +44,11 @@ describe("get-schema", () => {
 
   it("handles json as string", async () => {
     const schema: any = await parse(JSON.stringify(workingSchema));
+    expect(schema.methods).toBeDefined();
+  });
+
+  it("handles being passed an open rpc object", async () => {
+    const schema: any = await parse(workingSchema);
     expect(schema.methods).toBeDefined();
   });
 

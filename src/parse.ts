@@ -1,13 +1,10 @@
-/**
- * Resolves an OpenRPC document from a variety of input types. The resolved OpenRPC document
- * will be dereferenced and validated against the [meta-schema](https://github.com/open-rpc/meta-schema).
- */
-
-import { readJson } from "fs-extra";
+import { readJson, pathExists } from "fs-extra";
 import isUrl = require("is-url");
 import refParser from "json-schema-ref-parser";
 import fetch from "node-fetch";
 import getValidationErrors from "./get-validation-errors";
+import { getValidationErrors } from "./get-validation-errors";
+import { types } from "@open-rpc/meta-schema";
 
 const cwd = process.cwd();
 
@@ -49,15 +46,18 @@ const readSchemaFromFile = async (schema: string) => {
  *   3. schema is a file path, where the file at the path contains an OpenRPC document.
  *
  */
-export default async function parse(schema = "./openrpc.json") {
-  let parsedSchema;
+export default async function parse(schema = "./openrpc.json": string | types.OpenRPC): Promise<types.OpenRPC> {
+  let parsedSchema: types.OpenRPC;
 
-  if (isJson(schema)) {
-    parsedSchema = JSON.parse(schema);
-  } else if (isUrl(schema)) {
-    parsedSchema = await fetchUrlSchemaFile(schema);
+  if (typeof schema !== "string") {
+    parsedSchema = schema;
+  } else if (isJson(schema as string)) {
+    parsedSchema = JSON.parse(schema as string);
+  } else if (isUrl(schema as string)) {
+    parsedSchema = await fetchUrlSchemaFile(schema as string);
   } else {
-    parsedSchema = await readSchemaFromFile(schema);
+    const isCorrectPath = await pathExists(schema as string);
+    parsedSchema = await readSchemaFromFile(schema as string);
   }
 
   const errors = getValidationErrors(parsedSchema);
@@ -66,7 +66,7 @@ export default async function parse(schema = "./openrpc.json") {
   }
 
   try {
-    return await refParser.dereference(parsedSchema);
+    return await refParser.dereference(parsedSchema) as types.OpenRPC;
   } catch (e) {
     throw new Error(`The json schema provided cannot be dereferenced. Received Error: \n ${e.message}`);
   }
