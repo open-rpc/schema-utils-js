@@ -1,36 +1,14 @@
-import { readJson, pathExists } from "fs-extra";
-import isUrl = require("is-url");
+import { pathExists } from "fs-extra";
 import refParser from "json-schema-ref-parser";
-import fetch from "node-fetch";
 import getValidationErrors from "./get-validation-errors";
-import { getValidationErrors } from "./get-validation-errors";
 import { types } from "@open-rpc/meta-schema";
+import isUrl = require("is-url");
+import { fetchUrlSchemaFile, readSchemaFromFile } from "./get-open-rpc-document";
 
 const cwd = process.cwd();
 
 const isJson = (jsonString: string) => {
   try { JSON.parse(jsonString); return true; } catch (e) { return false; }
-};
-
-const fetchUrlSchemaFile = async (schema: string) => {
-  try {
-    const response = await fetch(schema);
-    return await response.json();
-  } catch (e) {
-    throw new Error(`Unable to download openrpc.json file located at the url: ${schema}`);
-  }
-};
-
-const readSchemaFromFile = async (schema: string) => {
-  try {
-    return await readJson(schema);
-  } catch (e) {
-    if (e.message.includes("SyntaxError")) {
-      throw new Error(`Failed to parse json in file ${schema}`);
-    } else {
-      throw new Error(`Unable to read openrpc.json file located at ${schema}`);
-    }
-  }
 };
 
 /**
@@ -45,8 +23,22 @@ const readSchemaFromFile = async (schema: string) => {
  *   2. schema is a url that resolves to an OpenRPC document.
  *   3. schema is a file path, where the file at the path contains an OpenRPC document.
  *
+ * @example
+ * ```typescript
+ *
+ * const { types } from "@open-rpc/meta-schema";
+ * try {
+ *   const fromUrl = await parse("example.com/openrpc.json") as types.OpenRPC;
+ *   const fromFile = await parse("example.com/openrpc.json") as types.OpenRPC;
+ *   const fromString = await parse('{ "openrpc": "1.0.0", ... }') as types.OpenRPC;
+ *   const fromCwd = await parse() as types.OpenRPC; // default
+ * } catch (e) {
+ *   // handle validation errors
+ * }
+ * ```
+ *
  */
-export default async function parse(schema = "./openrpc.json": string | types.OpenRPC): Promise<types.OpenRPC> {
+export default async function parse(schema: string | types.OpenRPC = "./openrpc.json"): Promise<types.OpenRPC> {
   let parsedSchema: types.OpenRPC;
 
   if (typeof schema !== "string") {
@@ -66,7 +58,8 @@ export default async function parse(schema = "./openrpc.json": string | types.Op
   }
 
   try {
-    return await refParser.dereference(parsedSchema) as types.OpenRPC;
+    const openrpcDocument = await refParser.dereference(parsedSchema) as types.OpenRPC;
+    return openrpcDocument;
   } catch (e) {
     throw new Error(`The json schema provided cannot be dereferenced. Received Error: \n ${e.message}`);
   }
