@@ -26,7 +26,7 @@ describe("get-schema", () => {
   it("defaults to looking for openrc.json in cwd", async () => {
     expect.assertions(1);
     const schema = await parse();
-    expect(fs.readJson).toHaveBeenCalledWith(`${process.cwd()}/openrpc.json`);
+    expect(fs.readJson).toHaveBeenCalledWith(`./openrpc.json`);
   });
 
   it("handles custom file path", async () => {
