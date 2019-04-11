@@ -1,4 +1,4 @@
-import { ParameterValidationError } from "./parameter-validation-error";
+import ParameterValidationError from "./parameter-validation-error";
 import { ErrorObject } from "ajv";
 
 describe("ParameterValidationError", () => {

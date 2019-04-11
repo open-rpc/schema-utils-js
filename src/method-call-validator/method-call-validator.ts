@@ -2,9 +2,9 @@ import Ajv, { ErrorObject } from "ajv";
 import * as _ from "lodash";
 import { generateMethodParamId } from "../generate-method-id";
 import { types } from "@open-rpc/meta-schema";
-import { ParameterValidationError } from "./parameter-validation-error";
+import ParameterValidationError from "./parameter-validation-error";
 
-export class MethodCallValidator {
+export default class MethodCallValidator {
   private ajvValidator: Ajv.Ajv;
 
   constructor(private schema: types.OpenRPC) {

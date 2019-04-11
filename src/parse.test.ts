@@ -3,7 +3,7 @@ jest.mock("fs-extra", () => ({
 }));
 
 import * as _fs from "fs-extra";
-import { parse } from "./parse";
+import parse from "./parse";
 import { types } from "@open-rpc/meta-schema";
 
 const fs: any = _fs;

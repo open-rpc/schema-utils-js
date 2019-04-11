@@ -1,4 +1,4 @@
-import { MethodCallValidator } from "./method-call-validator";
+import MethodCallValidator from "./method-call-validator";
 import { types } from "@open-rpc/meta-schema";
 
 const getExampleSchema = (): types.OpenRPC => ({

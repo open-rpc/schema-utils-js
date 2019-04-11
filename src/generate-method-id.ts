@@ -11,10 +11,10 @@ const makeNotFoundError = (method: types.MethodObject, contentDescriptor: types.
   return new Error(errorMessage);
 };
 
-export const generateMethodParamId = (
+export function generateMethodParamId(
   method: types.MethodObject,
   contentDescriptor: types.ContentDescriptorObject,
-) => {
+): string {
   if (!some(method.params, { name: contentDescriptor.name })) {
     throw makeNotFoundError(method, contentDescriptor);
   }
@@ -23,11 +23,11 @@ export const generateMethodParamId = (
   const paramId = isByName ? contentDescriptor.name : method.params.indexOf(contentDescriptor);
 
   return `${method.name}/${paramId}`;
-};
+}
 
-export const generateMethodResultId = (
+export function generateMethodResultId(
   method: types.MethodObject,
   contentDescriptor: types.ContentDescriptorObject,
-) => {
+): string {
   return `${method.name}/result`;
-};
+}

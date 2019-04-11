@@ -1,8 +1,13 @@
+/**
+ * Resolves an OpenRPC document from a variety of input types. The resolved OpenRPC document
+ * will be dereferenced and validated against the [meta-schema](https://github.com/open-rpc/meta-schema).
+ */
+
 import { readJson } from "fs-extra";
 import isUrl = require("is-url");
 import refParser from "json-schema-ref-parser";
 import fetch from "node-fetch";
-import { getValidationErrors } from "./get-validation-errors";
+import getValidationErrors from "./get-validation-errors";
 
 const cwd = process.cwd();
 
@@ -44,7 +49,7 @@ const readSchemaFromFile = async (schema: string) => {
  *   3. schema is a file path, where the file at the path contains an OpenRPC document.
  *
  */
-export async function parse(schema = "./openrpc.json") {
+export default async function parse(schema = "./openrpc.json") {
   let parsedSchema;
 
   if (isJson(schema)) {

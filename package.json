@@ -6,7 +6,7 @@
   "main": "build/src/index.js",
   "scripts": {
     "build": "npm run build:code && npm run build:docs",
-    "build:docs": "typedoc --out docs",
+    "build:docs": "typedoc",
     "build:code": "tsc",
     "test": "npm run test:lint && npm run test:unit",
     "test:lint": "tslint -c tslint.json 'src/**/*.ts' --fix",

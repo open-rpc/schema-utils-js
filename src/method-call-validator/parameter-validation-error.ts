@@ -1,7 +1,7 @@
 import { ErrorObject } from "ajv";
 import { types } from "@open-rpc/meta-schema";
 
-export class ParameterValidationError extends Error {
+export default class ParameterValidationError extends Error {
   constructor(paramIndex: number, expectedSchema: types.Schema, receievedParam: any, public errors: ErrorObject[]) {
     super([
       "Expected param in position ",
