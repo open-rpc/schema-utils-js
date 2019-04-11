@@ -5,12 +5,14 @@
   "description": "",
   "main": "build/src/index.js",
   "scripts": {
-    "build": "tsc",
-    "test": "jest --coverage && npm run lint",
-    "lint": "tslint -c tslint.json 'src/**/*.ts' --fix",
-    "watch:test": "jest --watch",
+    "build": "npm run build:code && npm run build:docs",
+    "build:docs": "typedoc --out docs",
+    "build:code": "tsc",
+    "test": "npm run test:lint && npm run test:unit",
+    "test:lint": "tslint -c tslint.json 'src/**/*.ts' --fix",
+    "test:unit": "jest --coverage",
     "publish": "npm run build",
-    "build:docs": "typedoc --out docs"
+    "watch:test": "jest --watch"
   },
   "files": [
     "build"
