@@ -1,2 +1,4 @@
-export { MethodCallValidator } from "./method-call-validator";
-export { ParameterValidationError } from "./parameter-validation-error";
+import MethodCallValidator from "./method-call-validator";
+import ParameterValidationError from "./parameter-validation-error";
+
+export { MethodCallValidator, ParameterValidationError };

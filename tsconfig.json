@@ -12,18 +12,17 @@
     "resolveJsonModule": true
   },
   "typedocOptions": {
-    "mode": "modules",
+    "name": "@open-rpc/schema-utils-js",
+    "mode": "file",
+    "src": [ "./src/index.ts" ],
     "out": "docs",
+    "includeDeclarations": true,
     "excludeNotExported": true,
     "excludePrivate": true,
     "excludeProtected": true,
-    "includeDeclarations": true,
     "hideGenerator": true,
-    "name": "@open-rpc/schema-utils-js",
+    "listInvalidSymbolLinks": true,
     "readme": "./README.md",
-    "include": [
-      "src/parse.ts"
-    ],
     "exclude": [
       "node_modules",
       "src/**/*.test.ts"
