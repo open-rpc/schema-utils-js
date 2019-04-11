@@ -32,7 +32,7 @@ const readSchemaFromFile = async (schema: string) => {
   }
 };
 
-export async function parse(schema?: string | types.OpenRPC) {
+export async function parse(schema?: string | types.OpenRPC): Promise<types.OpenRPC> {
   let parsedSchema: types.OpenRPC;
 
   if (schema === undefined) {
@@ -56,7 +56,7 @@ export async function parse(schema?: string | types.OpenRPC) {
   }
 
   try {
-    return await refParser.dereference(parsedSchema);
+    return await refParser.dereference(parsedSchema) as types.OpenRPC;
   } catch (e) {
     throw new Error(`The json schema provided cannot be dereferenced. Received Error: \n ${e.message}`);
   }
