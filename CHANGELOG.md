@@ -1,3 +1,11 @@
+## [1.6.3](https://github.com/open-rpc/schema-utils-js/compare/1.6.2...1.6.3) (2019-04-12)
+
+
+### Bug Fixes
+
+* audit fixes ([4f587c5](https://github.com/open-rpc/schema-utils-js/commit/4f587c5))
+* update node modules ([381966b](https://github.com/open-rpc/schema-utils-js/commit/381966b))
+
 ## [1.6.2](https://github.com/open-rpc/schema-utils-js/compare/1.6.1...1.6.2) (2019-04-12)
 
 
