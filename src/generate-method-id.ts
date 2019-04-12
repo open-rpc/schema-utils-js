@@ -1,5 +1,5 @@
-import { types } from "@open-rpc/meta-schema";
 import { some } from "lodash";
+import { MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
 
 /**
  * Provides an error interface for handling when we are unable to find a contentDescriptor in a methodObject
@@ -11,7 +11,7 @@ export class ContentDescriptorNotFoundInMethodError extends Error {
    * @param method OpenRPC Method which was used for the lookup
    * @param contentDescriptor OpenRPC Content Descriptor that was expected to be in the method param.
    */
-  constructor(public method: types.MethodObject, public contentDescriptor: types.ContentDescriptorObject) {
+  constructor(public method: MethodObject, public contentDescriptor: ContentDescriptorObject) {
     /* istanbul ignore next */
     super([
       "Content Descriptor not found in method.",
@@ -55,8 +55,8 @@ export class ContentDescriptorNotFoundInMethodError extends Error {
  *
  */
 export function generateMethodParamId(
-  method: types.MethodObject,
-  contentDescriptor: types.ContentDescriptorObject,
+  method: MethodObject,
+  contentDescriptor: ContentDescriptorObject,
 ): string {
   if (!some(method.params, { name: contentDescriptor.name })) {
     throw new ContentDescriptorNotFoundInMethodError(method, contentDescriptor);
@@ -100,10 +100,10 @@ export function generateMethodParamId(
  *
  */
 export function generateMethodResultId(
-  method: types.MethodObject,
-  contentDescriptor: types.ContentDescriptorObject,
+  method: MethodObject,
+  contentDescriptor: ContentDescriptorObject,
 ): string {
-  const result = method.result as types.ContentDescriptorObject;
+  const result = method.result as ContentDescriptorObject;
   if (result.name !== contentDescriptor.name) {
     throw new ContentDescriptorNotFoundInMethodError(method, contentDescriptor);
   }

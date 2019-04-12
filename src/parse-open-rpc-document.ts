@@ -1,9 +1,9 @@
 import { pathExists } from "fs-extra";
 import refParser from "json-schema-ref-parser";
 import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
-import { types } from "@open-rpc/meta-schema";
 import isUrl = require("is-url");
 import { fetchUrlSchemaFile, readSchemaFromFile } from "./get-open-rpc-document";
+import { OpenRPC } from "@open-rpc/meta-schema";
 
 /**
  * @ignore
@@ -51,13 +51,13 @@ export class OpenRPCDocumentDereferencingError extends Error {
  * @example
  * ```typescript
  *
- * const { types } from "@open-rpc/meta-schema"
+ * const { OpenRPC } from "@open-rpc/meta-schema"
  * const { parseOpenRPCDocument } from "@open-rpc/schema-utils-js";
  *
  * try {
- *   const fromUrl = await parseOpenRPCDocument("example.com/openrpc.json") as types.OpenRPC;
- *   const fromFile = await parseOpenRPCDocument("example.com/openrpc.json") as types.OpenRPC;
- *   const fromString = await parseOpenRPCDocument('{ "openrpc": "1.0.0", ... }') as types.OpenRPC;
+ *   const fromUrl = await parseOpenRPCDocument("example.com/openrpc.json") as OpenRPC;
+ *   const fromFile = await parseOpenRPCDocument("example.com/openrpc.json") as OpenRPC;
+ *   const fromString = await parseOpenRPCDocument('{ "openrpc": "1.0.0", ... }') as OpenRPC;
  *   const fromCwd = await parseOpenRPCDocument() as types.OpenRPC; // default
  * } catch (e) {
  *   // handle validation errors
@@ -66,9 +66,9 @@ export class OpenRPCDocumentDereferencingError extends Error {
  *
  */
 export default async function parseOpenRPCDocument(
-  schema: string | types.OpenRPC = "./openrpc.json",
-): Promise<types.OpenRPC> {
-  let parsedSchema: types.OpenRPC;
+  schema: string | OpenRPC = "./openrpc.json",
+): Promise<OpenRPC> {
+  let parsedSchema: OpenRPC;
 
   if (typeof schema !== "string") {
     parsedSchema = schema;
@@ -85,7 +85,7 @@ export default async function parseOpenRPCDocument(
 
   if (isValid === true) {
     try {
-      return await refParser.dereference(parsedSchema) as types.OpenRPC;
+      return await refParser.dereference(parsedSchema) as OpenRPC;
     } catch (e) {
       throw new OpenRPCDocumentDereferencingError(e);
     }

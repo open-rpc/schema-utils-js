@@ -1,5 +1,5 @@
 import { ErrorObject } from "ajv";
-import { types } from "@open-rpc/meta-schema";
+import { Schema } from "@open-rpc/meta-schema";
 
 /**
  * Provides an error interface for handling when a function call has invalid parameters.
@@ -15,7 +15,7 @@ export default class MethodCallParameterValidationError extends Error {
    */
   constructor(
     public paramIndex: number,
-    public expectedSchema: types.Schema,
+    public expectedSchema: Schema,
     public receievedParam: any,
     private errors: ErrorObject[],
   ) {

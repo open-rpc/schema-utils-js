@@ -1,5 +1,5 @@
 import { generateMethodParamId, generateMethodResultId } from "./generate-method-id";
-import { types } from "@open-rpc/meta-schema";
+import { MethodObject } from "@open-rpc/meta-schema";
 
 describe("methodParamId", () => {
   it("returns an id for params", () => {
@@ -18,7 +18,7 @@ describe("methodParamId", () => {
       paramStructure: "by-name",
       params: [{ name: "bar", schema: {} }],
       result: { name: "baz", schema: {} },
-    } as types.MethodObject;
+    } as MethodObject;
 
     expect(generateMethodParamId(method, { name: "bar", schema: {} })).toBe("foo/bar");
   });
@@ -29,7 +29,7 @@ describe("methodParamId", () => {
         name: "foo",
         params: [{ name: "u will never get dis", schema: {} }],
         result: { name: "baz", schema: {} },
-      } as types.MethodObject;
+      } as MethodObject;
 
       expect(() => generateMethodParamId(method, { name: "123", schema: {} }))
         .toThrow("Content Descriptor not found in method.");
@@ -41,7 +41,7 @@ describe("methodParamId", () => {
         paramStructure: "by-name",
         params: [{ name: "bar", schema: {} }],
         result: { name: "baz", schema: {} },
-      } as types.MethodObject;
+      } as MethodObject;
 
       expect(() => generateMethodParamId(method, { name: "123", schema: {} })).toThrow();
     });

@@ -1,8 +1,8 @@
 import Ajv, { ErrorObject, Ajv as IAjv } from "ajv";
 import * as _ from "lodash";
 import { generateMethodParamId } from "../generate-method-id";
-import { types } from "@open-rpc/meta-schema";
 import MethodCallParameterValidationError from "./parameter-validation-error";
+import { OpenRPC, MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
 
 /**
  * A class to assist in validating method calls to an OpenRPC-based service. Generated Clients,
@@ -24,14 +24,14 @@ export default class MethodCallValidator {
    * ```
    *
    */
-  constructor(private document: types.OpenRPC) {
+  constructor(private document: OpenRPC) {
     this.ajvValidator = new Ajv();
 
-    document.methods.forEach((method: types.MethodObject) => {
-      const params = method.params as types.ContentDescriptorObject[];
+    document.methods.forEach((method: MethodObject) => {
+      const params = method.params as ContentDescriptorObject[];
       if (method.params === undefined) { return; }
 
-      params.forEach((param: types.ContentDescriptorObject, i: number) => {
+      params.forEach((param: ContentDescriptorObject, i: number) => {
         if (param.schema === undefined) { return; }
 
         this.ajvValidator.addSchema(param.schema, generateMethodParamId(method, param));
@@ -58,14 +58,14 @@ export default class MethodCallValidator {
    *
    */
   public validate(methodName: string, params: any[]): MethodCallParameterValidationError[] {
-    const method = _.find(this.document.methods, { name: methodName }) as types.MethodObject;
+    const method = _.find(this.document.methods, { name: methodName }) as MethodObject;
 
     if (method.params === undefined) {
       return [];
     }
 
-    return _.chain(method.params as types.ContentDescriptorObject[])
-      .map((param: types.ContentDescriptorObject, index: number): MethodCallParameterValidationError | undefined => {
+    return _.chain(method.params as ContentDescriptorObject[])
+      .map((param: ContentDescriptorObject, index: number): MethodCallParameterValidationError | undefined => {
         if (param.schema === undefined) { return; }
 
         const idForMethod = generateMethodParamId(method, param);

@@ -1,7 +1,7 @@
 import MethodCallValidator from "./method-call-validator";
-import { types } from "@open-rpc/meta-schema";
+import { OpenRPC } from "@open-rpc/meta-schema";
 
-const getExampleSchema = (): types.OpenRPC => ({
+const getExampleSchema = (): OpenRPC => ({
   info: { title: "123", version: "1" },
   methods: [
     {
@@ -11,7 +11,7 @@ const getExampleSchema = (): types.OpenRPC => ({
     },
   ],
   openrpc: "1.0.0-rc1",
-}) as types.OpenRPC;
+}) as OpenRPC;
 
 describe("MethodCallValidator", () => {
   it("can be instantiated", () => {

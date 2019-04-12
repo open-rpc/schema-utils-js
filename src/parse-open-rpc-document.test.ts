@@ -5,11 +5,11 @@ jest.mock("fs-extra", () => ({
 
 import * as _fs from "fs-extra";
 import parseOpenRPCDocument from "./parse-open-rpc-document";
-import { types } from "@open-rpc/meta-schema";
+import { OpenRPC } from "@open-rpc/meta-schema";
 
 const fs: any = _fs;
 
-const workingSchema: types.OpenRPC = {
+const workingSchema: OpenRPC = {
   info: {
     title: "foo",
     version: "1",
