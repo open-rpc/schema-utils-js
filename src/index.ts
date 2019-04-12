@@ -1,5 +1,5 @@
-import parseOpenRPCDocument from "./parse-open-rpc-document";
-import validateOpenRPCDocument from "./validate-open-rpc-document";
+import parseOpenRPCDocument, { OpenRPCDocumentDereferencingError } from "./parse-open-rpc-document";
+import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
 import { generateMethodParamId, generateMethodResultId } from "./generate-method-id";
 import { MethodCallValidator, ParameterValidationError } from "./method-call-validator";
 
@@ -10,4 +10,6 @@ export {
   validateOpenRPCDocument,
   MethodCallValidator,
   ParameterValidationError,
+  OpenRPCDocumentValidationError,
+  OpenRPCDocumentDereferencingError,
 };
