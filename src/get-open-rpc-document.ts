@@ -4,9 +4,6 @@ import { types } from "@open-rpc/meta-schema";
 
 type TGetOpenRPCDocument = (schema: string) => Promise<types.OpenRPC>;
 
-/**
- *
- */
 const fetchUrlSchemaFile: TGetOpenRPCDocument = async (schema) => {
   try {
     const response = await fetch(schema);
@@ -16,9 +13,6 @@ const fetchUrlSchemaFile: TGetOpenRPCDocument = async (schema) => {
   }
 };
 
-/**
- *
- */
 const readSchemaFromFile = async (schema: string) => {
   try {
     return await readJson(schema);
