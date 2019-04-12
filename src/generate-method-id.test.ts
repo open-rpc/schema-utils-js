@@ -58,4 +58,15 @@ describe("methodResultId", () => {
     const result = generateMethodResultId(method, method.result);
     expect(result).toBe("foo/result");
   });
+
+  it("throws when the result doesnt match the methods result", () => {
+    const method = {
+      name: "foo",
+      params: [],
+      result: { name: "baz", schema: {} },
+    };
+
+    expect(() => generateMethodResultId(method, { name: "peepee", schema: {} }))
+      .toThrow("Content Descriptor not found in method.");
+  });
 });

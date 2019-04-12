@@ -66,14 +66,18 @@ describe("parseOpenRPCDocument", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
       fs.readJson.mockRejectedValue(new Error("cannot compute error"));
-      return expect(parseOpenRPCDocument("./not/a/real/path.json")).rejects.toThrow("Unable to read");
+      return expect(parseOpenRPCDocument("./not/a/real/path.json"))
+        .rejects
+        .toThrow("Unable to read");
     });
 
     it("rejects when the url doesnt resolve to a schema", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
       fs.readJson.mockRejectedValue(new Error("cannot compute error"));
-      return expect(parseOpenRPCDocument("https://google.com")).rejects.toThrow("Unable to download");
+      return expect(parseOpenRPCDocument("https://google.com"))
+        .rejects
+        .toThrow("Unable to download");
     });
 
     it("rejects when the schema cannot be dereferenced", () => {
@@ -97,7 +101,9 @@ describe("parseOpenRPCDocument", () => {
           },
         ],
       });
-      return expect(parseOpenRPCDocument()).rejects.toThrow("The json schema provided cannot be dereferenced");
+      return expect(parseOpenRPCDocument())
+        .rejects
+        .toThrow("The json schema provided cannot be dereferenced");
     });
 
     it("rejects when the schema is invalid", () => {
@@ -122,7 +128,9 @@ describe("parseOpenRPCDocument", () => {
           },
         ],
       });
-      return expect(parseOpenRPCDocument()).rejects.toThrow(/Error Validating schema against meta-schema/);
+      return expect(parseOpenRPCDocument())
+        .rejects
+        .toThrow(/Error validating OpenRPC Document against @open-rpc\/meta-schema./);
     });
 
     it("rejects when the json provided is invalid from file", () => {

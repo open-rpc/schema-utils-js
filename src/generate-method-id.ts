@@ -1,15 +1,24 @@
 import { types } from "@open-rpc/meta-schema";
 import { some } from "lodash";
 
-const makeNotFoundError = (method: types.MethodObject, contentDescriptor: types.ContentDescriptorObject) => {
-  const errorMessage = [
-    "Content Descriptor not found in method.",
-    `Method: ${JSON.stringify(method, undefined, "  ")}`,
-    `ContentDescriptor: ${JSON.stringify(contentDescriptor, undefined, "  ")}`,
-  ].join("\n");
+/**
+ * Provides an error interface for handling when we are unable to find a contentDescriptor in a methodObject
+ * when it is expected.
+ */
+export class ContentDescriptorNotFoundInMethodError extends Error {
 
-  return new Error(errorMessage);
-};
+  /**
+   * @param method OpenRPC Method which was used for the lookup
+   * @param contentDescriptor OpenRPC Content Descriptor that was expected to be in the method param.
+   */
+  constructor(public method: types.MethodObject, public contentDescriptor: types.ContentDescriptorObject) {
+    super([
+      "Content Descriptor not found in method.",
+      `Method: ${JSON.stringify(method, undefined, "  ")}`,
+      `ContentDescriptor: ${JSON.stringify(contentDescriptor, undefined, "  ")}`,
+    ].join("\n"));
+  }
+}
 
 /**
  * Create a unique identifier for a parameter within a given method.
@@ -22,6 +31,8 @@ const makeNotFoundError = (method: types.MethodObject, contentDescriptor: types.
  * It follows the format `{method.name}/{indexWithinParams}|{contentDescriptor.name}` where:
  *   1. if the method's parameter structure is "by-name", the format returned uses the contentDescriptor.name
  *   1. otherwise, the return value will use the params index in the list of params.
+ *
+ * @throws [[ContentDescriptorNotFoundInMethodError]]
  *
  * @example
  * ```typescript
@@ -47,7 +58,7 @@ export function generateMethodParamId(
   contentDescriptor: types.ContentDescriptorObject,
 ): string {
   if (!some(method.params, { name: contentDescriptor.name })) {
-    throw makeNotFoundError(method, contentDescriptor);
+    throw new ContentDescriptorNotFoundInMethodError(method, contentDescriptor);
   }
 
   const isByName = method.paramStructure === "by-name";
@@ -65,6 +76,8 @@ export function generateMethodParamId(
  *
  * @returns an ID for the result/method combo.
  * It follows the format `{method.name}/result`.
+ *
+ * @throws [[ContentDescriptorNotFoundInMethodError]]
  *
  * @example
  * ```typescript
@@ -89,5 +102,10 @@ export function generateMethodResultId(
   method: types.MethodObject,
   contentDescriptor: types.ContentDescriptorObject,
 ): string {
+  const result = method.result as types.ContentDescriptorObject;
+  if (result.name !== contentDescriptor.name) {
+    throw new ContentDescriptorNotFoundInMethodError(method, contentDescriptor);
+  }
+
   return `${method.name}/result`;
 }
