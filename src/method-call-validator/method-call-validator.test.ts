@@ -1,5 +1,6 @@
 import MethodCallValidator from "./method-call-validator";
 import { OpenRPC } from "@open-rpc/meta-schema";
+import MethodCallParameterValidationError from "./parameter-validation-error";
 
 const getExampleSchema = (): OpenRPC => ({
   info: { title: "123", version: "1" },
@@ -47,7 +48,7 @@ describe("MethodCallValidator", () => {
     const methodCallValidator = new MethodCallValidator(example);
     const result = methodCallValidator.validate("foo", [123]);
     expect(result.length).toBe(1);
-    expect(result[0]).toBeInstanceOf(Error);
+    expect(result[0]).toBeInstanceOf(MethodCallParameterValidationError);
   });
 
 });

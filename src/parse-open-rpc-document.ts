@@ -20,14 +20,15 @@ const isJson = (jsonString: string) => {
 /**
  * Provides an error interface for OpenRPC Document dereferencing problems
  */
-export class OpenRPCDocumentDereferencingError extends Error {
+export class OpenRPCDocumentDereferencingError implements Error {
+  public name = "OpenRPCDocumentDereferencingError";
+  public message: string;
 
   /**
    * @param e The error that originated from jsonSchemaRefParser
    */
   constructor(e: Error) {
-    /* istanbul ignore next */
-    super(`The json schema provided cannot be dereferenced. Received Error: \n ${e.message}`);
+    this.message = `The json schema provided cannot be dereferenced. Received Error: \n ${e.message}`;
   }
 }
 

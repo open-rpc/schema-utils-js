@@ -5,19 +5,20 @@ import { MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
  * Provides an error interface for handling when we are unable to find a contentDescriptor in a methodObject
  * when it is expected.
  */
-export class ContentDescriptorNotFoundInMethodError extends Error {
+export class ContentDescriptorNotFoundInMethodError implements Error {
+  public name = "OpenRPCDocumentDereferencingError";
+  public message: string;
 
   /**
    * @param method OpenRPC Method which was used for the lookup
    * @param contentDescriptor OpenRPC Content Descriptor that was expected to be in the method param.
    */
   constructor(public method: MethodObject, public contentDescriptor: ContentDescriptorObject) {
-    /* istanbul ignore next */
-    super([
+    this.message = [
       "Content Descriptor not found in method.",
       `Method: ${JSON.stringify(method, undefined, "  ")}`,
       `ContentDescriptor: ${JSON.stringify(contentDescriptor, undefined, "  ")}`,
-    ].join("\n")) /* istanbul ignore next */;
+    ].join("\n");
   }
 }
 
