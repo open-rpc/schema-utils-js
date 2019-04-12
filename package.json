@@ -36,9 +36,14 @@
     "node-fetch": "^2.3.0"
   },
   "devDependencies": {
-    "typescript": "^3.3.3333",
-    "@types/fs-extra": "^5.0.5",
+    "@qiwi/semantic-release-gh-pages-plugin": "^1.6.2",
+    "@semantic-release/changelog": "^3.0.2",
+    "@semantic-release/commit-analyzer": "^6.1.0",
+    "@semantic-release/git": "^7.0.8",
+    "@semantic-release/github": "^5.2.10",
+    "@semantic-release/release-notes-generator": "^7.1.4",
     "@types/ajv": "^1.0.0",
+    "@types/fs-extra": "^5.0.5",
     "@types/is-url": "^1.2.28",
     "@types/jest": "^24.0.11",
     "@types/json-schema": "^7.0.3",
@@ -46,8 +51,10 @@
     "@types/node-fetch": "^2.1.6",
     "jest": "^24.0.0",
     "json-schema": "^0.2.3",
+    "semantic-release": "^15.13.3",
     "ts-jest": "^24.0.0",
     "tslint": "^5.13.1",
-    "typedoc": "^0.14.2"
+    "typedoc": "^0.14.2",
+    "typescript": "^3.3.3333"
   }
 }
