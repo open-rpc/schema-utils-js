@@ -10,6 +10,9 @@ ajv.addMetaSchema(JsonSchemaDraft07, "https://json-schema.org/draft-07/schema#")
 
 /**
  * Provides an error interface for OpenRPC Document validation
+ *
+ * @category Errors
+ *
  */
 export class OpenRPCDocumentValidationError implements Error {
   public name = "OpenRPCDocumentDereferencingError";

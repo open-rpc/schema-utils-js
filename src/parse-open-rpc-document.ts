@@ -19,6 +19,9 @@ const isJson = (jsonString: string) => {
 
 /**
  * Provides an error interface for OpenRPC Document dereferencing problems
+ *
+ * @category Errors
+ *
  */
 export class OpenRPCDocumentDereferencingError implements Error {
   public name = "OpenRPCDocumentDereferencingError";

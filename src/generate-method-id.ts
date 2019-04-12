@@ -4,6 +4,9 @@ import { MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
 /**
  * Provides an error interface for handling when we are unable to find a contentDescriptor in a methodObject
  * when it is expected.
+ *
+ * @category Errors
+ *
  */
 export class ContentDescriptorNotFoundInMethodError implements Error {
   public name = "OpenRPCDocumentDereferencingError";
@@ -54,6 +57,8 @@ export class ContentDescriptorNotFoundInMethodError implements Error {
  * // "foo/0/fooParam"
  * ```
  *
+ * @category GenerateID
+ *
  */
 export function generateMethodParamId(
   method: MethodObject,
@@ -98,6 +103,8 @@ export function generateMethodParamId(
  * // outputs:
  * // "foo/result"
  * ```
+ *
+ * @category GenerateID
  *
  */
 export function generateMethodResultId(
