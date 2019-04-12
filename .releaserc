@@ -17,9 +17,7 @@
     "@qiwi/semantic-release-gh-pages-plugin"
   ],
   "publish": [
-    ["@semantic-release/github", {
-      "assets": ["build/**/*"]
-    }],
+    "@semantic-release/github",
     {
       "path": "@qiwi/semantic-release-gh-pages-plugin",
       "msg": "github pages release",
