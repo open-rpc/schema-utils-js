@@ -1,5 +1,6 @@
 import ParameterValidationError from "./parameter-validation-error";
 import { ErrorObject } from "ajv";
+import MethodCallParameterValidationError from "./parameter-validation-error";
 
 describe("ParameterValidationError", () => {
   const errorObj = {
@@ -11,6 +12,6 @@ describe("ParameterValidationError", () => {
 
   it("can be instantiated", () => {
     const error = new ParameterValidationError(1, { type: "number" }, "hey mom", [errorObj]);
-    expect(error).toBeInstanceOf(Error);
+    expect(error).toBeInstanceOf(MethodCallParameterValidationError);
   });
 });

@@ -4,12 +4,13 @@ jest.mock("fs-extra", () => ({
 }));
 
 import * as _fs from "fs-extra";
-import parseOpenRPCDocument from "./parse-open-rpc-document";
-import { types } from "@open-rpc/meta-schema";
+import parseOpenRPCDocument, { OpenRPCDocumentDereferencingError } from "./parse-open-rpc-document";
+import { OpenRPC } from "@open-rpc/meta-schema";
+import { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
 
 const fs: any = _fs;
 
-const workingSchema: types.OpenRPC = {
+const workingSchema: OpenRPC = {
   info: {
     title: "foo",
     version: "1",
@@ -82,8 +83,7 @@ describe("parseOpenRPCDocument", () => {
 
     it("rejects when the schema cannot be dereferenced", () => {
       expect.assertions(1);
-      fs.readJson.mockClear();
-      fs.readJson.mockResolvedValue({
+      const testDocument = {
         ...workingSchema,
         methods: [
           {
@@ -100,16 +100,16 @@ describe("parseOpenRPCDocument", () => {
             },
           },
         ],
-      });
-      return expect(parseOpenRPCDocument())
+      };
+
+      return expect(parseOpenRPCDocument(testDocument))
         .rejects
-        .toThrow("The json schema provided cannot be dereferenced");
+        .toBeInstanceOf(OpenRPCDocumentDereferencingError);
     });
 
     it("rejects when the schema is invalid", () => {
       expect.assertions(1);
-      fs.readJson.mockClear();
-      fs.readJson.mockResolvedValue({
+      const testDocument = {
         ...workingSchema,
         methods: [
           {
@@ -127,10 +127,10 @@ describe("parseOpenRPCDocument", () => {
             zfloobars: 123,
           },
         ],
-      });
-      return expect(parseOpenRPCDocument())
+      };
+      return expect(parseOpenRPCDocument(testDocument))
         .rejects
-        .toThrow(/Error validating OpenRPC Document against @open-rpc\/meta-schema./);
+        .toBeInstanceOf(OpenRPCDocumentValidationError);
     });
 
     it("rejects when the json provided is invalid from file", () => {

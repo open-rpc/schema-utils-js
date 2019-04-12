@@ -1,23 +1,27 @@
-import { types } from "@open-rpc/meta-schema";
 import { some } from "lodash";
+import { MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
 
 /**
  * Provides an error interface for handling when we are unable to find a contentDescriptor in a methodObject
  * when it is expected.
+ *
+ * @category Errors
+ *
  */
-export class ContentDescriptorNotFoundInMethodError extends Error {
+export class ContentDescriptorNotFoundInMethodError implements Error {
+  public name = "OpenRPCDocumentDereferencingError";
+  public message: string;
 
   /**
    * @param method OpenRPC Method which was used for the lookup
    * @param contentDescriptor OpenRPC Content Descriptor that was expected to be in the method param.
    */
-  constructor(public method: types.MethodObject, public contentDescriptor: types.ContentDescriptorObject) {
-    /* istanbul ignore next */
-    super([
+  constructor(public method: MethodObject, public contentDescriptor: ContentDescriptorObject) {
+    this.message = [
       "Content Descriptor not found in method.",
       `Method: ${JSON.stringify(method, undefined, "  ")}`,
       `ContentDescriptor: ${JSON.stringify(contentDescriptor, undefined, "  ")}`,
-    ].join("\n")) /* istanbul ignore next */;
+    ].join("\n");
   }
 }
 
@@ -53,10 +57,12 @@ export class ContentDescriptorNotFoundInMethodError extends Error {
  * // "foo/0/fooParam"
  * ```
  *
+ * @category GenerateID
+ *
  */
 export function generateMethodParamId(
-  method: types.MethodObject,
-  contentDescriptor: types.ContentDescriptorObject,
+  method: MethodObject,
+  contentDescriptor: ContentDescriptorObject,
 ): string {
   if (!some(method.params, { name: contentDescriptor.name })) {
     throw new ContentDescriptorNotFoundInMethodError(method, contentDescriptor);
@@ -98,12 +104,14 @@ export function generateMethodParamId(
  * // "foo/result"
  * ```
  *
+ * @category GenerateID
+ *
  */
 export function generateMethodResultId(
-  method: types.MethodObject,
-  contentDescriptor: types.ContentDescriptorObject,
+  method: MethodObject,
+  contentDescriptor: ContentDescriptorObject,
 ): string {
-  const result = method.result as types.ContentDescriptorObject;
+  const result = method.result as ContentDescriptorObject;
   if (result.name !== contentDescriptor.name) {
     throw new ContentDescriptorNotFoundInMethodError(method, contentDescriptor);
   }

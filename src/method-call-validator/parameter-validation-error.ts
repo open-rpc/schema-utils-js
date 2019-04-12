@@ -1,10 +1,12 @@
 import { ErrorObject } from "ajv";
-import { types } from "@open-rpc/meta-schema";
+import { Schema } from "@open-rpc/meta-schema";
 
 /**
  * Provides an error interface for handling when a function call has invalid parameters.
  */
-export default class MethodCallParameterValidationError extends Error {
+export default class MethodCallParameterValidationError implements Error {
+  public name = "OpenRPCDocumentDereferencingError";
+  public message: string;
 
   /**
    * @param paramIndex The index of the param that for this error (index
@@ -15,11 +17,11 @@ export default class MethodCallParameterValidationError extends Error {
    */
   constructor(
     public paramIndex: number,
-    public expectedSchema: types.Schema,
+    public expectedSchema: Schema,
     public receievedParam: any,
     private errors: ErrorObject[],
   ) {
-    super([
+    this.message = [
       "Expected param in position ",
       paramIndex,
       " to match the json schema: ",
@@ -27,6 +29,6 @@ export default class MethodCallParameterValidationError extends Error {
       ". The function received instead ",
       receievedParam,
       ".",
-    ].join("")) /* istanbul ignore next */;
+    ].join("");
   }
 }

@@ -1,6 +1,6 @@
-import metaSchema, { types } from "@open-rpc/meta-schema";
+import metaSchema, { OpenRPC } from "@open-rpc/meta-schema";
 import JsonSchemaDraft07 from "../lib/json-schema-draft-07.json";
-import Ajv from "ajv";
+import Ajv, { ErrorObject } from "ajv";
 
 /**
  * @ignore
@@ -10,18 +10,23 @@ ajv.addMetaSchema(JsonSchemaDraft07, "https://json-schema.org/draft-07/schema#")
 
 /**
  * Provides an error interface for OpenRPC Document validation
+ *
+ * @category Errors
+ *
  */
-export class OpenRPCDocumentValidationError extends Error {
+export class OpenRPCDocumentValidationError implements Error {
+  public name = "OpenRPCDocumentDereferencingError";
+  public message: string;
 
   /**
    * @param errors The errors received by ajv.errors.
    */
-  constructor(private errors: Ajv.ErrorObject[]) {
-    super([
+  constructor(private errors: ErrorObject[]) {
+    this.message = [
       "Error validating OpenRPC Document against @open-rpc/meta-schema.",
       "The errors found are as follows:",
       JSON.stringify(errors, undefined, "  "),
-    ].join("\n")) /* istanbul ignore next */;
+    ].join("\n");
   }
 }
 
@@ -46,7 +51,7 @@ export class OpenRPCDocumentValidationError extends Error {
  *
  */
 export default function validateOpenRPCDocument(
-  document: types.OpenRPC,
+  document: OpenRPC,
 ): OpenRPCDocumentValidationError | true {
   const result = ajv.validate(metaSchema, document);
 

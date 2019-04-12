@@ -25,7 +25,22 @@
     "readme": "./README.md",
     "exclude": [
       "node_modules",
+      "lib",
+      "docs",
+      "build",
+      "jest.config.js",
       "src/**/*.test.ts"
+    ],
+    "toc": [
+      "parseOpenRPCDocument",
+      "generateMethodParamId",
+      "generateMethodResultId",
+      "validateOpenRPCDocument",
+      "MethodCallValidator",
+      "ParameterValidationError",
+      "OpenRPCDocumentValidationError",
+      "OpenRPCDocumentDereferencingError",
+      "ContentDescriptorNotFoundInMethodError"
     ]
   }
 }
