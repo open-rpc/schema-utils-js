@@ -1,3 +1,15 @@
+## [1.6.2](https://github.com/open-rpc/schema-utils-js/compare/1.6.1...1.6.2) (2019-04-12)
+
+
+### Bug Fixes
+
+* constrain typing more ([af5ce00](https://github.com/open-rpc/schema-utils-js/commit/af5ce00))
+* general improvements ([3641370](https://github.com/open-rpc/schema-utils-js/commit/3641370))
+* readme formatting ([58dcc9a](https://github.com/open-rpc/schema-utils-js/commit/58dcc9a))
+* tests passing again ([4157813](https://github.com/open-rpc/schema-utils-js/commit/4157813))
+* update badges ([445262d](https://github.com/open-rpc/schema-utils-js/commit/445262d))
+* update to new meta-schema ([7ae6f8d](https://github.com/open-rpc/schema-utils-js/commit/7ae6f8d))
+
 ## [1.6.1](https://github.com/open-rpc/schema-utils-js/compare/1.6.0...1.6.1) (2019-04-12)
 
 
