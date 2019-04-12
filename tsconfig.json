@@ -10,5 +10,22 @@
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true
+  },
+  "typedocOptions": {
+    "name": "@open-rpc/schema-utils-js",
+    "mode": "file",
+    "src": [ "./src/index.ts" ],
+    "out": "docs",
+    "includeDeclarations": true,
+    "excludeNotExported": true,
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "hideGenerator": true,
+    "listInvalidSymbolLinks": true,
+    "readme": "./README.md",
+    "exclude": [
+      "node_modules",
+      "src/**/*.test.ts"
+    ]
   }
 }

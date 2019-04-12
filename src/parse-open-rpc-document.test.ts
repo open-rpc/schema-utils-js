@@ -4,7 +4,7 @@ jest.mock("fs-extra", () => ({
 }));
 
 import * as _fs from "fs-extra";
-import { parse } from "./parse";
+import parseOpenRPCDocument from "./parse-open-rpc-document";
 import { types } from "@open-rpc/meta-schema";
 
 const fs: any = _fs;
@@ -18,7 +18,7 @@ const workingSchema: types.OpenRPC = {
   openrpc: "1.0.0-rc1",
 };
 
-describe("get-schema", () => {
+describe("parseOpenRPCDocument", () => {
 
   beforeEach(() => {
     fs.readJson.mockResolvedValue(workingSchema);
@@ -26,29 +26,31 @@ describe("get-schema", () => {
 
   it("defaults to looking for openrc.json in cwd", async () => {
     expect.assertions(1);
-    const schema = await parse();
-    expect(fs.readJson).toHaveBeenCalledWith(`${process.cwd()}/openrpc.json`);
+    const schema = await parseOpenRPCDocument();
+    expect(fs.readJson).toHaveBeenCalledWith(`./openrpc.json`);
   });
 
   it("handles custom file path", async () => {
     expect.assertions(1);
-    const schema: any = await parse("./node_modules/@open-rpc/examples/service-descriptions/petstore.json");
+    const schema: any = await parseOpenRPCDocument(
+      "./node_modules/@open-rpc/examples/service-descriptions/petstore.json",
+    );
     expect(schema.methods).toBeDefined();
   });
 
   it("handles urls", async () => {
     const url = "https://raw.githubusercontent.com/open-rpc/examples/master/service-descriptions/petstore-openrpc.json";
-    const schema: any = await parse(url);
+    const schema: any = await parseOpenRPCDocument(url);
     expect(schema.methods).toBeDefined();
   });
 
   it("handles json as string", async () => {
-    const schema: any = await parse(JSON.stringify(workingSchema));
+    const schema: any = await parseOpenRPCDocument(JSON.stringify(workingSchema));
     expect(schema.methods).toBeDefined();
   });
 
   it("handles being passed an open rpc object", async () => {
-    const schema: any = await parse(workingSchema);
+    const schema: any = await parseOpenRPCDocument(workingSchema);
     expect(schema.methods).toBeDefined();
   });
 
@@ -57,21 +59,25 @@ describe("get-schema", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
       fs.readJson.mockRejectedValue(new Error("cannot compute error"));
-      return expect(parse()).rejects.toThrow("Unable to read");
+      return expect(parseOpenRPCDocument()).rejects.toThrow("Unable to read");
     });
 
     it("rejects when unable to find file via custom path", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
       fs.readJson.mockRejectedValue(new Error("cannot compute error"));
-      return expect(parse("./not/a/real/path.json")).rejects.toThrow("Unable to read");
+      return expect(parseOpenRPCDocument("./not/a/real/path.json"))
+        .rejects
+        .toThrow("Unable to read");
     });
 
     it("rejects when the url doesnt resolve to a schema", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
       fs.readJson.mockRejectedValue(new Error("cannot compute error"));
-      return expect(parse("https://google.com")).rejects.toThrow("Unable to download");
+      return expect(parseOpenRPCDocument("https://google.com"))
+        .rejects
+        .toThrow("Unable to download");
     });
 
     it("rejects when the schema cannot be dereferenced", () => {
@@ -95,7 +101,9 @@ describe("get-schema", () => {
           },
         ],
       });
-      return expect(parse()).rejects.toThrow("The json schema provided cannot be dereferenced");
+      return expect(parseOpenRPCDocument())
+        .rejects
+        .toThrow("The json schema provided cannot be dereferenced");
     });
 
     it("rejects when the schema is invalid", () => {
@@ -120,7 +128,9 @@ describe("get-schema", () => {
           },
         ],
       });
-      return expect(parse()).rejects.toThrow(/Error Validating schema against meta-schema/);
+      return expect(parseOpenRPCDocument())
+        .rejects
+        .toThrow(/Error validating OpenRPC Document against @open-rpc\/meta-schema./);
     });
 
     it("rejects when the json provided is invalid from file", () => {
@@ -128,7 +138,7 @@ describe("get-schema", () => {
       fs.readJson.mockClear();
       fs.readJson.mockRejectedValue(new Error("SyntaxError: super duper bad one"));
       const file = "./node_modules/@open-rpc/examples/service-descriptions/petstore-openrpc.json";
-      return expect(parse(file)).rejects.toThrow();
+      return expect(parseOpenRPCDocument(file)).rejects.toThrow();
     });
   });
 });

@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 node_modules
 coverage
 build
-=======
-build
-/**/build
+docs
 .DS_Store
-node_modules
->>>>>>> pristine/master
