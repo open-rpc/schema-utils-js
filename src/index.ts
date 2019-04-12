@@ -1,13 +1,13 @@
-import parse from "./parse";
-import getValidationErrors from "./get-validation-errors";
+import parseOpenRPCDocument from "./parse-open-rpc-document";
+import validateOpenRPCDocument from "./get-validation-errors";
 import { generateMethodParamId, generateMethodResultId } from "./generate-method-id";
 import { MethodCallValidator, ParameterValidationError } from "./method-call-validator";
 
 export {
-  parse,
+  parseOpenRPCDocument,
   generateMethodParamId,
   generateMethodResultId,
-  getValidationErrors,
+  validateOpenRPCDocument,
   MethodCallValidator,
   ParameterValidationError,
 };

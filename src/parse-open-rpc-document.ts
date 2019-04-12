@@ -1,6 +1,6 @@
 import { pathExists } from "fs-extra";
 import refParser from "json-schema-ref-parser";
-import getValidationErrors from "./get-validation-errors";
+import validateOpenRPCDocument from "./validate-open-rpc-document";
 import { types } from "@open-rpc/meta-schema";
 import isUrl = require("is-url");
 import { fetchUrlSchemaFile, readSchemaFromFile } from "./get-open-rpc-document";
@@ -26,19 +26,23 @@ const isJson = (jsonString: string) => {
  * @example
  * ```typescript
  *
- * const { types } from "@open-rpc/meta-schema";
+ * const { types } from "@open-rpc/meta-schema"
+ * const { parseOpenRPCDocument } from "@open-rpc/schema-utils-js";
+ *
  * try {
- *   const fromUrl = await parse("example.com/openrpc.json") as types.OpenRPC;
- *   const fromFile = await parse("example.com/openrpc.json") as types.OpenRPC;
- *   const fromString = await parse('{ "openrpc": "1.0.0", ... }') as types.OpenRPC;
- *   const fromCwd = await parse() as types.OpenRPC; // default
+ *   const fromUrl = await parseOpenRPCDocument("example.com/openrpc.json") as types.OpenRPC;
+ *   const fromFile = await parseOpenRPCDocument("example.com/openrpc.json") as types.OpenRPC;
+ *   const fromString = await parseOpenRPCDocument('{ "openrpc": "1.0.0", ... }') as types.OpenRPC;
+ *   const fromCwd = await parseOpenRPCDocument() as types.OpenRPC; // default
  * } catch (e) {
  *   // handle validation errors
  * }
  * ```
  *
  */
-export default async function parse(schema: string | types.OpenRPC = "./openrpc.json"): Promise<types.OpenRPC> {
+export default async function parseOpenRPCDocument(
+  schema: string | types.OpenRPC = "./openrpc.json",
+): Promise<types.OpenRPC> {
   let parsedSchema: types.OpenRPC;
 
   if (typeof schema !== "string") {
@@ -52,7 +56,7 @@ export default async function parse(schema: string | types.OpenRPC = "./openrpc.
     parsedSchema = await readSchemaFromFile(schema as string);
   }
 
-  const errors = getValidationErrors(parsedSchema);
+  const errors = validateOpenRPCDocument(parsedSchema);
   if (errors) {
     throw new Error(`Error Validating schema against meta-schema. \n ${JSON.stringify(errors, undefined, "  ")}`);
   }

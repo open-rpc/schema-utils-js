@@ -1,7 +1,7 @@
 import { types } from "@open-rpc/meta-schema";
-import getValidationErrors from "./get-validation-errors";
+import validateOpenRPCDocument from "./validate-open-rpc-document";
 
-describe("getValidationErrors", () => {
+describe("validateOpenRPCDocument", () => {
   it("errors when passed an incorrect schema", () => {
     const testSchema: types.OpenRPC = {
       info: {
@@ -12,7 +12,7 @@ describe("getValidationErrors", () => {
       methods: [],
       openrpc: "1.0.0-rc1",
     };
-    const result = getValidationErrors(testSchema);
+    const result = validateOpenRPCDocument(testSchema);
 
     expect(result).not.toBe(null);
   });
