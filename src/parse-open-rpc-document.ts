@@ -26,6 +26,7 @@ export class OpenRPCDocumentDereferencingError extends Error {
    * @param e The error that originated from jsonSchemaRefParser
    */
   constructor(e: Error) {
+    /* istanbul ignore next */
     super(`The json schema provided cannot be dereferenced. Received Error: \n ${e.message}`);
   }
 }

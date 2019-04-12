@@ -17,6 +17,7 @@ export class OpenRPCDocumentValidationError extends Error {
    * @param errors The errors received by ajv.errors.
    */
   constructor(private errors: Ajv.ErrorObject[]) {
+    /* istanbul ignore next */
     super([
       "Error validating OpenRPC Document against @open-rpc/meta-schema.",
       "The errors found are as follows:",

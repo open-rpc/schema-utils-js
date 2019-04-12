@@ -12,6 +12,7 @@ export class ContentDescriptorNotFoundInMethodError extends Error {
    * @param contentDescriptor OpenRPC Content Descriptor that was expected to be in the method param.
    */
   constructor(public method: types.MethodObject, public contentDescriptor: types.ContentDescriptorObject) {
+    /* istanbul ignore next */
     super([
       "Content Descriptor not found in method.",
       `Method: ${JSON.stringify(method, undefined, "  ")}`,
