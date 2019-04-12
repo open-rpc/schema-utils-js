@@ -7,15 +7,15 @@ type TGetOpenRPCDocument = (schema: string) => Promise<types.OpenRPC>;
 const fetchUrlSchemaFile: TGetOpenRPCDocument = async (schema) => {
   try {
     const response = await fetch(schema);
-    return await response.json();
+    return await response.json() as types.OpenRPC;
   } catch (e) {
     throw new Error(`Unable to download openrpc.json file located at the url: ${schema}`);
   }
 };
 
-const readSchemaFromFile = async (schema: string) => {
+const readSchemaFromFile: TGetOpenRPCDocument = async (schema) => {
   try {
-    return await readJson(schema);
+    return await readJson(schema) as types.OpenRPC;
   } catch (e) {
     if (e.message.includes("SyntaxError")) {
       throw new Error(`Failed to parse json in file ${schema}`);

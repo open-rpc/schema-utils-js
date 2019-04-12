@@ -1,6 +1,6 @@
 import metaSchema, { types } from "@open-rpc/meta-schema";
 import JsonSchemaDraft07 from "../lib/json-schema-draft-07.json";
-import Ajv from "ajv";
+import Ajv, { ErrorObject } from "ajv";
 
 /**
  * @ignore
@@ -16,7 +16,7 @@ export class OpenRPCDocumentValidationError extends Error {
   /**
    * @param errors The errors received by ajv.errors.
    */
-  constructor(private errors: Ajv.ErrorObject[]) {
+  constructor(private errors: ErrorObject[]) {
     super([
       "Error validating OpenRPC Document against @open-rpc/meta-schema.",
       "The errors found are as follows:",

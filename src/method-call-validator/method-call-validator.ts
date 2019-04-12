@@ -1,8 +1,8 @@
-import Ajv, { ErrorObject } from "ajv";
+import Ajv, { ErrorObject, Ajv as IAjv } from "ajv";
 import * as _ from "lodash";
 import { generateMethodParamId } from "../generate-method-id";
 import { types } from "@open-rpc/meta-schema";
-import ParameterValidationError from "./parameter-validation-error";
+import MethodCallParameterValidationError from "./parameter-validation-error";
 
 /**
  * A class to assist in validating method calls to an OpenRPC-based service. Generated Clients,
@@ -10,7 +10,7 @@ import ParameterValidationError from "./parameter-validation-error";
  * In doing so, use this class to easily create a re-useable validator for a particular method.
  */
 export default class MethodCallValidator {
-  private ajvValidator: Ajv.Ajv;
+  private ajvValidator: IAjv;
 
   /**
    * @param document The OpenRPC document containing the methods whose calls we want validated.
@@ -57,7 +57,7 @@ export default class MethodCallValidator {
    * ```
    *
    */
-  public validate(methodName: string, params: any[]): ParameterValidationError[] {
+  public validate(methodName: string, params: any[]): MethodCallParameterValidationError[] {
     const method = _.find(this.document.methods, { name: methodName }) as types.MethodObject;
 
     if (method.params === undefined) {
@@ -65,7 +65,7 @@ export default class MethodCallValidator {
     }
 
     return _.chain(method.params as types.ContentDescriptorObject[])
-      .map((param: types.ContentDescriptorObject, index: number): ParameterValidationError | undefined => {
+      .map((param: types.ContentDescriptorObject, index: number): MethodCallParameterValidationError | undefined => {
         if (param.schema === undefined) { return; }
 
         const idForMethod = generateMethodParamId(method, param);
@@ -73,7 +73,7 @@ export default class MethodCallValidator {
         const errors = this.ajvValidator.errors as ErrorObject[];
 
         if (!isValid) {
-          return new ParameterValidationError(index, param.schema, params[index], errors);
+          return new MethodCallParameterValidationError(index, param.schema, params[index], errors);
         }
       })
       .compact()
