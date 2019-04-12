@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/open-rpc/schema-utils-js/compare/1.6.0...1.6.1) (2019-04-12)
+
+
+### Bug Fixes
+
+* dont upload crazytown assets ([c73cd0c](https://github.com/open-rpc/schema-utils-js/commit/c73cd0c))
+
 # [1.6.0](https://github.com/open-rpc/schema-utils-js/compare/1.5.1...1.6.0) (2019-04-12)
 
 
