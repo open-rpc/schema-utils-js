@@ -19,7 +19,6 @@ export default class MethodCallParameterValidationError extends Error {
     public receievedParam: any,
     private errors: ErrorObject[],
   ) {
-    /* istanbul ignore next */
     super([
       "Expected param in position ",
       paramIndex,
@@ -28,6 +27,6 @@ export default class MethodCallParameterValidationError extends Error {
       ". The function received instead ",
       receievedParam,
       ".",
-    ].join(""));
+    ].join("")) /* istanbul ignore next */;
   }
 }

@@ -17,7 +17,7 @@ export class ContentDescriptorNotFoundInMethodError extends Error {
       "Content Descriptor not found in method.",
       `Method: ${JSON.stringify(method, undefined, "  ")}`,
       `ContentDescriptor: ${JSON.stringify(contentDescriptor, undefined, "  ")}`,
-    ].join("\n"));
+    ].join("\n")) /* istanbul ignore next */;
   }
 }
 
