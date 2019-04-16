@@ -15,7 +15,8 @@
     "watch:test": "jest --watch"
   },
   "files": [
-    "build"
+    "build",
+    "!build/**/*.test.*"
   ],
   "repository": {
     "type": "git",
