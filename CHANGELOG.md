@@ -1,3 +1,14 @@
+## [1.6.4](https://github.com/open-rpc/schema-utils-js/compare/1.6.3...1.6.4) (2019-04-16)
+
+
+### Bug Fixes
+
+* **method-typing:** add tests ([09b9446](https://github.com/open-rpc/schema-utils-js/commit/09b9446))
+* 100% test coverage ([fce9b7e](https://github.com/open-rpc/schema-utils-js/commit/fce9b7e))
+* add docs ([5107f3b](https://github.com/open-rpc/schema-utils-js/commit/5107f3b))
+* **toc:** add method-typings ([8955afa](https://github.com/open-rpc/schema-utils-js/commit/8955afa))
+* npm audit ([5be050a](https://github.com/open-rpc/schema-utils-js/commit/5be050a))
+
 ## [1.6.3](https://github.com/open-rpc/schema-utils-js/compare/1.6.2...1.6.3) (2019-04-12)
 
 
