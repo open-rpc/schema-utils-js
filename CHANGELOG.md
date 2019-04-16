@@ -1,3 +1,16 @@
+# [1.7.0](https://github.com/open-rpc/schema-utils-js/compare/1.6.4...1.7.0) (2019-04-16)
+
+
+### Bug Fixes
+
+* improve npm publish size ([928d391](https://github.com/open-rpc/schema-utils-js/commit/928d391))
+* typedoc missing param ([35b6483](https://github.com/open-rpc/schema-utils-js/commit/35b6483))
+
+
+### Features
+
+* **method-typings:** get types for method ([caeb1fa](https://github.com/open-rpc/schema-utils-js/commit/caeb1fa))
+
 ## [1.6.4](https://github.com/open-rpc/schema-utils-js/compare/1.6.3...1.6.4) (2019-04-16)
 
 
