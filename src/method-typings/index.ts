@@ -44,6 +44,28 @@ export default class MethodTypings {
   }
 
   /**
+   * Gives you all the types needed for a particular method.
+   *
+   * @param method The method you need the types for.
+   * @param langeuage The langauge you want the signature to be in.
+   *
+   * @returns A string containing all the typings
+   *
+   */
+  public getTypeDefinitionsForMethod(method: MethodObject, language: TLanguages): string {
+    if (Object.keys(this.typingMapByLanguage).length === 0) {
+      throw new Error("typings have not yet been generated. Please run generateTypings first.");
+    }
+
+    return _.chain(this.typingMapByLanguage[language])
+      .values()
+      .filter(({ typeId }) => _.startsWith(typeId, method.name))
+      .map("typing")
+      .value()
+      .join("");
+  }
+
+  /**
    * A method that returns all the types as a string, useful to directly inserting into code.
    *
    * @param langeuage The langauge you want the signature to be in.
