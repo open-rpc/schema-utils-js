@@ -49,7 +49,7 @@ export default class MethodTypings {
       .join("");
   }
 
-  public getFunctionSignature(method: MethodObject, language: TLanguages, standalone?: boolean) {
+  public getFunctionSignature(method: MethodObject, language: TLanguages): string {
     if (Object.keys(this.typingMapByLanguage).length === 0) {
       throw new Error("typings have not yet been generated. Please run generateTypings first.");
     }
@@ -57,10 +57,6 @@ export default class MethodTypings {
     const sig = generators[language]
       .getFunctionSignature(method, this.typingMapByLanguage[language]);
 
-    if (standalone) {
-      return sig.replace("public", "export default function");
-    } else {
-      return sig;
-    }
+    return sig;
   }
 }
