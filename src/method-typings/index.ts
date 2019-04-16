@@ -22,11 +22,18 @@ interface ITypingMapByLanguage {
   [language: string]: IMethodTypingsMap;
 }
 
+/**
+ * A class to handle all the tasks relating to types for the OpenRPC Document.
+ */
 export default class MethodTypings {
   private typingMapByLanguage: ITypingMapByLanguage = {};
 
   constructor(private openrpcDocument: OpenRPC) { }
 
+  /**
+   * A method to generate all the typings. This does most of the heavy lifting, and is quite slow.
+   * You should call this method first.
+   */
   public async generateTypings() {
     await Promise.all(languages.map(async (language) => {
       this.typingMapByLanguage[language] = await generators[language]
@@ -36,6 +43,14 @@ export default class MethodTypings {
     return true;
   }
 
+  /**
+   * A method that returns all the types as a string, useful to directly inserting into code.
+   *
+   * @param langeuage The langauge you want the signature to be in.
+   *
+   * @returns A string containing all the typings
+   *
+   */
   public getAllUniqueTypings(language: TLanguages): string {
     if (Object.keys(this.typingMapByLanguage).length === 0) {
       throw new Error("typings have not yet been generated. Please run generateTypings first.");
@@ -49,6 +64,14 @@ export default class MethodTypings {
       .join("");
   }
 
+  /**
+   * A method that returns a function signature in the specified language
+   *
+   * @param method The OpenRPC Method that you want a signature for.
+   * @param langeuage The langauge you want the signature to be in.
+   *
+   * @returns A string containing a function signature.
+   */
   public getFunctionSignature(method: MethodObject, language: TLanguages): string {
     if (Object.keys(this.typingMapByLanguage).length === 0) {
       throw new Error("typings have not yet been generated. Please run generateTypings first.");
