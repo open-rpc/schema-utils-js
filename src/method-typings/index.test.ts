@@ -45,6 +45,68 @@ describe("MethodTypings", () => {
     expect(methodTypings).toBeInstanceOf(MethodTypings);
   });
 
+  describe("getTypeDefinitionsForMethod", () => {
+
+    it("throws if types not generated yet", () => {
+      const methodTypings = new MethodTypings(testOpenRPCDocument);
+      expect(() => methodTypings.getTypeDefinitionsForMethod(testOpenRPCDocument.methods[0], "typescript")).toThrow();
+    });
+
+    describe("typscript", () => {
+
+      it("returns a string of typings for a method", async () => {
+        const methodTypings = new MethodTypings(testOpenRPCDocument);
+        await methodTypings.generateTypings();
+
+        expect(methodTypings.getTypeDefinitionsForMethod(testOpenRPCDocument.methods[0], "typescript")).toBe([
+          "export type TNiptip = number;",
+          "export interface IRipslip {",
+          "  reepadoop?: number;",
+          "  [k: string]: any;",
+          "}",
+          "",
+        ].join("\n"));
+      });
+
+    });
+
+    describe("rust", () => {
+
+      it("returns a string of typings where the typeNames are unique", async () => {
+        const methodTypings = new MethodTypings(testOpenRPCDocument);
+        await methodTypings.generateTypings();
+
+        expect(methodTypings.getTypeDefinitionsForMethod(testOpenRPCDocument.methods[0], "rust")).toBe([
+          "pub type Niptip = f64;",
+          "#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]",
+          "#[cfg_attr(test, derive(Random))]",
+          "#[serde(untagged)]",
+          "pub enum Ripslip {",
+          "    AnythingArray(Vec<Option<serde_json::Value>>),",
+          "",
+          "    Bool(bool),",
+          "",
+          "    Double(f64),",
+          "",
+          "    Integer(i64),",
+          "",
+          "    RipslipClass(RipslipClass),",
+          "",
+          "    String(String),",
+          "}",
+          "#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]",
+          "#[cfg_attr(test, derive(Random))]",
+          "pub struct RipslipClass {",
+          "    #[serde(rename = \"reepadoop\")]",
+          "    reepadoop: Option<f64>,",
+          "}",
+        ].join("\n"));
+      });
+
+    });
+
+  });
+
   describe("getAllUniqueTypings", () => {
 
     it("throws if types not generated yet", () => {
