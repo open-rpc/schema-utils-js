@@ -46,6 +46,7 @@ export default class MethodTypings {
   /**
    * Gives you all the types needed for a particular method.
    *
+   * @param method The method you need the types for.
    * @param langeuage The langauge you want the signature to be in.
    *
    * @returns A string containing all the typings
