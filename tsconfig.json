@@ -37,6 +37,7 @@
       "generateMethodResultId",
       "validateOpenRPCDocument",
       "MethodCallValidator",
+      "MethodTypings",
       "ParameterValidationError",
       "OpenRPCDocumentValidationError",
       "OpenRPCDocumentDereferencingError",
