@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/open-rpc/schema-utils-js/compare/1.7.0...1.8.0) (2019-04-17)
+
+
+### Features
+
+* **method-typings:** getTypeDefinitionsForMethod ([f4a9636](https://github.com/open-rpc/schema-utils-js/commit/f4a9636))
+
 # [1.7.0](https://github.com/open-rpc/schema-utils-js/compare/1.6.4...1.7.0) (2019-04-16)
 
 
