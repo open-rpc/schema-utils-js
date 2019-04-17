@@ -31,6 +31,46 @@ const testOpenRPCDocument = {
   openrpc: "1.0.0",
 } as OpenRPC;
 
+const expectedNipTipTypescript = "export type TNiptip = number;";
+const expectedRipSlipTypescript = [
+  "export interface IRipslip {",
+  "  reepadoop?: number;",
+  "  [k: string]: any;",
+  "}",
+].join("\n");
+const expectedTypescript = [
+  expectedNipTipTypescript,
+  expectedRipSlipTypescript,
+].join("\n");
+
+const expectedNipTipRust = "";
+const expectedRipSlipRust = [
+  "pub type Niptip = f64;",
+  "#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]",
+  "#[cfg_attr(test, derive(Random))]",
+  "#[serde(untagged)]",
+  "pub enum Ripslip {",
+  "    AnythingArray(Vec<Option<serde_json::Value>>),",
+  "",
+  "    Bool(bool),",
+  "",
+  "    Double(f64),",
+  "",
+  "    Integer(i64),",
+  "",
+  "    RipslipClass(RipslipClass),",
+  "",
+  "    String(String),",
+  "}",
+  "#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]",
+  "#[cfg_attr(test, derive(Random))]",
+  "pub struct RipslipClass {",
+  "    #[serde(rename = \"reepadoop\")]",
+  "    reepadoop: Option<f64>,",
+  "}",
+].join("\n");
+const expectedRust = expectedRipSlipRust;
+
 describe("MethodTypings", () => {
 
   it("can be constructed", () => {
@@ -58,14 +98,8 @@ describe("MethodTypings", () => {
         const methodTypings = new MethodTypings(testOpenRPCDocument);
         await methodTypings.generateTypings();
 
-        expect(methodTypings.getTypeDefinitionsForMethod(testOpenRPCDocument.methods[0], "typescript")).toBe([
-          "export type TNiptip = number;",
-          "export interface IRipslip {",
-          "  reepadoop?: number;",
-          "  [k: string]: any;",
-          "}",
-          "",
-        ].join("\n"));
+        expect(methodTypings.getTypeDefinitionsForMethod(testOpenRPCDocument.methods[0], "typescript"))
+          .toBe(expectedTypescript);
       });
 
     });
@@ -76,31 +110,64 @@ describe("MethodTypings", () => {
         const methodTypings = new MethodTypings(testOpenRPCDocument);
         await methodTypings.generateTypings();
 
-        expect(methodTypings.getTypeDefinitionsForMethod(testOpenRPCDocument.methods[0], "rust")).toBe([
-          "pub type Niptip = f64;",
-          "#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]",
-          "#[cfg_attr(test, derive(Random))]",
-          "#[serde(untagged)]",
-          "pub enum Ripslip {",
-          "    AnythingArray(Vec<Option<serde_json::Value>>),",
-          "",
-          "    Bool(bool),",
-          "",
-          "    Double(f64),",
-          "",
-          "    Integer(i64),",
-          "",
-          "    RipslipClass(RipslipClass),",
-          "",
-          "    String(String),",
-          "}",
-          "#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]",
-          "#[cfg_attr(test, derive(Random))]",
-          "pub struct RipslipClass {",
-          "    #[serde(rename = \"reepadoop\")]",
-          "    reepadoop: Option<f64>,",
-          "}",
-        ].join("\n"));
+        expect(methodTypings.getTypeDefinitionsForMethod(testOpenRPCDocument.methods[0], "rust")).toBe(expectedRust);
+      });
+
+    });
+
+  });
+
+  describe("getTypingsForMethod", () => {
+
+    it("throws if types not generated yet", () => {
+      const methodTypings = new MethodTypings(testOpenRPCDocument);
+      expect(() => methodTypings.getTypingsForMethod(testOpenRPCDocument.methods[0], "typescript")).toThrow();
+    });
+
+    describe("typscript", () => {
+
+      it("returns a string of typings for a method", async () => {
+        const methodTypings = new MethodTypings(testOpenRPCDocument);
+        await methodTypings.generateTypings();
+
+        expect(methodTypings.getTypingsForMethod(testOpenRPCDocument.methods[0], "typescript")).toEqual({
+          params: [
+            {
+              typeId: "jibber/0",
+              typeName: "TNiptip",
+              typing: expectedNipTipTypescript,
+            },
+          ],
+          result: {
+            typeId: "jibber/result",
+            typeName: "IRipslip",
+            typing: expectedRipSlipTypescript,
+          },
+        });
+      });
+
+    });
+
+    describe("rust", () => {
+
+      it("returns a string of typings where the typeNames are unique", async () => {
+        const methodTypings = new MethodTypings(testOpenRPCDocument);
+        await methodTypings.generateTypings();
+
+        expect(methodTypings.getTypingsForMethod(testOpenRPCDocument.methods[0], "rust")).toEqual({
+          params: [
+            {
+              typeId: "jibber/0",
+              typeName: "Niptip",
+              typing: expectedNipTipRust,
+            },
+          ],
+          result: {
+            typeId: "jibber/result",
+            typeName: "Ripslip",
+            typing: expectedRipSlipRust,
+          },
+        });
       });
 
     });
@@ -120,14 +187,7 @@ describe("MethodTypings", () => {
         const methodTypings = new MethodTypings(testOpenRPCDocument);
         await methodTypings.generateTypings();
 
-        expect(methodTypings.getAllUniqueTypings("typescript")).toBe([
-          "export type TNiptip = number;",
-          "export interface IRipslip {",
-          "  reepadoop?: number;",
-          "  [k: string]: any;",
-          "}",
-          "",
-        ].join("\n"));
+        expect(methodTypings.getAllUniqueTypings("typescript")).toBe(expectedTypescript);
       });
 
     });
@@ -138,31 +198,7 @@ describe("MethodTypings", () => {
         const methodTypings = new MethodTypings(testOpenRPCDocument);
         await methodTypings.generateTypings();
 
-        expect(methodTypings.getAllUniqueTypings("rust")).toBe([
-          "pub type Niptip = f64;",
-          "#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]",
-          "#[cfg_attr(test, derive(Random))]",
-          "#[serde(untagged)]",
-          "pub enum Ripslip {",
-          "    AnythingArray(Vec<Option<serde_json::Value>>),",
-          "",
-          "    Bool(bool),",
-          "",
-          "    Double(f64),",
-          "",
-          "    Integer(i64),",
-          "",
-          "    RipslipClass(RipslipClass),",
-          "",
-          "    String(String),",
-          "}",
-          "#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]",
-          "#[cfg_attr(test, derive(Random))]",
-          "pub struct RipslipClass {",
-          "    #[serde(rename = \"reepadoop\")]",
-          "    reepadoop: Option<f64>,",
-          "}",
-        ].join("\n"));
+        expect(methodTypings.getAllUniqueTypings("rust")).toBe(expectedRust);
       });
 
     });

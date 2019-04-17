@@ -2,7 +2,7 @@ import typescript from "./typescript";
 import rust from "./rust";
 import { IGenerator, IContentDescriptorTyping, IMethodTypingsMap } from "./generator-interface";
 import { OpenRPC, MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
-import _ from "lodash";
+import _, { values, filter, partition, zipObject } from "lodash";
 
 interface IGenerators {
   typescript: IGenerator;
@@ -20,6 +20,11 @@ const generators: IGenerators = {
 
 interface ITypingMapByLanguage {
   [language: string]: IMethodTypingsMap;
+}
+
+export interface IMethodTypings {
+  params: IContentDescriptorTyping[];
+  result: IContentDescriptorTyping;
 }
 
 /**
@@ -44,7 +49,7 @@ export default class MethodTypings {
   }
 
   /**
-   * Gives you all the types needed for a particular method.
+   * Gives you all the [[IMethodTypings]] for a given method.
    *
    * @param method The method you need the types for.
    * @param langeuage The langauge you want the signature to be in.
@@ -52,17 +57,44 @@ export default class MethodTypings {
    * @returns A string containing all the typings
    *
    */
+  public getTypingsForMethod(method: MethodObject, language: TLanguages): IMethodTypings {
+    if (Object.keys(this.typingMapByLanguage).length === 0) {
+      throw new Error("typings have not yet been generated. Please run generateTypings first.");
+    }
+
+    const typingsMap = this.typingMapByLanguage[language];
+
+    const typings = values(typingsMap);
+    const typingsForMethod = filter(typings, ({ typeId }) => _.startsWith(typeId, method.name));
+    const paramsAndResult = partition(typingsForMethod, ({ typeId }) => typeId.includes("result"));
+    const methodTypings = zipObject(["result", "params"], paramsAndResult);
+
+    return {
+      params: methodTypings.params,
+      result: methodTypings.result[0],
+    };
+  }
+
+  /**
+   * Gives you all the [[IContentDescriptorTyping.typings]] needed for a particular method.
+   *
+   * @param method The method you need the types for.
+   * @param langeuage The langauge you want the signature to be in.
+   *
+   * @returns A string containing all the typings joined together.
+   *
+   */
   public getTypeDefinitionsForMethod(method: MethodObject, language: TLanguages): string {
     if (Object.keys(this.typingMapByLanguage).length === 0) {
       throw new Error("typings have not yet been generated. Please run generateTypings first.");
     }
 
-    return _.chain(this.typingMapByLanguage[language])
+    const typings = _.chain(this.getTypingsForMethod(method, language))
       .values()
-      .filter(({ typeId }) => _.startsWith(typeId, method.name))
-      .map("typing")
-      .value()
-      .join("");
+      .flatten()
+      .value();
+
+    return this.typingsToString(typings);
   }
 
   /**
@@ -78,12 +110,12 @@ export default class MethodTypings {
       throw new Error("typings have not yet been generated. Please run generateTypings first.");
     }
 
-    return _.chain(this.typingMapByLanguage[language])
+    const typings = _.chain(this.typingMapByLanguage[language])
       .values()
       .uniqBy("typeName")
-      .map("typing")
-      .value()
-      .join("");
+      .value();
+
+    return this.typingsToString(typings);
   }
 
   /**
@@ -103,5 +135,13 @@ export default class MethodTypings {
       .getFunctionSignature(method, this.typingMapByLanguage[language]);
 
     return sig;
+  }
+
+  private typingsToString(typings: IContentDescriptorTyping[]): string {
+    return _.chain(typings)
+      .map("typing")
+      .compact()
+      .value()
+      .join("\n");
   }
 }
