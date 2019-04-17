@@ -125,7 +125,7 @@ const getMethodTypingsMap: TGetMethodTypingsMap = async (openrpcSchema) => {
     ...aliasTypes,
     ...enumTypes,
     ...uniqueStructTypes,
-  ]).join("\n");
+  ]).join("\n").trim();
 
   const typings = _.chain(methods)
     .map((method) => {
@@ -149,7 +149,7 @@ const getMethodTypingsMap: TGetMethodTypingsMap = async (openrpcSchema) => {
     .keyBy("typeId")
     .value();
 
-  typings[Object.keys(typings)[0]].typing += allTypings;
+  typings[Object.keys(typings)[0]].typing = allTypings;
   // console.log(JSON.stringify(typings, undefined, "  "))
   // throw new Error();
   return typings;

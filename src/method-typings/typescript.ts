@@ -41,7 +41,7 @@ const getTypingForContentDescriptor = async (
   const typing = {
     typeId: generateId(method, contentDescriptor),
     typeName,
-    typing: rawTyping,
+    typing: rawTyping.trim(),
   };
 
   return typing;
