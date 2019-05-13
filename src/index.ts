@@ -6,7 +6,6 @@ import {
   ContentDescriptorNotFoundInMethodError,
 } from "./generate-method-id";
 import { MethodCallValidator, ParameterValidationError } from "./method-call-validator";
-import MethodTypings from "./method-typings";
 
 export {
   parseOpenRPCDocument,
@@ -18,5 +17,4 @@ export {
   OpenRPCDocumentValidationError,
   OpenRPCDocumentDereferencingError,
   ContentDescriptorNotFoundInMethodError,
-  MethodTypings,
 };
