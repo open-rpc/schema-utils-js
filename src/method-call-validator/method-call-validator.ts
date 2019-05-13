@@ -77,6 +77,6 @@ export default class MethodCallValidator {
         }
       })
       .compact()
-      .value();
+      .value() as MethodCallParameterValidationError[];
   }
 }
