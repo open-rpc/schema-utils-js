@@ -1,3 +1,16 @@
+# [1.9.0](https://github.com/open-rpc/schema-utils-js/compare/1.8.0...1.9.0) (2019-05-14)
+
+
+### Bug Fixes
+
+* remove extra publish script ([ad081b4](https://github.com/open-rpc/schema-utils-js/commit/ad081b4))
+* typescript upgrade rror ([c4f26e7](https://github.com/open-rpc/schema-utils-js/commit/c4f26e7))
+
+
+### Features
+
+* remove method typings (see open-rpc/typings) ([bc98ed4](https://github.com/open-rpc/schema-utils-js/commit/bc98ed4))
+
 # [1.8.0](https://github.com/open-rpc/schema-utils-js/compare/1.7.0...1.8.0) (2019-04-17)
 
 
