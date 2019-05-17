@@ -1,6 +1,20 @@
-import fetch from "node-fetch";
-import { readJson, pathExists } from "fs-extra";
 import { OpenRPC } from "@open-rpc/meta-schema";
+
+import fetch from "node-fetch";
+import isNode from "detect-node";
+
+if (isNode) {
+  (global as any).__non_webpack_require__ = require;
+}
+
+const notSupportedInBrowserHandler = () => { throw new Error("Using filesystem is not supported in browser."); };
+
+const { readJson, pathExists } = isNode ?
+  __non_webpack_require__("fs-extra") :
+  {
+    pathExists: notSupportedInBrowserHandler,
+    readJson: notSupportedInBrowserHandler,
+  };
 
 type TGetOpenRPCDocument = (schema: string) => Promise<OpenRPC>;
 
