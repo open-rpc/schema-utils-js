@@ -10,7 +10,7 @@ import { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
 
 const fs: any = _fs;
 
-const workingSchema: OpenRPC = {
+const workingDocument: OpenRPC = {
   info: {
     title: "foo",
     version: "1",
@@ -19,40 +19,88 @@ const workingSchema: OpenRPC = {
   openrpc: "1.0.0-rc1",
 };
 
+const badRefDocument: OpenRPC = {
+  ...workingDocument,
+  methods: [
+    {
+      name: "foo",
+      params: [
+        {
+          name: "bar",
+          schema: { $ref: "#/components/bar" },
+        },
+      ],
+      result: {
+        name: "baz",
+        schema: { $ref: "#/noponents/bazaaaooow" },
+      },
+    },
+  ],
+};
+const invalidDocument: OpenRPC = {
+  ...workingDocument,
+  methods: [
+    {
+      name: "foo",
+      params: [
+        {
+          name: "bar",
+          schema: { type: "string" },
+        },
+      ],
+      result: {
+        name: "baz",
+        schema: { type: "boolean" },
+      },
+      zfloobars: 123,
+    },
+  ],
+};
+
 describe("parseOpenRPCDocument", () => {
 
   beforeEach(() => {
-    fs.readJson.mockResolvedValue(workingSchema);
+    fs.readJson.mockResolvedValue(workingDocument);
   });
 
   it("defaults to looking for openrc.json in cwd", async () => {
     expect.assertions(1);
-    const schema = await parseOpenRPCDocument();
+    await parseOpenRPCDocument();
     expect(fs.readJson).toHaveBeenCalledWith(`./openrpc.json`);
   });
 
   it("handles custom file path", async () => {
     expect.assertions(1);
-    const schema: any = await parseOpenRPCDocument(
+    const document = await parseOpenRPCDocument(
       "./node_modules/@open-rpc/examples/service-descriptions/petstore.json",
     );
-    expect(schema.methods).toBeDefined();
+    expect(document.methods).toBeDefined();
   });
 
   it("handles urls", async () => {
     const url = "https://raw.githubusercontent.com/open-rpc/examples/master/service-descriptions/petstore-openrpc.json";
-    const schema: any = await parseOpenRPCDocument(url);
-    expect(schema.methods).toBeDefined();
+    const document = await parseOpenRPCDocument(url);
+    expect(document.methods).toBeDefined();
   });
 
   it("handles json as string", async () => {
-    const schema: any = await parseOpenRPCDocument(JSON.stringify(workingSchema));
-    expect(schema.methods).toBeDefined();
+    const document = await parseOpenRPCDocument(JSON.stringify(workingDocument));
+    expect(document.methods).toBeDefined();
   });
 
   it("handles being passed an open rpc object", async () => {
-    const schema: any = await parseOpenRPCDocument(workingSchema);
-    expect(schema.methods).toBeDefined();
+    const document = await parseOpenRPCDocument(workingDocument);
+    expect(document.methods).toBeDefined();
+  });
+
+  it("can disable validation", async () => {
+    const document = await parseOpenRPCDocument(invalidDocument, { validate: false });
+    expect(document.methods).toBeDefined();
+  });
+
+  it("can disable derefing", async () => {
+    const document = await parseOpenRPCDocument(badRefDocument, { dereference: false });
+    expect(document.methods).toBeDefined();
   });
 
   describe("errors", () => {
@@ -60,7 +108,9 @@ describe("parseOpenRPCDocument", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
       fs.readJson.mockRejectedValue(new Error("cannot compute error"));
-      return expect(parseOpenRPCDocument()).rejects.toThrow("Unable to read");
+      return expect(parseOpenRPCDocument())
+        .rejects
+        .toThrow("Unable to read openrpc.json file located at ./openrpc.json");
     });
 
     it("rejects when unable to find file via custom path", () => {
@@ -83,52 +133,15 @@ describe("parseOpenRPCDocument", () => {
 
     it("rejects when the schema cannot be dereferenced", () => {
       expect.assertions(1);
-      const testDocument = {
-        ...workingSchema,
-        methods: [
-          {
-            name: "foo",
-            params: [
-              {
-                name: "bar",
-                schema: { $ref: "#/components/bar" },
-              },
-            ],
-            result: {
-              name: "baz",
-              schema: { $ref: "#/noponents/bazaaaooow" },
-            },
-          },
-        ],
-      };
 
-      return expect(parseOpenRPCDocument(testDocument))
+      return expect(parseOpenRPCDocument(badRefDocument))
         .rejects
         .toBeInstanceOf(OpenRPCDocumentDereferencingError);
     });
 
     it("rejects when the schema is invalid", () => {
       expect.assertions(1);
-      const testDocument = {
-        ...workingSchema,
-        methods: [
-          {
-            name: "foo",
-            params: [
-              {
-                name: "bar",
-                schema: { $ref: "#/components/bar" },
-              },
-            ],
-            result: {
-              name: "baz",
-              schema: { $ref: "#/noponents/bazaaaooow" },
-            },
-            zfloobars: 123,
-          },
-        ],
-      };
-      return expect(parseOpenRPCDocument(testDocument))
+      return expect(parseOpenRPCDocument(invalidDocument))
         .rejects
         .toBeInstanceOf(OpenRPCDocumentValidationError);
     });

@@ -28,17 +28,6 @@ const fetchUrlSchemaFile: TGetOpenRPCDocument = async (schema) => {
 };
 
 const readSchemaFromFile: TGetOpenRPCDocument = async (filePath: string) => {
-  let isCorrectPath: boolean;
-  try {
-    isCorrectPath = await pathExists(filePath);
-  } catch (e) {
-    throw new Error(`problem reading the file: ${e.message}`);
-  }
-
-  if (isCorrectPath === false) {
-    throw new Error(`unable to find file ${filePath}`);
-  }
-
   try {
     return await readJson(filePath) as OpenRPC;
   } catch (e) {
