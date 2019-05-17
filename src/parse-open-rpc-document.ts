@@ -1,4 +1,3 @@
-import { pathExists } from "fs-extra";
 import refParser from "json-schema-ref-parser";
 import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
 import isUrl = require("is-url");
@@ -81,7 +80,6 @@ export default async function parseOpenRPCDocument(
   } else if (isUrl(schema as string)) {
     parsedSchema = await fetchUrlSchemaFile(schema as string);
   } else {
-    const isCorrectPath = await pathExists(schema as string);
     parsedSchema = await readSchemaFromFile(schema as string);
   }
 
