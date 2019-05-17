@@ -35,6 +35,35 @@ export class OpenRPCDocumentDereferencingError implements Error {
 }
 
 /**
+ * Options that may be passed to parseOpenRPCDocument.
+ *
+ * @category Options
+ *
+ */
+export interface IParseOpenRPCDocumentOptions {
+  /*
+   * Enable or disable Schema validation of the [[OpenRPC]] document against the OpenRPC meta-schema.
+   *
+   * @default true
+   *
+   */
+  validate?: boolean;
+
+  /*
+   * Enable or disable the referencing of content descriptors and schemas. This will replace `$ref` keys.
+   *
+   * @default true
+   *
+   */
+  dereference?: boolean;
+}
+
+const defaultParseOpenRPCDocumentOptions = {
+  dereference: true,
+  validate: true,
+};
+
+/**
  * Resolves an OpenRPC document from a variety of input types. The resolved OpenRPC document
  * will be dereferenced and validated against the [meta-schema](https://github.com/open-rpc/meta-schema).
  *
@@ -45,6 +74,8 @@ export class OpenRPCDocumentDereferencingError implements Error {
  *   1. schema is an OpenRPC document as a json string.
  *   2. schema is a url that resolves to an OpenRPC document.
  *   3. schema is a file path, where the file at the path contains an OpenRPC document.
+ *
+ * @param options Parser options. See [[IParseOpenRPCDocumentOptions]]
  *
  * @returns The same OpenRPC Document that was passed in, but with all $ref's dereferenced.
  *
@@ -70,8 +101,11 @@ export class OpenRPCDocumentDereferencingError implements Error {
  */
 export default async function parseOpenRPCDocument(
   schema: string | OpenRPC = "./openrpc.json",
+  options: IParseOpenRPCDocumentOptions = defaultParseOpenRPCDocumentOptions,
 ): Promise<OpenRPC> {
   let parsedSchema: OpenRPC;
+
+  const parseOptions = { ...defaultParseOpenRPCDocumentOptions, ...options } as IParseOpenRPCDocumentOptions;
 
   if (typeof schema !== "string") {
     parsedSchema = schema;
@@ -83,15 +117,21 @@ export default async function parseOpenRPCDocument(
     parsedSchema = await readSchemaFromFile(schema as string);
   }
 
-  const isValid = validateOpenRPCDocument(parsedSchema);
+  if (parseOptions.validate) {
+    const isValid = validateOpenRPCDocument(parsedSchema);
+    if (isValid instanceof OpenRPCDocumentValidationError) {
+      throw isValid;
+    }
+  }
 
-  if (isValid === true) {
+  let finalDocument: OpenRPC = parsedSchema;
+  if (parseOptions.dereference) {
     try {
-      return await refParser.dereference(parsedSchema) as OpenRPC;
+      finalDocument = await refParser.dereference(parsedSchema) as OpenRPC;
     } catch (e) {
       throw new OpenRPCDocumentDereferencingError(e);
     }
-  } else {
-    throw isValid as OpenRPCDocumentValidationError;
   }
+
+  return finalDocument;
 }
