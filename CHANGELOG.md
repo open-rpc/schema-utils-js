@@ -1,3 +1,16 @@
+# [1.10.0](https://github.com/open-rpc/schema-utils-js/compare/1.9.0...1.10.0) (2019-05-17)
+
+
+### Bug Fixes
+
+* add some testing ([8275dee](https://github.com/open-rpc/schema-utils-js/commit/8275dee)), closes [#84](https://github.com/open-rpc/schema-utils-js/issues/84)
+
+
+### Features
+
+* add options to parse ([23c44db](https://github.com/open-rpc/schema-utils-js/commit/23c44db))
+* run web tests ([f03eeb0](https://github.com/open-rpc/schema-utils-js/commit/f03eeb0))
+
 # [1.9.0](https://github.com/open-rpc/schema-utils-js/compare/1.8.0...1.9.0) (2019-05-14)
 
 
