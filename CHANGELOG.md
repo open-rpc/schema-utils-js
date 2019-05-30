@@ -1,3 +1,11 @@
+## [1.10.1](https://github.com/open-rpc/schema-utils-js/compare/1.10.0...1.10.1) (2019-05-30)
+
+
+### Bug Fixes
+
+* add browser support ([decd415](https://github.com/open-rpc/schema-utils-js/commit/decd415))
+* change entry for webpack test ([a14852f](https://github.com/open-rpc/schema-utils-js/commit/a14852f))
+
 # [1.10.0](https://github.com/open-rpc/schema-utils-js/compare/1.9.0...1.10.0) (2019-05-17)
 
 
