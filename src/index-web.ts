@@ -6,10 +6,14 @@ import {
   ContentDescriptorNotFoundInMethodError,
 } from "./generate-method-id";
 import { MethodCallValidator, ParameterValidationError } from "./method-call-validator";
-import readSchemaFromFile from "./get-open-rpc-document-from-file";
 import fetchUrlSchema from "./get-open-rpc-document-from-url";
+import { TGetOpenRPCDocument } from "./get-open-rpc-document";
 
-const parseOpenRPCDocument = makeParseOpenRPCDocument(readSchemaFromFile, fetchUrlSchema);
+const noop: TGetOpenRPCDocument = (schema: string) => {
+  return Promise.reject("Not Implemented");
+};
+
+const parseOpenRPCDocument = makeParseOpenRPCDocument(fetchUrlSchema, noop);
 
 export {
   parseOpenRPCDocument,

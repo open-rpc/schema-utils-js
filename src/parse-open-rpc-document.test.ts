@@ -4,10 +4,13 @@ jest.mock("fs-extra", () => ({
 }));
 
 import * as _fs from "fs-extra";
-import parseOpenRPCDocument, { OpenRPCDocumentDereferencingError } from "./parse-open-rpc-document";
+import makeParseOpenRPCDocument, { OpenRPCDocumentDereferencingError } from "./parse-open-rpc-document";
 import { OpenRPC } from "@open-rpc/meta-schema";
 import { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
+import fetchUrlSchema from "./get-open-rpc-document-from-url";
+import readSchemaFromFile from "./get-open-rpc-document-from-file";
 
+const parseOpenRPCDocument = makeParseOpenRPCDocument(fetchUrlSchema, readSchemaFromFile);
 const fs: any = _fs;
 
 const workingDocument: OpenRPC = {
