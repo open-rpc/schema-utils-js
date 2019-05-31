@@ -9,7 +9,7 @@ import { MethodCallValidator, ParameterValidationError } from "./method-call-val
 import readSchemaFromFile from "./get-open-rpc-document-from-file";
 import fetchUrlSchema from "./get-open-rpc-document-from-url";
 
-const parseOpenRPCDocument = makeParseOpenRPCDocument(readSchemaFromFile, fetchUrlSchema);
+const parseOpenRPCDocument = makeParseOpenRPCDocument(fetchUrlSchema, readSchemaFromFile);
 
 export {
   parseOpenRPCDocument,
