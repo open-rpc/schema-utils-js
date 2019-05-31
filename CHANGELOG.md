@@ -1,3 +1,10 @@
+## [1.10.2](https://github.com/open-rpc/schema-utils-js/compare/1.10.1...1.10.2) (2019-05-31)
+
+
+### Bug Fixes
+
+* parse document arg order adding tests [#120](https://github.com/open-rpc/schema-utils-js/issues/120) ([7d00f73](https://github.com/open-rpc/schema-utils-js/commit/7d00f73))
+
 ## [1.10.1](https://github.com/open-rpc/schema-utils-js/compare/1.10.0...1.10.1) (2019-05-30)
 
 
