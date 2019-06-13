@@ -39,12 +39,6 @@
     "json-schema-ref-parser": "^7.0.1"
   },
   "devDependencies": {
-    "@qiwi/semantic-release-gh-pages-plugin": "^1.9.1",
-    "@semantic-release/changelog": "^3.0.2",
-    "@semantic-release/commit-analyzer": "^6.1.0",
-    "@semantic-release/git": "^7.0.8",
-    "@semantic-release/github": "^5.2.10",
-    "@semantic-release/release-notes-generator": "^7.1.4",
     "@types/ajv": "^1.0.0",
     "@types/detect-node": "^2.0.0",
     "@types/fs-extra": "^7.0.0",
@@ -59,7 +53,6 @@
     "jest": "^24.0.0",
     "json-schema": "^0.2.3",
     "rimraf": "^2.6.3",
-    "semantic-release": "^15.13.12",
     "ts-jest": "^24.0.0",
     "tslint": "^5.13.1",
     "typedoc": "^0.14.2",
