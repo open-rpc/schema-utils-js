@@ -51,4 +51,11 @@ describe("MethodCallValidator", () => {
     expect(result[0]).toBeInstanceOf(MethodCallParameterValidationError);
   });
 
+  it("can not error if param is optional", () => {
+    const example = getExampleSchema() as any;
+    const methodCallValidator = new MethodCallValidator(example);
+    const result = methodCallValidator.validate("foo", []);
+    expect(result).toEqual([]);
+  });
+
 });
