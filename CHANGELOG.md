@@ -1,3 +1,13 @@
+## [1.10.3](https://github.com/open-rpc/schema-utils-js/compare/1.10.2...1.10.3) (2019-06-14)
+
+
+### Bug Fixes
+
+* circle semantic release deps only ([257b585](https://github.com/open-rpc/schema-utils-js/commit/257b585))
+* remove semantic release deps ([27ff23c](https://github.com/open-rpc/schema-utils-js/commit/27ff23c))
+* update pacakge lock ([1699ee8](https://github.com/open-rpc/schema-utils-js/commit/1699ee8))
+* validate optional params ([4feb647](https://github.com/open-rpc/schema-utils-js/commit/4feb647)), closes [#146](https://github.com/open-rpc/schema-utils-js/issues/146)
+
 ## [1.10.2](https://github.com/open-rpc/schema-utils-js/compare/1.10.1...1.10.2) (2019-05-31)
 
 

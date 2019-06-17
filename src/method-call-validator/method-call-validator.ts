@@ -67,6 +67,7 @@ export default class MethodCallValidator {
     return _.chain(method.params as ContentDescriptorObject[])
       .map((param: ContentDescriptorObject, index: number): MethodCallParameterValidationError | undefined => {
         if (param.schema === undefined) { return; }
+        if (!params[index] && !param.required) { return; }
 
         const idForMethod = generateMethodParamId(method, param);
         const isValid = this.ajvValidator.validate(idForMethod, params[index]);
