@@ -59,11 +59,17 @@ describe("MethodCallValidator", () => {
     expect(result).toEqual([]);
   });
 
+  it("rpc.discover is allowed", () => {
+    const example = getExampleSchema() as any;
+    const methodCallValidator = new MethodCallValidator(example);
+    const result = methodCallValidator.validate("rpc.discover", []);
+    expect(result).toEqual([]);
+  });
+
   it("returns method not found error when the method name is invalid", () => {
     const example = getExampleSchema() as any;
     const methodCallValidator = new MethodCallValidator(example);
     const result = methodCallValidator.validate("boo", ["123"]);
     expect(result).toBeInstanceOf(MethodCallMethodNotFoundError);
   });
-
 });
