@@ -3,8 +3,8 @@ import { OpenRPC } from "@open-rpc/meta-schema";
 /**
  * Provides an error interface for handling when a method is trying to be called but does not exist.
  */
-export default class MethodCallMethodNotFoundError implements Error {
-  public name = "MethodCallMethodNotFoundError";
+export default class MethodNotFoundError implements Error {
+  public name = "MethodNotFoundError";
   public message: string;
 
   /**
@@ -32,11 +32,10 @@ export default class MethodCallMethodNotFoundError implements Error {
     if (receievedParams.length > 0) {
       const stringedParams = receievedParams
         .map((p) => { try { return JSON.stringify(p); } catch (e) { return p; } })
-        .join(", ");
+        .join("\n");
 
-      msg.push("");
-      msg.push("debug info:");
-      msg.push(`  params: ${stringedParams}`);
+      msg.push("Params:");
+      msg.push(stringedParams);
     }
 
     this.message = msg.join("\n");

@@ -5,7 +5,7 @@ import {
   generateMethodResultId,
   ContentDescriptorNotFoundInMethodError,
 } from "./generate-method-id";
-import { MethodCallValidator, ParameterValidationError } from "./method-call-validator";
+import { MethodCallValidator, ParameterValidationError, MethodNotFoundError } from "./method-call-validator";
 import readSchemaFromFile from "./get-open-rpc-document-from-file";
 import fetchUrlSchema from "./get-open-rpc-document-from-url";
 
@@ -18,6 +18,7 @@ export {
   validateOpenRPCDocument,
   MethodCallValidator,
   ParameterValidationError,
+  MethodNotFoundError,
   OpenRPCDocumentValidationError,
   OpenRPCDocumentDereferencingError,
   ContentDescriptorNotFoundInMethodError,

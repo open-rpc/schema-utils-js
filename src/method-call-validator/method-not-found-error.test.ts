@@ -1,4 +1,4 @@
-import MethodCallMethodNotFoundError from "./method-not-found-error";
+import MethodNotFoundError from "./method-not-found-error";
 import { OpenRPC } from "@open-rpc/meta-schema";
 
 const exampleDoc = {
@@ -10,25 +10,26 @@ const exampleDoc = {
   openrpc: "1.1.9",
 } as OpenRPC;
 
-describe("MethodCallMethodNotFoundError", () => {
+describe("MethodNotFoundError", () => {
   it("can be instantiated", () => {
-    const error = new MethodCallMethodNotFoundError("floobar", exampleDoc, ["abc", 123]);
-    expect(error).toBeInstanceOf(MethodCallMethodNotFoundError);
+    const error = new MethodNotFoundError("floobar", exampleDoc, ["abc", 123]);
+    expect(error).toBeInstanceOf(MethodNotFoundError);
   });
 
   it("works when no params passed", () => {
-    const error = new MethodCallMethodNotFoundError("floobar", exampleDoc);
-    expect(error).toBeInstanceOf(MethodCallMethodNotFoundError);
+    const error = new MethodNotFoundError("floobar", exampleDoc);
+    expect(error).toBeInstanceOf(MethodNotFoundError);
   });
 
   it("properly parses params in to a string", () => {
-    const error = new MethodCallMethodNotFoundError("floobar", exampleDoc, ["abc", { abc: 123 }, 123]);
-    expect(error).toBeInstanceOf(MethodCallMethodNotFoundError);
+    const error = new MethodNotFoundError("floobar", exampleDoc, ["abc", { abc: 123 }, 123]);
+    expect(error).toBeInstanceOf(MethodNotFoundError);
     expect(error.message).toBe(`Method Not Found Error for OpenRPC API named "testerino"
 The requested method: "floobar" not a valid method.
-
-debug info:
-  params: "abc", {"abc":123}, 123`);
+Params:
+"abc"
+{"abc":123}
+123`);
   });
 
   it("it handles openrpc docs with a method", () => {
@@ -42,8 +43,8 @@ debug info:
         },
       },
     ];
-    const error = new MethodCallMethodNotFoundError("floobar", exampleDoc, ["abc", { abc: 123 }, 123]);
-    expect(error).toBeInstanceOf(MethodCallMethodNotFoundError);
+    const error = new MethodNotFoundError("floobar", exampleDoc, ["abc", { abc: 123 }, 123]);
+    expect(error).toBeInstanceOf(MethodNotFoundError);
     expect(error.message).toContain("Valid method names are as follows: dooptiedoo");
   });
 });
