@@ -58,4 +58,10 @@ describe("MethodCallValidator", () => {
     expect(result).toEqual([]);
   });
 
+  it("rpc.discover is allowed", () => {
+    const example = getExampleSchema() as any;
+    const methodCallValidator = new MethodCallValidator(example);
+    const result = methodCallValidator.validate("rpc.discover", []);
+    expect(result).toEqual([]);
+  });
 });

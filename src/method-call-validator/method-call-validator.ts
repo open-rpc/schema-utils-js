@@ -58,6 +58,7 @@ export default class MethodCallValidator {
    *
    */
   public validate(methodName: string, params: any[]): MethodCallParameterValidationError[] {
+    if (methodName === "rpc.discover") { return []; }
     const method = _.find(this.document.methods, { name: methodName }) as MethodObject;
 
     if (method.params === undefined) {
