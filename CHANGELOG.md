@@ -1,3 +1,16 @@
+# [1.11.0](https://github.com/open-rpc/schema-utils-js/compare/1.10.4...1.11.0) (2019-06-25)
+
+
+### Bug Fixes
+
+* update exports ([547e1aa](https://github.com/open-rpc/schema-utils-js/commit/547e1aa))
+
+
+### Features
+
+* **MethodCallValidator:** add method not found error ([95fd0d6](https://github.com/open-rpc/schema-utils-js/commit/95fd0d6)), closes [#156](https://github.com/open-rpc/schema-utils-js/issues/156)
+* **MethodCallValidator:** allow rpc discover ([ad5b7b8](https://github.com/open-rpc/schema-utils-js/commit/ad5b7b8)), closes [#155](https://github.com/open-rpc/schema-utils-js/issues/155)
+
 ## [1.10.4](https://github.com/open-rpc/schema-utils-js/compare/1.10.3...1.10.4) (2019-06-24)
 
 
