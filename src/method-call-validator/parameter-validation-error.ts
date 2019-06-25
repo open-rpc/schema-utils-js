@@ -4,8 +4,8 @@ import { Schema } from "@open-rpc/meta-schema";
 /**
  * Provides an error interface for handling when a function call has invalid parameters.
  */
-export default class MethodCallParameterValidationError implements Error {
-  public name = "MethodCallParameterValidationError";
+export default class ParameterValidationError implements Error {
+  public name = "ParameterValidationError";
   public message: string;
 
   /**
