@@ -1,0 +1,44 @@
+import { OpenRPC } from "@open-rpc/meta-schema";
+
+/**
+ * Provides an error interface for handling when a method is trying to be called but does not exist.
+ */
+export default class MethodCallMethodNotFoundError implements Error {
+  public name = "MethodCallMethodNotFoundError";
+  public message: string;
+
+  /**
+   * @param methodName The method name that was used.
+   * @param openrpcDocument The OpenRPC document that the method was used against.
+   * @param receievedParams The params, if any, that were used.
+   */
+  constructor(
+    public methodName: string,
+    public openrpcDocument: OpenRPC,
+    public receievedParams: any[] = [],
+  ) {
+    const msg = [
+      `Method Not Found Error for OpenRPC API named "${openrpcDocument.info.title}"`,
+      `The requested method: "${methodName}" not a valid method.`,
+
+    ];
+
+    if (openrpcDocument.methods.length > 0) {
+      msg.push(
+        `Valid method names are as follows: ${openrpcDocument.methods.map(({ name }) => name).join(", ")}`,
+      );
+    }
+
+    if (receievedParams.length > 0) {
+      const stringedParams = receievedParams
+        .map((p) => { try { return JSON.stringify(p); } catch (e) { return p; } })
+        .join(", ");
+
+      msg.push("");
+      msg.push("debug info:");
+      msg.push(`  params: ${stringedParams}`);
+    }
+
+    this.message = msg.join("\n");
+  }
+}
