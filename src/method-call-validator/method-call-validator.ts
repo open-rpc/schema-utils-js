@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import { generateMethodParamId } from "../generate-method-id";
 import MethodCallParameterValidationError from "./parameter-validation-error";
 import { OpenRPC, MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
+import MethodCallMethodNotFoundError from "./method-not-found-error";
 
 /**
  * A class to assist in validating method calls to an OpenRPC-based service. Generated Clients,
@@ -46,6 +47,7 @@ export default class MethodCallValidator {
    * @param params the param values that you want validated.
    *
    * @returns an array of parameter validation errors, or if there are none, an empty array.
+   * if the method name is invalid, a [[MethodCallMethodNotFoundError]] is returned.
    *
    * @example
    * ```typescript
@@ -57,9 +59,16 @@ export default class MethodCallValidator {
    * ```
    *
    */
-  public validate(methodName: string, params: any[]): MethodCallParameterValidationError[] {
+  public validate(
+    methodName: string,
+    params: any[],
+  ): MethodCallParameterValidationError[] | MethodCallMethodNotFoundError {
     if (methodName === "rpc.discover") { return []; }
     const method = _.find(this.document.methods, { name: methodName }) as MethodObject;
+
+    if (!method) {
+      return new MethodCallMethodNotFoundError(methodName, this.document, params);
+    }
 
     if (method.params === undefined) {
       return [];
