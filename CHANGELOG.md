@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/open-rpc/schema-utils-js/compare/1.11.0...1.11.1) (2019-07-04)
+
+
+### Bug Fixes
+
+* remove semantic release deps ([a97c694](https://github.com/open-rpc/schema-utils-js/commit/a97c694))
+
 # [1.11.0](https://github.com/open-rpc/schema-utils-js/compare/1.10.4...1.11.0) (2019-06-25)
 
 
