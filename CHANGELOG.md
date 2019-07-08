@@ -1,3 +1,12 @@
+## [1.11.2](https://github.com/open-rpc/schema-utils-js/compare/1.11.1...1.11.2) (2019-07-08)
+
+
+### Bug Fixes
+
+* don't publish with changed deps ([05bfc93](https://github.com/open-rpc/schema-utils-js/commit/05bfc93))
+* dont install deps to local package ([d72327c](https://github.com/open-rpc/schema-utils-js/commit/d72327c))
+* sem rel ([1a9307b](https://github.com/open-rpc/schema-utils-js/commit/1a9307b))
+
 ## [1.11.1](https://github.com/open-rpc/schema-utils-js/compare/1.11.0...1.11.1) (2019-07-04)
 
 
