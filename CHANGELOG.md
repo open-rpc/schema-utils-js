@@ -1,3 +1,10 @@
+## [1.11.3](https://github.com/open-rpc/schema-utils-js/compare/1.11.2...1.11.3) (2019-07-23)
+
+
+### Bug Fixes
+
+* update meta-schema ([a698a71](https://github.com/open-rpc/schema-utils-js/commit/a698a71))
+
 ## [1.11.2](https://github.com/open-rpc/schema-utils-js/compare/1.11.1...1.11.2) (2019-07-08)
 
 
