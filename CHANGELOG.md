@@ -1,3 +1,10 @@
+## [1.11.4](https://github.com/open-rpc/schema-utils-js/compare/1.11.3...1.11.4) (2019-08-01)
+
+
+### Bug Fixes
+
+* add lodash dep ([9a515a9](https://github.com/open-rpc/schema-utils-js/commit/9a515a9))
+
 ## [1.11.3](https://github.com/open-rpc/schema-utils-js/compare/1.11.2...1.11.3) (2019-07-23)
 
 
