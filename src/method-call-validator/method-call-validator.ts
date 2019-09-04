@@ -1,9 +1,9 @@
 import Ajv, { ErrorObject, Ajv as IAjv } from "ajv";
 import * as _ from "lodash";
 import { generateMethodParamId } from "../generate-method-id";
-import MethodCallParameterValidationError from "./parameter-validation-error";
+import ParameterValidationError from "./parameter-validation-error";
 import { OpenRPC, MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
-import MethodCallMethodNotFoundError from "./method-not-found-error";
+import MethodNotFoundError from "./method-not-found-error";
 
 /**
  * A class to assist in validating method calls to an OpenRPC-based service. Generated Clients,
@@ -47,7 +47,7 @@ export default class MethodCallValidator {
    * @param params the param values that you want validated.
    *
    * @returns an array of parameter validation errors, or if there are none, an empty array.
-   * if the method name is invalid, a [[MethodCallMethodNotFoundError]] is returned.
+   * if the method name is invalid, a [[MethodNotFoundError]] is returned.
    *
    * @example
    * ```typescript
@@ -62,12 +62,12 @@ export default class MethodCallValidator {
   public validate(
     methodName: string,
     params: any[],
-  ): MethodCallParameterValidationError[] | MethodCallMethodNotFoundError {
+  ): ParameterValidationError[] | MethodNotFoundError {
     if (methodName === "rpc.discover") { return []; }
     const method = _.find(this.document.methods, { name: methodName }) as MethodObject;
 
     if (!method) {
-      return new MethodCallMethodNotFoundError(methodName, this.document, params);
+      return new MethodNotFoundError(methodName, this.document, params);
     }
 
     if (method.params === undefined) {
@@ -75,7 +75,7 @@ export default class MethodCallValidator {
     }
 
     return _.chain(method.params as ContentDescriptorObject[])
-      .map((param: ContentDescriptorObject, index: number): MethodCallParameterValidationError | undefined => {
+      .map((param: ContentDescriptorObject, index: number): ParameterValidationError | undefined => {
         if (param.schema === undefined) { return; }
         if (!params[index] && !param.required) { return; }
 
@@ -84,10 +84,10 @@ export default class MethodCallValidator {
         const errors = this.ajvValidator.errors as ErrorObject[];
 
         if (!isValid) {
-          return new MethodCallParameterValidationError(index, param.schema, params[index], errors);
+          return new ParameterValidationError(index, param.schema, params[index], errors);
         }
       })
       .compact()
-      .value() as MethodCallParameterValidationError[];
+      .value() as ParameterValidationError[];
   }
 }
