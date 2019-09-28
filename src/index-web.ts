@@ -5,7 +5,7 @@ import {
   generateMethodResultId,
   ContentDescriptorNotFoundInMethodError,
 } from "./generate-method-id";
-import { MethodCallValidator, ParameterValidationError } from "./method-call-validator";
+import { MethodCallValidator, ParameterValidationError, MethodNotFoundError } from "./method-call-validator";
 import fetchUrlSchema from "./get-open-rpc-document-from-url";
 import { TGetOpenRPCDocument } from "./get-open-rpc-document";
 
@@ -20,6 +20,7 @@ export {
   generateMethodParamId,
   generateMethodResultId,
   validateOpenRPCDocument,
+  MethodNotFoundError,
   MethodCallValidator,
   ParameterValidationError,
   OpenRPCDocumentValidationError,
