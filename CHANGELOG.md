@@ -1,3 +1,10 @@
+## [1.11.5](https://github.com/open-rpc/schema-utils-js/compare/1.11.4...1.11.5) (2019-09-28)
+
+
+### Bug Fixes
+
+* **index-web:** export MethodNotFoundError ([5288fe5](https://github.com/open-rpc/schema-utils-js/commit/5288fe5))
+
 ## [1.11.4](https://github.com/open-rpc/schema-utils-js/compare/1.11.3...1.11.4) (2019-08-01)
 
 
