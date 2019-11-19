@@ -1,3 +1,10 @@
+## [1.11.6](https://github.com/open-rpc/schema-utils-js/compare/1.11.5...1.11.6) (2019-11-19)
+
+
+### Bug Fixes
+
+* rename MethodCallValidator error classes ([95a037d](https://github.com/open-rpc/schema-utils-js/commit/95a037d05ef97b43d30924e7372fe0ef4bb1ff8d))
+
 ## [1.11.5](https://github.com/open-rpc/schema-utils-js/compare/1.11.4...1.11.5) (2019-09-28)
 
 
