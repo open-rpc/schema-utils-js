@@ -4,6 +4,7 @@ import { generateMethodParamId } from "../generate-method-id";
 import ParameterValidationError from "./parameter-validation-error";
 import { OpenRPC, MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
 import MethodNotFoundError from "./method-not-found-error";
+import jsonSchemaRefParser from "json-schema-ref-parser";
 
 /**
  * A class to assist in validating method calls to an OpenRPC-based service. Generated Clients,
@@ -12,6 +13,7 @@ import MethodNotFoundError from "./method-not-found-error";
  */
 export default class MethodCallValidator {
   private ajvValidator: IAjv;
+  private deRefOpenRPCDoc: Promise<jsonSchemaRefParser.JSONSchema>;
 
   /**
    * @param document The OpenRPC document containing the methods whose calls we want validated.
@@ -28,16 +30,20 @@ export default class MethodCallValidator {
   constructor(private document: OpenRPC) {
     this.ajvValidator = new Ajv();
 
-    document.methods.forEach((method: MethodObject) => {
-      const params = method.params as ContentDescriptorObject[];
-      if (method.params === undefined) { return; }
+    this.deRefOpenRPCDoc = jsonSchemaRefParser.dereference(document)
+      .then((derefDoc: any): OpenRPC => {
+        derefDoc.methods.forEach((method: MethodObject) => {
+          const params = method.params as ContentDescriptorObject[];
+          if (method.params === undefined) { return; }
 
-      params.forEach((param: ContentDescriptorObject, i: number) => {
-        if (param.schema === undefined) { return; }
+          params.forEach((param: ContentDescriptorObject, i: number) => {
+            if (param.schema === undefined) { return; }
 
-        this.ajvValidator.addSchema(param.schema, generateMethodParamId(method, param));
+            this.ajvValidator.addSchema(param.schema, generateMethodParamId(method, param));
+          });
+        });
+        return derefDoc as OpenRPC
       });
-    });
   }
 
   /**
@@ -59,15 +65,15 @@ export default class MethodCallValidator {
    * ```
    *
    */
-  public validate(
+  public async validate(
     methodName: string,
     params: any[],
-  ): ParameterValidationError[] | MethodNotFoundError {
+  ): Promise<ParameterValidationError[] | MethodNotFoundError> {
+    const deRefOpenRPC = await this.deRefOpenRPCDoc as OpenRPC;
     if (methodName === "rpc.discover") { return []; }
-    const method = _.find(this.document.methods, { name: methodName }) as MethodObject;
-
+    const method = _.find(deRefOpenRPC.methods, { name: methodName }) as MethodObject;
     if (!method) {
-      return new MethodNotFoundError(methodName, this.document, params);
+      return new MethodNotFoundError(methodName, deRefOpenRPC, params);
     }
 
     if (method.params === undefined) {
