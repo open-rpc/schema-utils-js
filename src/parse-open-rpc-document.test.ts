@@ -149,7 +149,7 @@ describe("parseOpenRPCDocument", () => {
         .toBeInstanceOf(OpenRPCDocumentValidationError);
     });
 
-    it.only("rejects when the schema becomes invalid after dereffing", () => {
+    it("rejects when the schema becomes invalid after dereffing", () => {
       expect.assertions(1);
       return expect(parseOpenRPCDocument({
         openrpc: "1.2.1",
