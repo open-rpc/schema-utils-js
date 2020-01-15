@@ -1,9 +1,9 @@
 import validateOpenRPCDocument from "./validate-open-rpc-document";
-import { OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 
 describe("validateOpenRPCDocument", () => {
   it("errors when passed an incorrect schema", () => {
-    const testSchema: OpenRPC = {
+    const testSchema: any = {
       info: {
         afooblared: 123,
         title: "foobar",

@@ -2,7 +2,7 @@ import Ajv, { ErrorObject, Ajv as IAjv } from "ajv";
 import * as _ from "lodash";
 import { generateMethodParamId } from "../generate-method-id";
 import ParameterValidationError from "./parameter-validation-error";
-import { OpenRPC, MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC, MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
 import MethodNotFoundError from "./method-not-found-error";
 
 /**

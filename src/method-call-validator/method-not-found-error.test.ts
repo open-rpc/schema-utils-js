@@ -1,5 +1,5 @@
 import MethodNotFoundError from "./method-not-found-error";
-import { OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 
 const exampleDoc = {
   info: {

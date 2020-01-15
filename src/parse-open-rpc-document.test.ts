@@ -5,7 +5,7 @@ jest.mock("fs-extra", () => ({
 
 import * as _fs from "fs-extra";
 import makeParseOpenRPCDocument, { OpenRPCDocumentDereferencingError } from "./parse-open-rpc-document";
-import { OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 import { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
 import fetchUrlSchema from "./get-open-rpc-document-from-url";
 import readSchemaFromFile from "./get-open-rpc-document-from-file";
@@ -40,7 +40,7 @@ const badRefDocument: OpenRPC = {
     },
   ],
 };
-const invalidDocument: OpenRPC = {
+const invalidDocument: any = {
   ...workingDocument,
   methods: [
     {
@@ -145,6 +145,43 @@ describe("parseOpenRPCDocument", () => {
     it("rejects when the schema is invalid", () => {
       expect.assertions(1);
       return expect(parseOpenRPCDocument(invalidDocument))
+        .rejects
+        .toBeInstanceOf(OpenRPCDocumentValidationError);
+    });
+
+    it("rejects when the schema becomes invalid after dereffing", () => {
+      expect.assertions(1);
+      return expect(parseOpenRPCDocument({
+        openrpc: "1.2.1",
+        info: {
+          version: "1",
+          title: "test",
+        },
+        methods: [
+          {
+            name: "foo",
+            params: [
+              { $ref: "#/components/contentDescriptors/LeFoo" },
+            ],
+            result: {
+              name: "bar",
+              schema: { $ref: "#/components/contentDescriptors/LeFoo" },
+            },
+          },
+        ],
+        components: {
+          schemas: {
+            LeBar: { title: "LeBar", type: "string" },
+          },
+          contentDescriptors: {
+            LeFoo: {
+              name: "LeFoo",
+              required: true,
+              schema: { $ref: "#/components/schemas/LeBar" },
+            },
+          },
+        },
+      }))
         .rejects
         .toBeInstanceOf(OpenRPCDocumentValidationError);
     });
