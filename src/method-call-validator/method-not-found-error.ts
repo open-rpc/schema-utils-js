@@ -1,4 +1,4 @@
-import { OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 
 /**
  * Provides an error interface for handling when a method is trying to be called but does not exist.

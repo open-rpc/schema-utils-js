@@ -1,4 +1,4 @@
-import metaSchema, { OpenRPC } from "@open-rpc/meta-schema";
+import metaSchema, { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 import JsonSchemaDraft07 from "../lib/json-schema-draft-07.json";
 import Ajv, { ErrorObject } from "ajv";
 

@@ -1,5 +1,5 @@
 import fs from "fs-extra";
-import { OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 import { parseOpenRPCDocument } from "./";
 import rimraf from "rimraf";
 import { promisify } from "util";
@@ -62,7 +62,7 @@ describe("parseOpenRPCDocument", () => {
   });
 
   it("should parseOpenRPCDocument from server", async () => {
-    const {port} = testServer.address() as AddressInfo;
+    const { port } = testServer.address() as AddressInfo;
     const doc = await parseOpenRPCDocument(`http://localhost:${port}/download/openrpc.json`);
     expect(_.isEqual(doc, testDoc)).toBe(true);
   });

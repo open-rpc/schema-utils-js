@@ -1,7 +1,7 @@
 import refParser from "json-schema-ref-parser";
 import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
 import isUrl = require("is-url");
-import { OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 import { TGetOpenRPCDocument } from "./get-open-rpc-document";
 
 /**
@@ -125,16 +125,23 @@ const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchem
       }
     }
 
-    let finalDocument: OpenRPC = parsedSchema;
+    let postDeref: OpenRPC = parsedSchema;
     if (parseOptions.dereference) {
       try {
-        finalDocument = await refParser.dereference(parsedSchema) as OpenRPC;
+        postDeref = await refParser.dereference(parsedSchema) as OpenRPC;
       } catch (e) {
         throw new OpenRPCDocumentDereferencingError(e);
       }
     }
 
-    return finalDocument;
+    if (parseOptions.validate) {
+      const isValid = validateOpenRPCDocument(postDeref);
+      if (isValid instanceof OpenRPCDocumentValidationError) {
+        throw isValid;
+      }
+    }
+
+    return postDeref;
   };
 };
 
