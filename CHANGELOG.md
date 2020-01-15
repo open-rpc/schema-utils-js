@@ -1,3 +1,16 @@
+# [1.12.0](https://github.com/open-rpc/schema-utils-js/compare/1.11.6...1.12.0) (2020-01-15)
+
+
+### Bug Fixes
+
+* remove .only ([b6a35fc](https://github.com/open-rpc/schema-utils-js/commit/b6a35fcaa8bb9a1999e2e623bd36287c808d9ecd))
+* update package-lock ([3a1fc65](https://github.com/open-rpc/schema-utils-js/commit/3a1fc65164ee3e7eb8ac65a3fd8ba1729ee4e028))
+
+
+### Features
+
+* bump to new meta schema fix validators ([7fbaf91](https://github.com/open-rpc/schema-utils-js/commit/7fbaf914888508f93b4b388a4c483c1a82c19a2b))
+
 ## [1.11.6](https://github.com/open-rpc/schema-utils-js/compare/1.11.5...1.11.6) (2019-11-19)
 
 
