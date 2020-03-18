@@ -16,19 +16,21 @@ export default class ParameterValidationError implements Error {
    * @param errors The errors recieved by ajv
    */
   constructor(
-    public paramIndex: number,
+    public paramIndex: number | string,
     public expectedSchema: JSONSchema,
     public receievedParam: any,
     private errors: ErrorObject[],
   ) {
     this.message = [
-      "Expected param in position ",
+      `Expected param at ${typeof paramIndex === "string" ? "key" : "position"}: `,
       paramIndex,
       " to match the json schema: ",
       JSON.stringify(expectedSchema, undefined, "  "),
       ". The function received instead ",
       receievedParam,
       ".",
+      "The Validation errors: \n",
+      errors
     ].join("");
   }
 }
