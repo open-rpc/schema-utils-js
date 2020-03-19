@@ -15,7 +15,7 @@ export default class MethodNotFoundError implements Error {
   constructor(
     public methodName: string,
     public openrpcDocument: OpenRPC,
-    public receievedParams: any[] = [],
+    public receievedParams: any[] | object = [],
   ) {
     const msg = [
       `Method Not Found Error for OpenRPC API named "${openrpcDocument.info.title}"`,
@@ -29,11 +29,18 @@ export default class MethodNotFoundError implements Error {
       );
     }
 
-    if (receievedParams.length > 0) {
-      const stringedParams = receievedParams
-        .map((p) => { try { return JSON.stringify(p); } catch (e) { return p; } })
-        .join("\n");
+    let stringedParams;
+    if (receievedParams instanceof Array) {
+      if (receievedParams.length > 0) {
+        stringedParams = receievedParams
+          .map((p) => { try { return JSON.stringify(p); } catch (e) { return p; } })
+          .join("\n");
+      }
+    } else {
+      stringedParams = JSON.stringify(receievedParams);
+    }
 
+    if (stringedParams) {
       msg.push("Params:");
       msg.push(stringedParams);
     }

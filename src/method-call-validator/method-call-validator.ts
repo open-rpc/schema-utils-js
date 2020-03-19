@@ -61,7 +61,7 @@ export default class MethodCallValidator {
    */
   public validate(
     methodName: string,
-    params: any[],
+    params: any,
   ): ParameterValidationError[] | MethodNotFoundError {
     if (methodName === "rpc.discover") { return []; }
     const method = _.find(this.document.methods, { name: methodName }) as MethodObject;
@@ -75,7 +75,7 @@ export default class MethodCallValidator {
     }
 
     return _.chain(method.params as ContentDescriptorObject[])
-      .map((param: ContentDescriptorObject, index: number): ParameterValidationError | undefined => {
+      .map((param: ContentDescriptorObject, index: number | string): ParameterValidationError | undefined => {
         if (param.schema === undefined) { return; }
         if (!params[index] && !param.required) { return; }
 
