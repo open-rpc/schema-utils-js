@@ -1,3 +1,11 @@
+## [1.12.1](https://github.com/open-rpc/schema-utils-js/compare/1.12.0...1.12.1) (2020-03-23)
+
+
+### Bug Fixes
+
+* improve test coverage ([072d36f](https://github.com/open-rpc/schema-utils-js/commit/072d36f218431a87ade624fad0aded639d475af3))
+* method call validator support by-name ([6b86f83](https://github.com/open-rpc/schema-utils-js/commit/6b86f8328488918da1fed305b9925fd5d1015028)), closes [#206](https://github.com/open-rpc/schema-utils-js/issues/206)
+
 # [1.12.0](https://github.com/open-rpc/schema-utils-js/compare/1.11.6...1.12.0) (2020-01-15)
 
 
