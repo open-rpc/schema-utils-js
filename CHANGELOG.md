@@ -1,3 +1,10 @@
+## [1.12.2](https://github.com/open-rpc/schema-utils-js/compare/1.12.1...1.12.2) (2020-03-26)
+
+
+### Bug Fixes
+
+* **@open-rpc/meta-schema:** bump version to v1.7.2 ([bd824e7](https://github.com/open-rpc/schema-utils-js/commit/bd824e7b6a45d67b1d3e148e013eff5b1dff6073))
+
 ## [1.12.1](https://github.com/open-rpc/schema-utils-js/compare/1.12.0...1.12.1) (2020-03-23)
 
 
