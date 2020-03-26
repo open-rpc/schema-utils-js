@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/open-rpc/schema-utils-js#readme",
   "dependencies": {
-    "@open-rpc/meta-schema": "^1.6.0",
+    "@open-rpc/meta-schema": "^1.7.2",
     "ajv": "^6.10.0",
     "detect-node": "^2.0.4",
     "fs-extra": "^9.0.0",
