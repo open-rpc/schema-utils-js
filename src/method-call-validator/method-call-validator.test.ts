@@ -73,7 +73,7 @@ describe("MethodCallValidator", () => {
     expect(result).toBeInstanceOf(MethodCallMethodNotFoundError);
   });
 
-  it("validates methods that use by-name", () => {
+  it.only("validates methods that use by-name", () => {
     const example = {
       info: { title: "123", version: "1" },
       methods: [
@@ -87,7 +87,13 @@ describe("MethodCallValidator", () => {
       openrpc: "1.0.0-rc1",
     } as OpenrpcDocument;
     const methodCallValidator = new MethodCallValidator(example);
-    const result = methodCallValidator.validate("boo", { foofoo: "123" });
-    expect(result).toBeInstanceOf(MethodCallMethodNotFoundError);
+    const result0 = methodCallValidator.validate("foo", { foofoo: "123" });
+    expect(result0).toBeInstanceOf(Array);
+    expect(result0).toHaveLength(0);
+    const result1 = methodCallValidator.validate("foo", { foofoo: 123 });
+    expect(result1).toBeInstanceOf(Array);
+    expect(result1).toHaveLength(1);
+    const resAsArr = result1 as any[];
+    expect(resAsArr[0]).toBeInstanceOf(MethodCallParameterValidationError);
   });
 });

@@ -70,21 +70,33 @@ export default class MethodCallValidator {
       return new MethodNotFoundError(methodName, this.document, params);
     }
 
+    console.log(method.params); //tslint:disable-line
+
     if (method.params === undefined) {
       return [];
     }
 
     return _.chain(method.params as ContentDescriptorObject[])
       .map((param: ContentDescriptorObject, index: number | string): ParameterValidationError | undefined => {
+        let id = index;
+        if (method.paramStructure === "by-name") {
+          id = param.name;
+        }
+        console.log(id); //tslint:disable-line
+        console.log(params[id]); //tslint:disable-line
         if (param.schema === undefined) { return; }
-        if (!params[index] && !param.required) { return; }
+
+        const input = params[id];
+
+        if (input === undefined && !param.required) { return; }
 
         const idForMethod = generateMethodParamId(method, param);
-        const isValid = this.ajvValidator.validate(idForMethod, params[index]);
+        console.log(idForMethod);//tslint:disable-line
+        const isValid = this.ajvValidator.validate(idForMethod, input);
         const errors = this.ajvValidator.errors as ErrorObject[];
 
         if (!isValid) {
-          return new ParameterValidationError(index, param.schema, params[index], errors);
+          return new ParameterValidationError(index, param.schema, input, errors);
         }
       })
       .compact()
