@@ -10,7 +10,6 @@
     "build:docs": "typedoc",
     "build:code": "tsc",
     "test": "npm run test:unit && npm run test:web",
-    "test:lint": "tslint -c tslint.json 'src/**/*.ts' --fix",
     "test:unit": "jest --coverage",
     "test:web": "npm run build:code && webpack && rm -rf dist",
     "watch:test": "jest --watch"
