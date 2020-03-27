@@ -3,8 +3,8 @@ on:
   pull_request:
 
 jobs:
-  eslint:
-    name: eslint
+  lint:
+    name: lint
     runs-on: ubuntu-latest
     steps:
     - name: nodenv/setup-nodenv
