@@ -1,3 +1,12 @@
+## [1.12.3](https://github.com/open-rpc/schema-utils-js/compare/1.12.2...1.12.3) (2020-03-27)
+
+
+### Bug Fixes
+
+* add proper test cov and fix by-name ([31caaf0](https://github.com/open-rpc/schema-utils-js/commit/31caaf08f862e114975fc915a0b4cfc35df6d525))
+* param validation fixups ([4ce56b2](https://github.com/open-rpc/schema-utils-js/commit/4ce56b21f679ff60f192bef92bf06115a235ffe0))
+* tests passing now ([6d82333](https://github.com/open-rpc/schema-utils-js/commit/6d8233320bfda6d56eeedecf4c79133bba327651))
+
 ## [1.12.2](https://github.com/open-rpc/schema-utils-js/compare/1.12.1...1.12.2) (2020-03-26)
 
 
