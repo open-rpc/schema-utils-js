@@ -7,11 +7,6 @@ import { TGetOpenRPCDocument } from "./get-open-rpc-document";
 /**
  * @ignore
  */
-const cwd = process.cwd();
-
-/**
- * @ignore
- */
 const isJson = (jsonString: string) => {
   try { JSON.parse(jsonString); return true; } catch (e) { return false; }
 };
@@ -40,7 +35,7 @@ export class OpenRPCDocumentDereferencingError implements Error {
  * @category Options
  *
  */
-export interface IParseOpenRPCDocumentOptions {
+export interface ParseOpenRPCDocumentOptions {
   /*
    * Enable or disable Schema validation of the [[OpenRPC]] document against the OpenRPC meta-schema.
    *
@@ -102,11 +97,11 @@ const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchem
    */
   return async function parseOpenRPCDocument(
     schema: string | OpenRPC = "./openrpc.json",
-    options: IParseOpenRPCDocumentOptions = defaultParseOpenRPCDocumentOptions,
+    options: ParseOpenRPCDocumentOptions = defaultParseOpenRPCDocumentOptions,
   ): Promise<OpenRPC> {
     let parsedSchema: OpenRPC;
 
-    const parseOptions = { ...defaultParseOpenRPCDocumentOptions, ...options } as IParseOpenRPCDocumentOptions;
+    const parseOptions = { ...defaultParseOpenRPCDocumentOptions, ...options } as ParseOpenRPCDocumentOptions;
 
     if (typeof schema !== "string") {
       parsedSchema = schema;
