@@ -2,6 +2,7 @@ import MethodCallValidator from "./method-call-validator";
 import { OpenrpcDocument as OpenRPC, OpenrpcDocument } from "@open-rpc/meta-schema";
 import MethodCallParameterValidationError from "./parameter-validation-error";
 import MethodCallMethodNotFoundError from "./method-not-found-error";
+import MethodNotFoundError from "./method-not-found-error";
 
 const getExampleSchema = (): OpenRPC => ({
   info: { title: "123", version: "1" },
@@ -115,5 +116,12 @@ describe("MethodCallValidator", () => {
     const result0 = methodCallValidator.validate("foo", { barbar: "123" });
     expect(result0).toBeInstanceOf(Array);
     expect(result0).toHaveLength(1);
+  });
+
+  it("method not found errors work when the document has params passed by-name", () => {
+    const example = getExampleSchema() as any;
+    const methodCallValidator = new MethodCallValidator(example);
+    const result0 = methodCallValidator.validate("rawr", { barbar: "123" });
+    expect(result0).toBeInstanceOf(MethodNotFoundError);
   });
 });
