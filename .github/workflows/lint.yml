@@ -1,2 +1,17 @@
-- name: ESLint (JS/TS) Action 
-  uses: iCrawl/action-eslint@v1
+on:
+  push:
+  pull_request:
+
+jobs:
+  eslint:
+    name: eslint
+    runs-on: ubuntu-latest
+    steps:
+    - name: nodenv/setup-nodenv
+      uses: nodenv/actions-setup-nodenv@v2.0.4
+    - uses: actions/checkout@v1
+    - name: install tslint
+      run: npm install tslint
+    - name: lint
+      run: npm run test:lint
+      
