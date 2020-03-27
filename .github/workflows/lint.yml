@@ -1,0 +1,2 @@
+- name: ESLint (JS/TS) Action 
+  uses: iCrawl/action-eslint@v1
