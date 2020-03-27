@@ -76,15 +76,22 @@ export default class MethodCallValidator {
 
     return _.chain(method.params as ContentDescriptorObject[])
       .map((param: ContentDescriptorObject, index: number | string): ParameterValidationError | undefined => {
+        let id = index;
+        if (method.paramStructure === "by-name") {
+          id = param.name;
+        }
         if (param.schema === undefined) { return; }
-        if (!params[index] && !param.required) { return; }
+
+        const input = params[id];
+
+        if (input === undefined && !param.required) { return; }
 
         const idForMethod = generateMethodParamId(method, param);
-        const isValid = this.ajvValidator.validate(idForMethod, params[index]);
+        const isValid = this.ajvValidator.validate(idForMethod, input);
         const errors = this.ajvValidator.errors as ErrorObject[];
 
         if (!isValid) {
-          return new ParameterValidationError(index, param.schema, params[index], errors);
+          return new ParameterValidationError(id, param.schema, input, errors);
         }
       })
       .compact()
