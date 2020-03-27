@@ -8,7 +8,7 @@ const getExampleSchema = (): OpenRPC => ({
   methods: [
     {
       name: "foo",
-      params: [{ name: "foofoo", schema: { type: "string" } }],
+      params: [{ name: "foofoo", required: true, schema: { type: "string" } }],
       result: { name: "foofoo", schema: { type: "integer" } },
     },
   ],
@@ -54,6 +54,7 @@ describe("MethodCallValidator", () => {
 
   it("can not error if param is optional", () => {
     const example = getExampleSchema() as any;
+    example.methods[0].params[0].required = false;
     const methodCallValidator = new MethodCallValidator(example);
     const result = methodCallValidator.validate("foo", []);
     expect(result).toEqual([]);
@@ -73,14 +74,14 @@ describe("MethodCallValidator", () => {
     expect(result).toBeInstanceOf(MethodCallMethodNotFoundError);
   });
 
-  it.only("validates methods that use by-name", () => {
+  it("validates methods that use by-name", () => {
     const example = {
       info: { title: "123", version: "1" },
       methods: [
         {
           name: "foo",
           paramStructure: "by-name",
-          params: [{ name: "foofoo", schema: { type: "string" } }],
+          params: [{ name: "foofoo", required: true, schema: { type: "string" } }],
           result: { name: "foofoo", schema: { type: "integer" } },
         },
       ],
@@ -95,5 +96,24 @@ describe("MethodCallValidator", () => {
     expect(result1).toHaveLength(1);
     const resAsArr = result1 as any[];
     expect(resAsArr[0]).toBeInstanceOf(MethodCallParameterValidationError);
+  });
+
+  it("validates methods that use by-name when the param key doesnt exist", () => {
+    const example = {
+      info: { title: "123", version: "1" },
+      methods: [
+        {
+          name: "foo",
+          paramStructure: "by-name",
+          params: [{ name: "foofoo", required: true, schema: { type: "string" } }],
+          result: { name: "foofoo", schema: { type: "integer" } },
+        },
+      ],
+      openrpc: "1.0.0-rc1",
+    } as OpenrpcDocument;
+    const methodCallValidator = new MethodCallValidator(example);
+    const result0 = methodCallValidator.validate("foo", { barbar: "123" });
+    expect(result0).toBeInstanceOf(Array);
+    expect(result0).toHaveLength(1);
   });
 });
