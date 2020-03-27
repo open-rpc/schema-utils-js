@@ -10,7 +10,7 @@ import fetchUrlSchema from "./get-open-rpc-document-from-url";
 import { TGetOpenRPCDocument } from "./get-open-rpc-document";
 
 const noop: TGetOpenRPCDocument = (schema: string) => {
-  return Promise.reject("Not Implemented");
+  return Promise.reject(`Not Implemented, passed: ${schema}`);
 };
 
 const parseOpenRPCDocument = makeParseOpenRPCDocument(fetchUrlSchema, noop);
