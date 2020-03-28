@@ -7,7 +7,7 @@ import { TGetOpenRPCDocument } from "./get-open-rpc-document";
 /**
  * @ignore
  */
-const isJson = (jsonString: string) => {
+const isJson = (jsonString: string): boolean => {
   try { JSON.parse(jsonString); return true; } catch (e) { return false; }
 };
 
