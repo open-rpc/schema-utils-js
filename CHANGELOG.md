@@ -1,3 +1,26 @@
+# [1.13.0](https://github.com/open-rpc/schema-utils-js/compare/1.12.3...1.13.0) (2020-03-28)
+
+
+### Bug Fixes
+
+* add node-version file ([d5d5a2b](https://github.com/open-rpc/schema-utils-js/commit/d5d5a2b371b53e22b55692495ec47c9b35c90df8))
+* bump node version some more ([a490505](https://github.com/open-rpc/schema-utils-js/commit/a49050570c2be59e6dc6dec0de7d64f4bf42ecf6))
+* dont include too many things inside typedoc ([2b754b1](https://github.com/open-rpc/schema-utils-js/commit/2b754b1c5a017371dcc57a910fec6b70e16890e2))
+* dont lint on push ([1966ab0](https://github.com/open-rpc/schema-utils-js/commit/1966ab0920197bdf871eadd0f78acc49a7f77f43))
+* even more linting fixups ([27186b3](https://github.com/open-rpc/schema-utils-js/commit/27186b3621d1f6a103fa18e3211be47017d950ec))
+* linting error ([46c5f4b](https://github.com/open-rpc/schema-utils-js/commit/46c5f4bf6e008d925678d801b2b582c6044b7ad0))
+* more linting errors ([f4ae7e0](https://github.com/open-rpc/schema-utils-js/commit/f4ae7e0aa60ecb7513056a69cf969fba55b72a65))
+* remove tslint dep and upgrade node version in ci ([4a89c07](https://github.com/open-rpc/schema-utils-js/commit/4a89c073fb8e7d852314ffe53f1ac3f53965d315))
+* switch it to eslint ([5b40a01](https://github.com/open-rpc/schema-utils-js/commit/5b40a01db91ab252b19f92e74add18715a5d156a))
+* update meta-schema ([e7437f5](https://github.com/open-rpc/schema-utils-js/commit/e7437f5e458e3d5a6d7f2c6d6a11e5fa23c158b4))
+* update name to just lint ([9753085](https://github.com/open-rpc/schema-utils-js/commit/97530852f75be19221d9deca4d65cfcac33fc728))
+* update workflow ([eb81226](https://github.com/open-rpc/schema-utils-js/commit/eb8122658a41fc2e40053c26f666a257d25e24b1))
+
+
+### Features
+
+* add eslint gh action as a trial run ([cbdd7c3](https://github.com/open-rpc/schema-utils-js/commit/cbdd7c3e3e2a664e3feddeb033a578b0f59f7e60))
+
 ## [1.12.3](https://github.com/open-rpc/schema-utils-js/compare/1.12.2...1.12.3) (2020-03-27)
 
 
