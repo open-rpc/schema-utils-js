@@ -32,7 +32,7 @@ export default class MethodCallValidator {
       const params = method.params as ContentDescriptorObject[];
       if (method.params === undefined) { return; }
 
-      params.forEach((param: ContentDescriptorObject, i: number) => {
+      params.forEach((param: ContentDescriptorObject) => {
         if (param.schema === undefined) { return; }
 
         this.ajvValidator.addSchema(param.schema, generateMethodParamId(method, param));

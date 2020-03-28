@@ -19,7 +19,7 @@ export default class ParameterValidationError implements Error {
     public paramIndex: number | string,
     public expectedSchema: JSONSchema,
     public receievedParam: any,
-    private errors: ErrorObject[],
+    errors: ErrorObject[],
   ) {
     this.message = [
       `Expected param at ${typeof paramIndex === "string" ? "key" : "position"}: `,
@@ -30,7 +30,7 @@ export default class ParameterValidationError implements Error {
       receievedParam,
       ".",
       "The Validation errors: \n",
-      errors
+      JSON.stringify(errors)
     ].join("");
   }
 }

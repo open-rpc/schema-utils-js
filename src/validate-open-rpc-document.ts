@@ -21,7 +21,7 @@ export class OpenRPCDocumentValidationError implements Error {
   /**
    * @param errors The errors received by ajv.errors.
    */
-  constructor(private errors: ErrorObject[]) {
+  constructor(errors: ErrorObject[]) {
     this.message = [
       "Error validating OpenRPC Document against @open-rpc/meta-schema.",
       "The errors found are as follows:",
@@ -53,7 +53,7 @@ export class OpenRPCDocumentValidationError implements Error {
 export default function validateOpenRPCDocument(
   document: OpenRPC,
 ): OpenRPCDocumentValidationError | true {
-  const result = ajv.validate(metaSchema, document);
+  ajv.validate(metaSchema, document);
 
   if (ajv.errors) {
     return new OpenRPCDocumentValidationError(ajv.errors);
