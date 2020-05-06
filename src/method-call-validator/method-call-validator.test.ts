@@ -91,6 +91,31 @@ describe("MethodCallValidator", () => {
     expect(resAsArr[0]).toBeInstanceOf(MethodCallParameterValidationError);
   });
 
+
+  it("validates methods that use by-position", () => {
+    const example = {
+      info: { title: "123", version: "1" },
+      methods: [
+        {
+          name: "foo",
+          paramStructure: "by-position",
+          params: [{ name: "foofoo", required: true, schema: { type: "string" } }],
+          result: { name: "foofoo", schema: { type: "integer" } },
+        },
+      ],
+      openrpc: "1.0.0-rc1",
+    } as OpenrpcDocument;
+    const methodCallValidator = new MethodCallValidator(example);
+    const result0 = methodCallValidator.validate("foo", ["123"]);
+    expect(result0).toBeInstanceOf(Array);
+    expect(result0).toHaveLength(0);
+    const result1 = methodCallValidator.validate("foo", [123]);
+    expect(result1).toBeInstanceOf(Array);
+    expect(result1).toHaveLength(1);
+    const resAsArr = result1 as any[];
+    expect(resAsArr[0]).toBeInstanceOf(MethodCallParameterValidationError);
+  });
+
   it("validates methods that use by-name when the param key doesnt exist", () => {
     const example = {
       info: { title: "123", version: "1" },
