@@ -70,10 +70,6 @@ export default class MethodCallValidator {
       return new MethodNotFoundError(methodName, this.document, params);
     }
 
-    if (method.params === undefined) {
-      return [];
-    }
-
     return _.chain(method.params as ContentDescriptorObject[])
       .map((param: ContentDescriptorObject, index: number): ParameterValidationError | undefined => {
         let id: string | number;
