@@ -3,7 +3,7 @@ import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 import { parseOpenRPCDocument } from "./";
 import rimraf from "rimraf";
 import { promisify } from "util";
-import _ from "lodash";
+import { isEqual } from "lodash";
 import http from "http";
 import { AddressInfo } from "net";
 const rmDir = promisify(rimraf);
@@ -37,7 +37,7 @@ describe("parseOpenRPCDocument", () => {
       version: "1.0.0",
     },
     methods: [],
-    openrpc: "1.0.0-rc1",
+    openrpc: "1.0.0",
   };
 
   beforeAll(async () => {
@@ -53,18 +53,18 @@ describe("parseOpenRPCDocument", () => {
 
   it("should parseOpenRPCDocument from string", async () => {
     const doc = await parseOpenRPCDocument(JSON.stringify(testDoc, null, 2));
-    expect(_.isEqual(doc, testDoc)).toBe(true);
+    expect(isEqual(doc, testDoc)).toBe(true);
   });
 
   it("should parseOpenRPCDocument from file", async () => {
     const doc = await parseOpenRPCDocument(testDocPath);
-    expect(_.isEqual(doc, testDoc)).toBe(true);
+    expect(isEqual(doc, testDoc)).toBe(true);
   });
 
   it("should parseOpenRPCDocument from server", async () => {
     const { port } = testServer.address() as AddressInfo;
     const doc = await parseOpenRPCDocument(`http://localhost:${port}/download/openrpc.json`);
-    expect(_.isEqual(doc, testDoc)).toBe(true);
+    expect(isEqual(doc, testDoc)).toBe(true);
   });
 
 });
