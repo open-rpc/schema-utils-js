@@ -1,3 +1,10 @@
+## [1.13.2](https://github.com/open-rpc/schema-utils-js/compare/1.13.1...1.13.2) (2020-05-06)
+
+
+### Bug Fixes
+
+* method.params is required ([b147f79](https://github.com/open-rpc/schema-utils-js/commit/b147f793204912ba28059ee8419d65b33fc80aec))
+
 ## [1.13.1](https://github.com/open-rpc/schema-utils-js/compare/1.13.0...1.13.1) (2020-05-06)
 
 
