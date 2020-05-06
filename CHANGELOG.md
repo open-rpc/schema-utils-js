@@ -1,3 +1,13 @@
+## [1.13.1](https://github.com/open-rpc/schema-utils-js/compare/1.13.0...1.13.1) (2020-05-06)
+
+
+### Bug Fixes
+
+* adhere to default either ([3697a37](https://github.com/open-rpc/schema-utils-js/commit/3697a37943815c3b5e7e33e410536821ea3baf84))
+* get immplementation working proper with tests ([7708965](https://github.com/open-rpc/schema-utils-js/commit/77089659fb033d971a6e3fe6c8908e4b8a0fffe9))
+* refactor gen method id test ([d7f59f7](https://github.com/open-rpc/schema-utils-js/commit/d7f59f76647fcd2e25efd2855ef0216668ad5cd9))
+* test coverage addition ([8c161bb](https://github.com/open-rpc/schema-utils-js/commit/8c161bb803f56c22aae73c50e7dd8a44b0fd8da3))
+
 # [1.13.0](https://github.com/open-rpc/schema-utils-js/compare/1.12.3...1.13.0) (2020-03-28)
 
 
