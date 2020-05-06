@@ -37,14 +37,6 @@ describe("MethodCallValidator", () => {
     expect(result).toEqual([]);
   });
 
-  it("can handle having schema undefined", () => {
-    const example = getExampleSchema() as any;
-    delete example.methods[0].params[0].schema;
-    const methodCallValidator = new MethodCallValidator(example);
-    const result = methodCallValidator.validate("foo", ["foobar"]);
-    expect(result).toEqual([]);
-  });
-
   it("returns array of errors if invalid", () => {
     const example = getExampleSchema() as any;
     const methodCallValidator = new MethodCallValidator(example);

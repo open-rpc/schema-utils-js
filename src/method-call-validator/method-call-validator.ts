@@ -83,7 +83,11 @@ export default class MethodCallValidator {
         } else if (method.paramStructure === "by-name") {
           id = param.name;
         } else {
-          id = `${param.name}/${index}`;
+          if (params[index]) {
+            id = index;
+          } else {
+            id = param.name;
+          }
         }
 
         const input = params[id];
