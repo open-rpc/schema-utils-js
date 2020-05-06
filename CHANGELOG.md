@@ -1,3 +1,13 @@
+## [1.13.3](https://github.com/open-rpc/schema-utils-js/compare/1.13.2...1.13.3) (2020-05-06)
+
+
+### Bug Fixes
+
+* change json schema title ([583745b](https://github.com/open-rpc/schema-utils-js/commit/583745b948836b26f5c900b2cd465070daf4b14b))
+* change the title back ([d743cde](https://github.com/open-rpc/schema-utils-js/commit/d743cde561d4ba38b4882976e07816277dce813f))
+* refactor test ([f959df2](https://github.com/open-rpc/schema-utils-js/commit/f959df24bfabbe6b84a7d588d4b3e643606a2f4a))
+* update openrpc version in test ([745e789](https://github.com/open-rpc/schema-utils-js/commit/745e789680126a2f0613391c025c523d6ec1abb7))
+
 ## [1.13.2](https://github.com/open-rpc/schema-utils-js/compare/1.13.1...1.13.2) (2020-05-06)
 
 
