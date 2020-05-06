@@ -37,7 +37,7 @@ describe("parseOpenRPCDocument", () => {
       version: "1.0.0",
     },
     methods: [],
-    openrpc: "1.0.0-rc1",
+    openrpc: "1.0.0",
   };
 
   beforeAll(async () => {
