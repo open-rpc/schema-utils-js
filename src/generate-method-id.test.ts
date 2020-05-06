@@ -2,29 +2,31 @@ import { generateMethodParamId, generateMethodResultId } from "./generate-method
 import { MethodObject } from "@open-rpc/meta-schema";
 
 describe("methodParamId", () => {
-  it("returns an id for params", () => {
-    const method = {
-      name: "foo",
-      params: [{ name: "bar", schema: {} }],
-      result: { name: "baz", schema: {} },
-    };
-    const result = generateMethodParamId(method, method.params[0]);
-    expect(result).toBe("foo/0");
+  describe("default paramStructure: either", () => {
+    it("returns an id for params:", () => {
+      const method = {
+        name: "foo",
+        params: [{ name: "bar", schema: {} }],
+        result: { name: "baz", schema: {} },
+      };
+      const result = generateMethodParamId(method, method.params[0]);
+      expect(result).toBe("foo/bar/0");
+    });
   });
 
-  it("index by name when the method paramStructure is by-name", () => {
-    const method = {
-      name: "foo",
-      paramStructure: "by-name",
-      params: [{ name: "bar", schema: {} }],
-      result: { name: "baz", schema: {} },
-    } as MethodObject;
+  describe("paramStructure: by-position", () => {
+    it("returns an id for params:", () => {
+      const method = {
+        name: "foo",
+        paramStructure: "by-position",
+        params: [{ name: "bar", schema: {} }],
+        result: { name: "baz", schema: {} },
+      } as MethodObject;
+      const result = generateMethodParamId(method, { name: "bar", schema: {} });
+      expect(result).toBe("foo/0");
+    });
 
-    expect(generateMethodParamId(method, { name: "bar", schema: {} })).toBe("foo/bar");
-  });
-
-  describe("throws when the content descriptor is not found in the params", () => {
-    it("by-position", () => {
+    it("throws when the content descriptor is not found in the params", () => {
       const method = {
         name: "foo",
         params: [{ name: "u will never get dis", schema: {} }],
@@ -34,8 +36,22 @@ describe("methodParamId", () => {
       expect(() => generateMethodParamId(method, { name: "123", schema: {} }))
         .toThrow("Content Descriptor not found in method.");
     });
+  });
 
-    it("by-name", () => {
+  describe("paramStructure: by-name", () => {
+    it("returns an id for params:", () => {
+      const method = {
+        name: "foo",
+        paramStructure: "by-name",
+        params: [{ name: "bar", schema: {} }],
+        result: { name: "baz", schema: {} },
+      } as MethodObject;
+
+      const result = generateMethodParamId(method, { name: "bar", schema: {} });
+      expect(result).toBe("foo/bar");
+    });
+
+    it("throws when the content descriptor is not found in the params", () => {
       const method = {
         name: "foo",
         paramStructure: "by-name",

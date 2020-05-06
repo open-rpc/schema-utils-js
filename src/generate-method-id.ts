@@ -1,4 +1,4 @@
-import { some } from "lodash";
+import { findIndex } from "lodash";
 import { MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
 
 /**
@@ -64,12 +64,22 @@ export function generateMethodParamId(
   method: MethodObject,
   contentDescriptor: ContentDescriptorObject,
 ): string {
-  if (!some(method.params, { name: contentDescriptor.name })) {
+  const pos = findIndex(method.params, { name: contentDescriptor.name });
+
+  if (pos === -1) {
     throw new ContentDescriptorNotFoundInMethodError(method, contentDescriptor);
   }
 
-  const isByName = method.paramStructure === "by-name";
-  const paramId = isByName ? contentDescriptor.name : method.params.indexOf(contentDescriptor);
+  let paramId: string;
+  if (method.paramStructure === "by-position") {
+    paramId = pos.toString();
+  } else if (method.paramStructure === "by-name") {
+    const paramCD = method.params[pos] as ContentDescriptorObject;
+    paramId = paramCD.name;
+  } else {
+    const paramCD = method.params[pos] as ContentDescriptorObject;
+    paramId = `${paramCD.name}/${pos.toString()}`;
+  }
 
   return `${method.name}/${paramId}`;
 }

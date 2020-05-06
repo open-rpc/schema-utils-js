@@ -75,12 +75,20 @@ export default class MethodCallValidator {
     }
 
     return _.chain(method.params as ContentDescriptorObject[])
-      .map((param: ContentDescriptorObject, index: number | string): ParameterValidationError | undefined => {
-        let id = index;
-        if (method.paramStructure === "by-name") {
+      .map((param: ContentDescriptorObject, index: number): ParameterValidationError | undefined => {
+        let id: string | number;
+
+        if (method.paramStructure === "by-position") {
+          id = index;
+        } else if (method.paramStructure === "by-name") {
           id = param.name;
+        } else {
+          if (params[index]) {
+            id = index;
+          } else {
+            id = param.name;
+          }
         }
-        if (param.schema === undefined) { return; }
 
         const input = params[id];
 
