@@ -41,7 +41,7 @@
   "devDependencies": {
     "@types/ajv": "^1.0.0",
     "@types/detect-node": "^2.0.0",
-    "@types/fs-extra": "^8.0.0",
+    "@types/fs-extra": "^9.0.0",
     "@types/is-url": "^1.2.28",
     "@types/isomorphic-fetch": "0.0.35",
     "@types/jest": "^25.1.0",
