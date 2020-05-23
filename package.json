@@ -3,8 +3,8 @@
   "private": false,
   "version": "0.0.0-semantic-release-dev",
   "description": "",
-  "main": "build/src/index.js",
-  "browser": "build/src/index-web.js",
+  "main": "build/index.js",
+  "browser": "build/index-web.js",
   "scripts": {
     "build": "npm run build:code && npm run build:docs",
     "build:docs": "typedoc",
@@ -39,6 +39,7 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
+    "@json-schema-tools/meta-schema": "^1.0.9",
     "@types/ajv": "^1.0.0",
     "@types/detect-node": "^2.0.0",
     "@types/fs-extra": "^9.0.1",

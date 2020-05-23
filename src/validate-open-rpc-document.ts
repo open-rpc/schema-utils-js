@@ -1,12 +1,12 @@
 import metaSchema, { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
-import JsonSchemaDraft07 from "../lib/json-schema-draft-07.json";
+import jsonSchemaMetaSchema from "@json-schema-tools/meta-schema";
 import Ajv, { ErrorObject } from "ajv";
 
 /**
  * @ignore
  */
 const ajv = new Ajv();
-ajv.addMetaSchema(JsonSchemaDraft07, "https://json-schema.org/draft-07/schema#");
+ajv.addMetaSchema(jsonSchemaMetaSchema, "https://json-schema.org/draft-07/schema#");
 
 /**
  * Provides an error interface for OpenRPC Document validation
