@@ -1,3 +1,10 @@
+## [1.13.4](https://github.com/open-rpc/schema-utils-js/compare/1.13.3...1.13.4) (2020-05-27)
+
+
+### Bug Fixes
+
+* boolean parameters when false fail validation ([17f2a29](https://github.com/open-rpc/schema-utils-js/commit/17f2a29f180d349642df2a25ec08a61845f41b4b))
+
 ## [1.13.3](https://github.com/open-rpc/schema-utils-js/compare/1.13.2...1.13.3) (2020-05-06)
 
 
