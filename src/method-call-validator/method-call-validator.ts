@@ -79,7 +79,7 @@ export default class MethodCallValidator {
         } else if (method.paramStructure === "by-name") {
           id = param.name;
         } else {
-          if (params[index]) {
+          if (params[index] !== undefined ) {
             id = index;
           } else {
             id = param.name;
