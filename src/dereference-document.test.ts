@@ -1,6 +1,6 @@
 import * as _fs from "fs-extra";
 import makeDereferenceDocument from "./dereference-document";
-import { OpenrpcDocument } from "@open-rpc/meta-schema";
+import { OpenrpcDocument, ContentDescriptorObject } from "@open-rpc/meta-schema";
 
 const dereferenceDocument = makeDereferenceDocument();
 const fs: any = _fs;
@@ -58,5 +58,39 @@ describe("dereferenceDocument", () => {
     expect.assertions(1);
     const document = await dereferenceDocument(workingDocument);
     expect(document.methods).toBeDefined();
+  });
+
+  it("derefs simple stuff", async () => {
+    expect.assertions(6);
+    const testDoc = {
+      ...workingDocument,
+      components: {
+        schemas: {
+          bigOlFoo: { title: "bigOlFoo", type: "string" }
+        },
+        contentDescriptors: {
+          bazerino: {
+            name: "bazerino",
+            schema: { title: "bigBazerino", type: "number" }
+          }
+        }
+      }
+    };
+    testDoc.methods.push({
+      name: "foo",
+      params: [{ $ref: "#/components/contentDescriptors/bazerino" }],
+      result: {
+        name: "fooResult",
+        schema: { $ref: "#/components/schemas/bigOlFoo" }
+      }
+    });
+
+    const document = await dereferenceDocument(testDoc);
+    expect(document.methods).toBeDefined();
+    expect(document.methods[0]).toBeDefined();
+    expect(document.methods[0].params[0]).toBeDefined();
+    expect((document.methods[0].params[0] as ContentDescriptorObject).name).toBe("bazerino");
+    expect(document.methods[0].result).toBeDefined();
+    expect((document.methods[0].result as ContentDescriptorObject).schema.title).toBe("bigOlFoo");
   });
 });

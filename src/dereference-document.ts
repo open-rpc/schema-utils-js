@@ -27,12 +27,13 @@ const derefItem = (item: ReferenceObject, doc: OpenRPC) => {
   const { $ref } = item;
   if ($ref === undefined) { return item; }
 
+  const ref = $ref.replace("#", "");
   let pointer;
   try {
-    pointer = Ptr.parse($ref);
+    pointer = Ptr.parse(ref);
   } catch (err) {
     if (err instanceof InvalidPtrError) {
-      throw new OpenRPCDocumentDereferencingError(`Invalid JSON Pointer - ${$ref}`);
+      throw new OpenRPCDocumentDereferencingError([`Invalid JSON Pointer - ${$ref}`, `The doc: ${JSON.stringify(doc)}`].join("\n"));
     }
     throw new OpenRPCDocumentDereferencingError(`unhandled error - ${err.message}`);
   }
