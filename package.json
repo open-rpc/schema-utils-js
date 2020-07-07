@@ -29,13 +29,14 @@
   },
   "homepage": "https://github.com/open-rpc/schema-utils-js#readme",
   "dependencies": {
+    "@json-schema-spec/json-pointer": "^0.1.2",
+    "@json-schema-tools/dereferencer": "^1.0.13",
     "@open-rpc/meta-schema": "^1.8.0",
     "ajv": "^6.10.0",
     "detect-node": "^2.0.4",
     "fs-extra": "^9.0.0",
     "is-url": "^1.2.4",
     "isomorphic-fetch": "^2.2.1",
-    "json-schema-ref-parser": "^7.0.1",
     "lodash": "^4.17.15"
   },
   "devDependencies": {
