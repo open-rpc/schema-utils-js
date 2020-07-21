@@ -23,7 +23,7 @@
     "url": "git+https://github.com/open-rpc/schema-utils-js.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/open-rpc/schema-utils-js/issues"
   },
