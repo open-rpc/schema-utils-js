@@ -41,7 +41,6 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "@types/ajv": "^1.0.0",
     "@types/detect-node": "^2.0.0",
     "@types/fs-extra": "^9.0.1",
     "@types/is-url": "^1.2.28",
