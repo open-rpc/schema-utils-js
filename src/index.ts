@@ -1,4 +1,5 @@
-import makeParseOpenRPCDocument, { OpenRPCDocumentDereferencingError } from "./parse-open-rpc-document";
+import makeParseOpenRPCDocument from "./parse-open-rpc-document";
+import makeDereferenceDocument, { OpenRPCDocumentDereferencingError } from "./dereference-document";
 import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
 import {
   generateMethodParamId,
@@ -12,6 +13,7 @@ import fetchUrlSchema from "./get-open-rpc-document-from-url";
 const parseOpenRPCDocument = makeParseOpenRPCDocument(fetchUrlSchema, readSchemaFromFile);
 
 export {
+  makeDereferenceDocument,
   parseOpenRPCDocument,
   generateMethodParamId,
   generateMethodResultId,

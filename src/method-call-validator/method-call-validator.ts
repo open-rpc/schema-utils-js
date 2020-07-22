@@ -35,7 +35,7 @@ export default class MethodCallValidator {
       params.forEach((param: ContentDescriptorObject) => {
         if (param.schema === undefined) { return; }
 
-        this.ajvValidator.addSchema(param.schema, generateMethodParamId(method, param));
+        this.ajvValidator.addSchema(param.schema as any, generateMethodParamId(method, param));
       });
     });
   }
@@ -79,7 +79,7 @@ export default class MethodCallValidator {
         } else if (method.paramStructure === "by-name") {
           id = param.name;
         } else {
-          if (params[index] !== undefined ) {
+          if (params[index] !== undefined) {
             id = index;
           } else {
             id = param.name;

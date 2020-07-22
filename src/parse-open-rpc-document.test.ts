@@ -4,11 +4,12 @@ jest.mock("fs-extra", () => ({
 }));
 
 import * as _fs from "fs-extra";
-import makeParseOpenRPCDocument, { OpenRPCDocumentDereferencingError } from "./parse-open-rpc-document";
+import makeParseOpenRPCDocument from "./parse-open-rpc-document";
 import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 import { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
 import fetchUrlSchema from "./get-open-rpc-document-from-url";
 import readSchemaFromFile from "./get-open-rpc-document-from-file";
+import { OpenRPCDocumentDereferencingError } from "./dereference-document";
 
 const parseOpenRPCDocument = makeParseOpenRPCDocument(fetchUrlSchema, readSchemaFromFile);
 const fs: any = _fs;
@@ -134,7 +135,7 @@ describe("parseOpenRPCDocument", () => {
         .toThrow("Unable to download");
     });
 
-    it("rejects when the schema cannot be dereferenced", () => {
+    it("rejects when the schema cannot be dereferenced", async () => {
       expect.assertions(1);
 
       return expect(parseOpenRPCDocument(badRefDocument))
@@ -142,7 +143,7 @@ describe("parseOpenRPCDocument", () => {
         .toBeInstanceOf(OpenRPCDocumentDereferencingError);
     });
 
-    it("rejects when the schema is invalid", () => {
+    it("rejects when the schema is invalid", async () => {
       expect.assertions(1);
       return expect(parseOpenRPCDocument(invalidDocument))
         .rejects
@@ -183,7 +184,7 @@ describe("parseOpenRPCDocument", () => {
         },
       }))
         .rejects
-        .toBeInstanceOf(OpenRPCDocumentValidationError);
+        .toBeInstanceOf(OpenRPCDocumentDereferencingError);
     });
 
     it("rejects when the json provided is invalid from file", () => {

@@ -1,7 +1,7 @@
-import Dereferencer from "@json-schema-tools/dereferencer";
+import makeDereferenceDocument from "./dereference-document";
 import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
 import isUrl = require("is-url");
-import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument } from "@open-rpc/meta-schema";
 import { TGetOpenRPCDocument } from "./get-open-rpc-document";
 
 /**
@@ -10,24 +10,6 @@ import { TGetOpenRPCDocument } from "./get-open-rpc-document";
 const isJson = (jsonString: string): boolean => {
   try { JSON.parse(jsonString); return true; } catch (e) { return false; }
 };
-
-/**
- * Provides an error interface for OpenRPC Document dereferencing problems
- *
- * @category Errors
- *
- */
-export class OpenRPCDocumentDereferencingError implements Error {
-  public name = "OpenRPCDocumentDereferencingError";
-  public message: string;
-
-  /**
-   * @param e The error that originated from jsonSchemaRefParser
-   */
-  constructor(e: Error) {
-    this.message = `The json schema provided cannot be dereferenced. Received Error: \n ${e.message}`;
-  }
-}
 
 /**
  * Options that may be passed to parseOpenRPCDocument.
@@ -59,6 +41,8 @@ const defaultParseOpenRPCDocumentOptions = {
 };
 
 const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchemaFromFile: TGetOpenRPCDocument) => {
+  const derefenceDocument = makeDereferenceDocument();
+
   /**
    * Resolves an OpenRPC document from a variety of input types. The resolved OpenRPC document
    * will be dereferenced and validated against the [meta-schema](https://github.com/open-rpc/meta-schema).
@@ -96,10 +80,10 @@ const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchem
    *
    */
   return async function parseOpenRPCDocument(
-    schema: string | OpenRPC = "./openrpc.json",
+    schema: string | OpenrpcDocument = "./openrpc.json",
     options: ParseOpenRPCDocumentOptions = defaultParseOpenRPCDocumentOptions,
-  ): Promise<OpenRPC> {
-    let parsedSchema: OpenRPC;
+  ): Promise<OpenrpcDocument> {
+    let parsedSchema: OpenrpcDocument;
 
     const parseOptions = { ...defaultParseOpenRPCDocumentOptions, ...options } as ParseOpenRPCDocumentOptions;
 
@@ -120,14 +104,9 @@ const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchem
       }
     }
 
-    let postDeref: OpenRPC = parsedSchema;
+    let postDeref: OpenrpcDocument = parsedSchema;
     if (parseOptions.dereference) {
-      try {
-        const dereffer = new Dereferencer(parsedSchema);
-        postDeref = await dereffer.resolve();
-      } catch (e) {
-        throw new OpenRPCDocumentDereferencingError(e);
-      }
+      postDeref = await derefenceDocument(parsedSchema);
     }
 
     if (parseOptions.validate) {

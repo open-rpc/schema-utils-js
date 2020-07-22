@@ -1,4 +1,4 @@
-import validateOpenRPCDocument from "./validate-open-rpc-document";
+import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
 import { OpenrpcDocument } from "@open-rpc/meta-schema";
 
 describe("validateOpenRPCDocument", () => {
@@ -15,5 +15,6 @@ describe("validateOpenRPCDocument", () => {
     const result = validateOpenRPCDocument(testSchema as OpenrpcDocument);
 
     expect(result).not.toBe(null);
+    expect(result).toBeInstanceOf(OpenRPCDocumentValidationError)
   });
 });

@@ -1,8 +1,5 @@
 import Dereferencer from "@json-schema-tools/dereferencer";
-import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
-import isUrl = require("is-url");
-import { OpenrpcDocument as OpenRPC, ReferenceObject, ExamplePairingObject, JSONSchema, SchemaComponents, ContentDescriptorComponents, ContentDescriptorObject } from "@open-rpc/meta-schema";
-import { TGetOpenRPCDocument } from "./get-open-rpc-document";
+import { OpenrpcDocument as OpenRPC, ReferenceObject, ExamplePairingObject, JSONSchema, SchemaComponents, ContentDescriptorComponents, ContentDescriptorObject, OpenrpcDocument, MethodObject } from "@open-rpc/meta-schema";
 import Ptr, { EvalError, InvalidPtrError } from "@json-schema-spec/json-pointer"
 
 /**
@@ -14,7 +11,6 @@ import Ptr, { EvalError, InvalidPtrError } from "@json-schema-spec/json-pointer"
 export class OpenRPCDocumentDereferencingError implements Error {
   public name = "OpenRPCDocumentDereferencingError";
   public message: string;
-
   /**
    * @param e The error that originated from jsonSchemaRefParser
    */
@@ -49,8 +45,122 @@ const derefItem = (item: ReferenceObject, doc: OpenRPC) => {
         `pointer: ${$ref}`,
       ].join("\n"));
     }
+    throw new OpenRPCDocumentDereferencingError(`Unable to eval pointer against OpenRPC Document: ${err.message}`);
   }
 };
+
+
+const handleSchemaComponents = async (doc: OpenrpcDocument): Promise<OpenrpcDocument> => {
+  if (doc.components === undefined) {
+    return Promise.resolve(doc);
+  }
+  if (doc.components.schemas === undefined) {
+    return Promise.resolve(doc);
+  }
+
+  const schemas = doc.components.schemas as SchemaComponents;
+  const schemaKeys = Object.keys(schemas);
+
+  schemaKeys.forEach(async (k) => {
+    schemas[k] = await handleSchemaWithSchemaComponents(schemas[k], schemas);
+  });
+
+  return doc;
+};
+
+const handleSchemasInsideContentDescriptorComponents = async (doc: OpenrpcDocument): Promise<OpenrpcDocument> => {
+  if (doc.components === undefined) {
+    return Promise.resolve(doc);
+  }
+  if (doc.components.contentDescriptors === undefined) {
+    return Promise.resolve(doc);
+  }
+
+  const cds = doc.components.contentDescriptors as ContentDescriptorComponents;
+  const cdsKeys = Object.keys(cds);
+
+  let componentSchemas: SchemaComponents;
+  if (doc.components.schemas) {
+    componentSchemas = doc.components.schemas as SchemaComponents;
+  }
+
+  cdsKeys.forEach(async (k) => {
+    cds[k].schema = await handleSchemaWithSchemaComponents(cds[k].schema, componentSchemas);
+  });
+
+  return doc;
+};
+
+const handleSchemaWithSchemaComponents = async (s: JSONSchema, schemaComponents: SchemaComponents) => {
+  if (s === true || s === false) {
+    return Promise.resolve(s);
+  }
+
+  if (schemaComponents !== undefined) {
+    s.components = { schemas: schemaComponents }
+  }
+
+  const dereffer = new Dereferencer(s);
+
+  try {
+    const dereffed = await dereffer.resolve();
+    if (dereffed !== true && dereffed !== false) {
+      delete dereffed.components;
+    }
+    return dereffed;
+  } catch (e) {
+    throw new OpenRPCDocumentDereferencingError([
+      "Unable to parse reference inside of JSONSchema",
+      s.title ? `Schema Title: ${s.title}` : "",
+      `error message: ${e.message}`
+    ].join("\n"));
+  }
+};
+
+const handleMethod = async (method: MethodObject, doc: OpenrpcDocument): Promise<MethodObject> => {
+  if (method.tags !== undefined) {
+    method.tags = method.tags.map((t) => derefItem(t as ReferenceObject, doc));
+  }
+
+  if (method.errors !== undefined) {
+    method.errors = method.errors.map((e) => derefItem(e as ReferenceObject, doc));
+  }
+
+  if (method.links !== undefined) {
+    method.links = method.links.map((e) => derefItem(e as ReferenceObject, doc));
+  }
+
+  if (method.examples !== undefined) {
+    method.examples = method.examples.map((ex) => derefItem(ex as ReferenceObject, doc));
+    method.examples.map((ex) => {
+      const exAsPairing = ex as ExamplePairingObject;
+      exAsPairing.params = exAsPairing.params.map((exParam) => derefItem(exParam as ReferenceObject, doc));
+      exAsPairing.result = derefItem(exAsPairing.result as ReferenceObject, doc);
+      return exAsPairing;
+    });
+  }
+
+  method.params = method.params.map((p) => derefItem(p as ReferenceObject, doc));
+  method.result = derefItem((method.result as ReferenceObject), doc);
+
+
+  let componentSchemas: SchemaComponents = {};
+  if (doc.components && doc.components.schemas) {
+    componentSchemas = doc.components.schemas as SchemaComponents;
+  }
+
+  const params = method.params as ContentDescriptorObject[];
+  params.forEach(async (p) => {
+    p.schema = await handleSchemaWithSchemaComponents(p.schema, componentSchemas);
+  });
+
+  const result = method.result as ContentDescriptorObject;
+
+  result.schema = await handleSchemaWithSchemaComponents(result.schema, componentSchemas);
+
+  return method;
+};
+
 
 const makeDereferenceDocument = () => {
   /**
@@ -78,85 +188,13 @@ const makeDereferenceDocument = () => {
    *
    */
   return async function dereferenceDocument(openrpcDocument: OpenRPC): Promise<OpenRPC> {
-    if (openrpcDocument.components !== undefined) {
+    let derefDoc = { ...openrpcDocument };
 
-      if (openrpcDocument.components.schemas !== undefined) {
-        const schemas = openrpcDocument.components.schemas as SchemaComponents;
-        const schemaKeys = Object.keys(schemas);
+    derefDoc = await handleSchemaComponents(derefDoc);
+    derefDoc = await handleSchemasInsideContentDescriptorComponents(derefDoc);
+    derefDoc.methods = await Promise.all(derefDoc.methods.map((method) => handleMethod(method, derefDoc)));
 
-        schemaKeys.forEach(async (k) => {
-          const superSchema = { ...schemas[k], components: openrpcDocument.components };
-          const dereffer = new Dereferencer(superSchema);
-          const dereffed = await dereffer.resolve();
-          delete dereffed.components;
-          schemas[k] = dereffed;
-        });
-      }
-
-      if (openrpcDocument.components.contentDescriptors !== undefined) {
-        const contentDescriptors = openrpcDocument.components.contentDescriptors as ContentDescriptorComponents;
-        const cdKeys = Object.keys(contentDescriptors);
-
-        cdKeys.forEach(async (k) => {
-          const cdSchema = contentDescriptors[k].schema;
-          const superSchema = { ...cdSchema, components: openrpcDocument.components };
-          const dereffer = new Dereferencer(superSchema);
-          const dereffed = await dereffer.resolve();
-          delete dereffed.components;
-          contentDescriptors[k].schema = dereffed;
-        });
-      }
-    }
-
-    openrpcDocument.methods = await Promise.all(openrpcDocument.methods.map(async (method) => {
-      if (method.tags !== undefined) {
-        method.tags = method.tags.map((t) => derefItem(t as ReferenceObject, openrpcDocument));
-      }
-
-      if (method.errors !== undefined) {
-        method.errors = method.errors.map((e) => derefItem(e as ReferenceObject, openrpcDocument));
-      }
-
-      if (method.links !== undefined) {
-        method.links = method.links.map((e) => derefItem(e as ReferenceObject, openrpcDocument));
-      }
-
-      if (method.examples !== undefined) {
-        method.examples = method.examples.map((ex) => derefItem(ex as ReferenceObject, openrpcDocument));
-        method.examples.map((ex) => {
-          const exAsPairing = ex as ExamplePairingObject;
-          exAsPairing.params = exAsPairing.params.map((exParam) => derefItem(exParam as ReferenceObject, openrpcDocument));
-          exAsPairing.result = derefItem(exAsPairing.result as ReferenceObject, openrpcDocument);
-          return exAsPairing;
-        });
-      }
-
-      method.params = method.params.map((p) => derefItem(p as ReferenceObject, openrpcDocument));
-      method.result = derefItem((method.result as ReferenceObject), openrpcDocument);
-
-      const params = method.params as ContentDescriptorObject[];
-      params.forEach(async (p) => {
-        const superSchema = { ...p.schema, components: openrpcDocument.components };
-        const dereffer = new Dereferencer(superSchema);
-        const dereffed = await dereffer.resolve();
-        delete dereffed.components;
-        p.schema = dereffed;
-      });
-
-      const result = method.result as ContentDescriptorObject;
-
-      const superSchema = { ...result.schema, components: openrpcDocument.components };
-      const dereffer = new Dereferencer(superSchema);
-      const dereffed = await dereffer.resolve();
-      delete dereffed.components;
-
-      result.schema = dereffed;
-
-      return method;
-    }));
-
-
-    return openrpcDocument;
+    return derefDoc;
   };
 };
 

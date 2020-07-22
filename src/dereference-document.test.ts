@@ -1,6 +1,7 @@
 import * as _fs from "fs-extra";
 import makeDereferenceDocument from "./dereference-document";
 import { OpenrpcDocument, ContentDescriptorObject, JSONSchema } from "@open-rpc/meta-schema";
+import { JSONSchemaObject } from "@json-schema-tools/meta-schema";
 
 const dereferenceDocument = makeDereferenceDocument();
 const fs: any = _fs;
@@ -91,13 +92,30 @@ describe("dereferenceDocument", () => {
     expect(document.methods[0].params[0]).toBeDefined();
     expect((document.methods[0].params[0] as ContentDescriptorObject).name).toBe("bazerino");
     expect(document.methods[0].result).toBeDefined();
-    expect((document.methods[0].result as ContentDescriptorObject).schema.title).toBe("bigOlFoo");
+    expect(((document.methods[0].result as ContentDescriptorObject).schema as JSONSchemaObject).title).toBe("bigOlFoo");
   });
 
   it("interdependent refs", async () => {
     expect.assertions(12);
     const testDoc = {
-      ...workingDocument,
+      openrpc: "1.0.0-rc1",
+      info: {
+        title: "foo",
+        version: "1",
+      },
+      methods: [
+        {
+          name: "foo",
+          params: [
+            { $ref: "#/components/contentDescriptors/bazerino" },
+            { name: "leFoo", schema: { $ref: "#/components/schemas/fatFoo" } }
+          ],
+          result: {
+            name: "fooResult",
+            schema: { $ref: "#/components/schemas/bigBar" }
+          }
+        }
+      ],
       components: {
         schemas: {
           fatFoo: { title: "fatFoo", type: "string" },
@@ -118,18 +136,7 @@ describe("dereferenceDocument", () => {
           }
         }
       }
-    };
-    testDoc.methods.push({
-      name: "foo",
-      params: [
-        { $ref: "#/components/contentDescriptors/bazerino" },
-        { name: "leFoo", schema: { $ref: "#/components/schemas/fatFoo" } }
-      ],
-      result: {
-        name: "fooResult",
-        schema: { $ref: "#/components/schemas/bigBar" }
-      }
-    });
+    } as OpenrpcDocument;
 
     const document = await dereferenceDocument(testDoc);
     expect(document.methods).toBeDefined();
@@ -140,16 +147,18 @@ describe("dereferenceDocument", () => {
     expect(params).toBeDefined();
     expect(result).toBeDefined();
 
+    const param0 = params[0] as ContentDescriptorObject;
+    const param1 = params[1] as ContentDescriptorObject;
 
-    expect(params[0].name).toBe("bazerino");
-    expect(params[0].schema.title).toBe("badBaz");
-    expect(params[1].name).toBe("leFoo");
-    expect(params[1].schema.title).toBe("fatFoo");
-    expect(result.schema.title).toBe("bigBar");
-    const resultProps = result.schema.properties as { [k: string]: JSONSchema };
+    expect(param0.name).toBe("bazerino");
+    expect((param0.schema as JSONSchemaObject).title).toBe("badBaz");
+    expect(param1.name).toBe("leFoo");
+    expect((param1.schema as JSONSchemaObject).title).toBe("fatFoo");
+    expect((result.schema as JSONSchemaObject).title).toBe("bigBar");
+    const resultProps = (result.schema as JSONSchemaObject).properties as { [k: string]: JSONSchema };
 
     expect(resultProps).toBeDefined();
-    expect(resultProps.fatFoo.title).toBe("fatFoo");
-    expect(resultProps.badBaz.title).toBe("badbaz");
+    expect((resultProps.fatFoo as JSONSchemaObject).title).toBe("fatFoo");
+    expect((resultProps.badBaz as JSONSchemaObject).title).toBe("badBaz");
   });
 });
