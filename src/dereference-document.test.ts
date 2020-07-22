@@ -1,10 +1,9 @@
 import * as _fs from "fs-extra";
-import makeDereferenceDocument from "./dereference-document";
+import makeDereferenceDocument, { OpenRPCDocumentDereferencingError } from "./dereference-document";
 import { OpenrpcDocument, ContentDescriptorObject, JSONSchema } from "@open-rpc/meta-schema";
 import { JSONSchemaObject } from "@json-schema-tools/meta-schema";
 
 const dereferenceDocument = makeDereferenceDocument();
-const fs: any = _fs;
 
 const workingDocument: OpenrpcDocument = {
   info: {
@@ -13,44 +12,6 @@ const workingDocument: OpenrpcDocument = {
   },
   methods: [],
   openrpc: "1.0.0-rc1",
-};
-
-const badRefDocument: OpenrpcDocument = {
-  ...workingDocument,
-  methods: [
-    {
-      name: "foo",
-      params: [
-        {
-          name: "bar",
-          schema: { $ref: "#/components/bar" },
-        },
-      ],
-      result: {
-        name: "baz",
-        schema: { $ref: "#/noponents/bazaaaooow" },
-      },
-    },
-  ],
-};
-const invalidDocument: any = {
-  ...workingDocument,
-  methods: [
-    {
-      name: "foo",
-      params: [
-        {
-          name: "bar",
-          schema: { type: "string" },
-        },
-      ],
-      result: {
-        name: "baz",
-        schema: { type: "boolean" },
-      },
-      zfloobars: 123,
-    },
-  ],
 };
 
 describe("dereferenceDocument", () => {
@@ -161,4 +122,93 @@ describe("dereferenceDocument", () => {
     expect((resultProps.fatFoo as JSONSchemaObject).title).toBe("fatFoo");
     expect((resultProps.badBaz as JSONSchemaObject).title).toBe("badBaz");
   });
+
+
+  it("throws when a json pointer is invalid", () => {
+    const testDoc = {
+      openrpc: "1.2.4",
+      info: {
+        title: "foo",
+        version: "1",
+      },
+      methods: [
+        {
+          name: "foo",
+          params: [],
+          result: {
+            $ref: " "
+          }
+        }
+      ],
+    };
+
+
+    return expect(dereferenceDocument(testDoc as OpenrpcDocument))
+      .rejects
+      .toBeInstanceOf(OpenRPCDocumentDereferencingError);
+  });
+
+  it("throws when a json pointer points to something that doesnt exist", () => {
+    const testDoc = {
+      openrpc: "1.2.4",
+      info: {
+        title: "foo",
+        version: "1",
+      },
+      methods: [
+        {
+          name: "foo",
+          params: [],
+          result: {
+            $ref: "#/doesnt/exists"
+          }
+        }
+      ],
+    };
+
+
+    return expect(dereferenceDocument(testDoc as OpenrpcDocument))
+      .rejects
+      .toBeInstanceOf(OpenRPCDocumentDereferencingError);
+  });
+
+  it("it works with boolean schemas & links", async () => {
+    const testDoc = {
+      openrpc: "1.2.4",
+      info: {
+        title: "foo",
+        version: "1",
+      },
+      methods: [
+        {
+          name: "foo",
+          params: [],
+          result: {
+            name: "fooResult",
+            schema: true
+          },
+          links: [{ $ref: "#/components/links/fooLink" }]
+        }
+      ],
+      components: {
+        methods: {
+          notUsed: { name: "notUsed", params: [], result: { name: "unused", schema: true } }
+        },
+        links: {
+          fooLink: {
+            name: "fooLink"
+          }
+        }
+      }
+    };
+
+    const result = await dereferenceDocument(testDoc as OpenrpcDocument) as any;
+
+    expect(result.methods[0].links[0]).toBe(testDoc.components.links.fooLink)
+
+    return expect(dereferenceDocument(testDoc as OpenrpcDocument))
+      .resolves
+      .toEqual(testDoc);
+  });
+
 });
