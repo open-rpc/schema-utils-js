@@ -49,6 +49,31 @@ const derefItem = (item: ReferenceObject, doc: OpenRPC) => {
   }
 };
 
+const handleSchemaWithSchemaComponents = async (s: JSONSchema, schemaComponents: SchemaComponents) => {
+  if (s === true || s === false) {
+    return Promise.resolve(s);
+  }
+
+  if (schemaComponents !== undefined) {
+    s.components = { schemas: schemaComponents }
+  }
+
+  const dereffer = new Dereferencer(s);
+
+  try {
+    const dereffed = await dereffer.resolve();
+    if (dereffed !== true && dereffed !== false) {
+      delete dereffed.components;
+    }
+    return dereffed;
+  } catch (e) {
+    throw new OpenRPCDocumentDereferencingError([
+      "Unable to parse reference inside of JSONSchema",
+      s.title ? `Schema Title: ${s.title}` : "",
+      `error message: ${e.message}`
+    ].join("\n"));
+  }
+};
 
 const handleSchemaComponents = async (doc: OpenrpcDocument): Promise<OpenrpcDocument> => {
   if (doc.components === undefined) {
@@ -91,31 +116,6 @@ const handleSchemasInsideContentDescriptorComponents = async (doc: OpenrpcDocume
   return doc;
 };
 
-const handleSchemaWithSchemaComponents = async (s: JSONSchema, schemaComponents: SchemaComponents) => {
-  if (s === true || s === false) {
-    return Promise.resolve(s);
-  }
-
-  if (schemaComponents !== undefined) {
-    s.components = { schemas: schemaComponents }
-  }
-
-  const dereffer = new Dereferencer(s);
-
-  try {
-    const dereffed = await dereffer.resolve();
-    if (dereffed !== true && dereffed !== false) {
-      delete dereffed.components;
-    }
-    return dereffed;
-  } catch (e) {
-    throw new OpenRPCDocumentDereferencingError([
-      "Unable to parse reference inside of JSONSchema",
-      s.title ? `Schema Title: ${s.title}` : "",
-      `error message: ${e.message}`
-    ].join("\n"));
-  }
-};
 
 const handleMethod = async (method: MethodObject, doc: OpenrpcDocument): Promise<MethodObject> => {
   if (method.tags !== undefined) {
