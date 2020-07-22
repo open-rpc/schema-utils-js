@@ -28,24 +28,18 @@ const derefItem = (item: ReferenceObject, doc: OpenRPC) => {
   try {
     pointer = Ptr.parse(ref);
   } catch (err) {
-    if (err instanceof InvalidPtrError) {
-      throw new OpenRPCDocumentDereferencingError([`Invalid JSON Pointer - ${$ref}`, `The doc: ${JSON.stringify(doc)}`].join("\n"));
-    }
-    throw new OpenRPCDocumentDereferencingError(`unhandled error - ${err.message}`);
+    throw new OpenRPCDocumentDereferencingError([`Invalid JSON Pointer - ${$ref}`, `The doc: ${JSON.stringify(doc)}`].join("\n"));
   }
 
   try {
     return pointer.eval(doc);
   } catch (err) {
-    if (err instanceof EvalError) {
-      throw new OpenRPCDocumentDereferencingError([
-        `unable to eval pointer against OpenRPC Document.`,
-        `instance: ${err.instance}`,
-        `token: ${err.token}`,
-        `pointer: ${$ref}`,
-      ].join("\n"));
-    }
-    throw new OpenRPCDocumentDereferencingError(`Unable to eval pointer against OpenRPC Document: ${err.message}`);
+    throw new OpenRPCDocumentDereferencingError([
+      `unable to eval pointer against OpenRPC Document.`,
+      `instance: ${err.instance}`,
+      `token: ${err.token}`,
+      `pointer: ${$ref}`,
+    ].join("\n"));
   }
 };
 
