@@ -22,6 +22,21 @@ describe("dereferenceDocument", () => {
     expect(document.methods).toBeDefined();
   });
 
+  it("simple case", async () => {
+    expect.assertions(1);
+    const document = await dereferenceDocument({
+      info: {
+        title: "foo",
+        version: "1",
+      },
+      methods: [
+        { name: "abc", params: [], result: { name: "cba", schema: { type: "number" } } }
+      ],
+      openrpc: "1.0.0-rc1",
+    });
+    expect(document.methods).toBeDefined();
+  });
+
   it("derefs simple stuff", async () => {
     expect.assertions(7);
     const testDoc = {
