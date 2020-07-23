@@ -168,7 +168,7 @@ describe("parseOpenRPCDocument", () => {
     });
 
     it("throws when the schema becomes invalid after dereffing", async () => {
-      expect.assertions(1);
+      expect.assertions(2);
       fs.readJson.mockClear();
       const doc = {
         openrpc: "1.2.1",
@@ -203,7 +203,6 @@ describe("parseOpenRPCDocument", () => {
       try {
         result = await parseOpenRPCDocument(doc);
       } catch (e) {
-        console.log(doc);
         expect(e).toBeInstanceOf(OpenRPCDocumentValidationError);
         expect(result).toBeUndefined();
       }

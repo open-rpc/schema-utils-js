@@ -61,8 +61,6 @@ const handleSchemaWithSchemaComponents = async (s: JSONSchema, schemaComponents:
     }
     return dereffed;
   } catch (e) {
-    console.log(s);
-    console.error(e);
     throw new OpenRPCDocumentDereferencingError([
       "Unable to parse reference inside of JSONSchema",
       s.title ? `Schema Title: ${s.title}` : "",
@@ -82,9 +80,9 @@ const handleSchemaComponents = async (doc: OpenrpcDocument): Promise<OpenrpcDocu
   const schemas = doc.components.schemas as SchemaComponents;
   const schemaKeys = Object.keys(schemas);
 
-  schemaKeys.forEach(async (k) => {
+  for (const k of schemaKeys) {
     schemas[k] = await handleSchemaWithSchemaComponents(schemas[k], schemas);
-  });
+  }
 
   return doc;
 };
@@ -100,14 +98,14 @@ const handleSchemasInsideContentDescriptorComponents = async (doc: OpenrpcDocume
   const cds = doc.components.contentDescriptors as ContentDescriptorComponents;
   const cdsKeys = Object.keys(cds);
 
-  let componentSchemas: SchemaComponents;
+  let componentSchemas: SchemaComponents = {};
   if (doc.components.schemas) {
     componentSchemas = doc.components.schemas as SchemaComponents;
   }
 
-  cdsKeys.forEach(async (k) => {
-    cds[k].schema = await handleSchemaWithSchemaComponents(cds[k].schema, componentSchemas);
-  });
+  for (const cdK of cdsKeys) {
+    cds[cdK].schema = await handleSchemaWithSchemaComponents(cds[cdK].schema, componentSchemas);
+  }
 
   return doc;
 };
@@ -146,12 +144,12 @@ const handleMethod = async (method: MethodObject, doc: OpenrpcDocument): Promise
   }
 
   const params = method.params as ContentDescriptorObject[];
-  params.forEach(async (p) => {
+
+  for (const p of params) {
     p.schema = await handleSchemaWithSchemaComponents(p.schema, componentSchemas);
-  });
+  }
 
   const result = method.result as ContentDescriptorObject;
-
   result.schema = await handleSchemaWithSchemaComponents(result.schema, componentSchemas);
 
   return method;
@@ -188,7 +186,12 @@ const makeDereferenceDocument = () => {
 
     derefDoc = await handleSchemaComponents(derefDoc);
     derefDoc = await handleSchemasInsideContentDescriptorComponents(derefDoc);
-    derefDoc.methods = await Promise.all(derefDoc.methods.map((method) => handleMethod(method, derefDoc)));
+    const methods = [] as any;
+    for (const method of derefDoc.methods) {
+      methods.push(await handleMethod(method, derefDoc));
+    }
+
+    derefDoc.methods = methods;
 
     return derefDoc;
   };

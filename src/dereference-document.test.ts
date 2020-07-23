@@ -23,24 +23,55 @@ describe("dereferenceDocument", () => {
   });
 
   it("derefs simple stuff", async () => {
-    expect.assertions(6);
+    expect.assertions(7);
     const testDoc = {
       ...workingDocument,
       components: {
         schemas: {
+          bigOlBaz: { $ref: "#/components/schemas/bigOlFoo" },
           bigOlFoo: { title: "bigOlFoo", type: "string" }
         },
         contentDescriptors: {
           bazerino: {
             name: "bazerino",
             schema: { title: "bigBazerino", type: "number" }
+          },
+          barf: {
+            name: "barf",
+            schema: { $ref: "#/components/schemas/bigOlFoo" }
           }
+        },
+        tags: {
+          foobydooby: { name: "foobydooby" }
+        },
+        errors: {
+          bigBadError: { code: 123, message: "123" }
+        },
+        examples: {
+          abcEx: { name: "abcEx", value: [123, 321] },
+          cbaEx: { name: "cbaEx", value: "abc" }
+        },
+        examplePairingObjects: {
+          testy: {
+            name: "testy",
+            params: [{ $ref: "#/components/examples/abcEx" }],
+            result: { $ref: "#/components/examples/cbaEx" },
+          },
         }
       }
     };
     testDoc.methods.push({
+      tags: [{ $ref: "#/components/tags/foobydooby" }],
+      errors: [{ $ref: "#/components/errors/bigBadError" }],
+      examples: [
+        { $ref: "#/components/examplePairingObjects/testy" }
+      ],
       name: "foo",
-      params: [{ $ref: "#/components/contentDescriptors/bazerino" }],
+      params: [
+        { $ref: "#/components/contentDescriptors/bazerino" },
+        { name: "blah blah", schema: { $ref: "#/components/schemas/bigOlBaz" } },
+        { $ref: "#/components/contentDescriptors/barf" }
+      ],
       result: {
         name: "fooResult",
         schema: { $ref: "#/components/schemas/bigOlFoo" }
@@ -54,6 +85,7 @@ describe("dereferenceDocument", () => {
     expect((document.methods[0].params[0] as ContentDescriptorObject).name).toBe("bazerino");
     expect(document.methods[0].result).toBeDefined();
     expect(((document.methods[0].result as ContentDescriptorObject).schema as JSONSchemaObject).title).toBe("bigOlFoo");
+    expect(((document.methods[0].params as ContentDescriptorObject[])[1].schema as JSONSchemaObject).title).toBe("bigOlFoo");
   });
 
   it("interdependent refs", async () => {
@@ -125,6 +157,8 @@ describe("dereferenceDocument", () => {
 
 
   it("throws when a json pointer is invalid", async () => {
+    expect.assertions(1);
+
     const testDoc = {
       openrpc: "1.2.4",
       info: {
@@ -150,6 +184,8 @@ describe("dereferenceDocument", () => {
   });
 
   it("throws when a json pointer points to something that doesnt exist", async () => {
+    expect.assertions(1);
+
     const testDoc = {
       openrpc: "1.2.4",
       info: {
@@ -174,7 +210,39 @@ describe("dereferenceDocument", () => {
     }
   });
 
+  it("throws when a json pointer points to something that doesnt exist inside of schema components", async () => {
+    expect.assertions(1);
+
+    const testDoc = {
+      openrpc: "1.2.4",
+      info: {
+        title: "foo",
+        version: "1",
+      },
+      methods: [
+        {
+          name: "foo",
+          params: [],
+          result: { name: "foobar", schema: true }
+        }
+      ],
+      components: {
+        schemas: {
+          foo: { $ref: "#/abc123" }
+        }
+      }
+    };
+
+    try {
+      await dereferenceDocument(testDoc as OpenrpcDocument)
+    } catch (e) {
+      expect(e).toBeInstanceOf(OpenRPCDocumentDereferencingError);
+    }
+  });
+
   it("it works with boolean schemas & links", async () => {
+    expect.assertions(1);
+
     const testDoc = {
       openrpc: "1.2.4",
       info: {
@@ -210,6 +278,8 @@ describe("dereferenceDocument", () => {
   });
 
   it("it works with ref to a file", async () => {
+    expect.assertions(1);
+
     const testDoc = {
       openrpc: "1.2.4",
       info: {
