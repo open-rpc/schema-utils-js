@@ -3,7 +3,6 @@ import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 import { parseOpenRPCDocument } from "./";
 import rimraf from "rimraf";
 import { promisify } from "util";
-import { isEqual } from "lodash";
 import http from "http";
 import { AddressInfo } from "net";
 const rmDir = promisify(rimraf);
@@ -46,6 +45,7 @@ describe("parseOpenRPCDocument", () => {
     await fs.writeFile(testDocPath, JSON.stringify(testDoc, null, 2));
     testServer = await mockServer(testDocPath);
   });
+
   afterAll(async () => {
     await rmDir(dirName);
     await new Promise((resolve) => testServer.close(resolve));
@@ -53,18 +53,18 @@ describe("parseOpenRPCDocument", () => {
 
   it("should parseOpenRPCDocument from string", async () => {
     const doc = await parseOpenRPCDocument(JSON.stringify(testDoc, null, 2));
-    expect(isEqual(doc, testDoc)).toBe(true);
+    expect(doc).toEqual(testDoc);
   });
 
   it("should parseOpenRPCDocument from file", async () => {
     const doc = await parseOpenRPCDocument(testDocPath);
-    expect(isEqual(doc, testDoc)).toBe(true);
+    expect(doc).toEqual(testDoc);
   });
 
   it("should parseOpenRPCDocument from server", async () => {
     const { port } = testServer.address() as AddressInfo;
     const doc = await parseOpenRPCDocument(`http://localhost:${port}/download/openrpc.json`);
-    expect(isEqual(doc, testDoc)).toBe(true);
+    expect(doc).toEqual(testDoc);
   });
 
 });

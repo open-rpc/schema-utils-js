@@ -61,6 +61,8 @@ const handleSchemaWithSchemaComponents = async (s: JSONSchema, schemaComponents:
     }
     return dereffed;
   } catch (e) {
+    console.log(s);
+    console.error(e);
     throw new OpenRPCDocumentDereferencingError([
       "Unable to parse reference inside of JSONSchema",
       s.title ? `Schema Title: ${s.title}` : "",

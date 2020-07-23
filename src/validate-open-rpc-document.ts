@@ -1,16 +1,9 @@
 import metaSchema, { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 import Ajv, { ErrorObject } from "ajv";
 
-
 /**
  * @ignore
  */
-const ajv = new Ajv();
-const metaSchemaCopy = { ...metaSchema } as any;
-delete metaSchemaCopy.definitions.JSONSchema.$id;
-delete metaSchemaCopy.definitions.JSONSchema.$schema;
-delete metaSchemaCopy.$schema;
-delete metaSchemaCopy.$id;
 /**
  * Provides an error interface for OpenRPC Document validation
  *
@@ -55,6 +48,12 @@ export class OpenRPCDocumentValidationError implements Error {
 export default function validateOpenRPCDocument(
   document: OpenRPC,
 ): OpenRPCDocumentValidationError | true {
+  const ajv = new Ajv();
+  const metaSchemaCopy = { ...metaSchema } as any;
+  delete metaSchemaCopy.definitions.JSONSchema.$id;
+  delete metaSchemaCopy.definitions.JSONSchema.$schema;
+  delete metaSchemaCopy.$schema;
+  delete metaSchemaCopy.$id;
   ajv.validate(metaSchemaCopy, document);
 
   if (ajv.errors) {

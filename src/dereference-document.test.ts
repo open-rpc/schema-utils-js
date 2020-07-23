@@ -124,7 +124,7 @@ describe("dereferenceDocument", () => {
   });
 
 
-  it("throws when a json pointer is invalid", () => {
+  it("throws when a json pointer is invalid", async () => {
     const testDoc = {
       openrpc: "1.2.4",
       info: {
@@ -142,13 +142,14 @@ describe("dereferenceDocument", () => {
       ],
     };
 
-
-    return expect(dereferenceDocument(testDoc as OpenrpcDocument))
-      .rejects
-      .toBeInstanceOf(OpenRPCDocumentDereferencingError);
+    try {
+      await dereferenceDocument(testDoc as OpenrpcDocument)
+    } catch (e) {
+      expect(e).toBeInstanceOf(OpenRPCDocumentDereferencingError);
+    }
   });
 
-  it("throws when a json pointer points to something that doesnt exist", () => {
+  it("throws when a json pointer points to something that doesnt exist", async () => {
     const testDoc = {
       openrpc: "1.2.4",
       info: {
@@ -166,10 +167,11 @@ describe("dereferenceDocument", () => {
       ],
     };
 
-
-    return expect(dereferenceDocument(testDoc as OpenrpcDocument))
-      .rejects
-      .toBeInstanceOf(OpenRPCDocumentDereferencingError);
+    try {
+      await dereferenceDocument(testDoc as OpenrpcDocument)
+    } catch (e) {
+      expect(e).toBeInstanceOf(OpenRPCDocumentDereferencingError);
+    }
   });
 
   it("it works with boolean schemas & links", async () => {
@@ -205,10 +207,30 @@ describe("dereferenceDocument", () => {
     const result = await dereferenceDocument(testDoc as OpenrpcDocument) as any;
 
     expect(result.methods[0].links[0]).toBe(testDoc.components.links.fooLink)
+  });
 
-    return expect(dereferenceDocument(testDoc as OpenrpcDocument))
-      .resolves
-      .toEqual(testDoc);
+  it("it works with ref to a file", async () => {
+    const testDoc = {
+      openrpc: "1.2.4",
+      info: {
+        title: "foo",
+        version: "1",
+      },
+      methods: [
+        {
+          name: "foo",
+          params: [],
+          result: {
+            name: "fooResult",
+            schema: { $ref: `${__dirname}/good-schema.json` }
+          }
+        }
+      ]
+    };
+
+    const result = await dereferenceDocument(testDoc as OpenrpcDocument) as any;
+
+    expect(result.methods[0].result.schema.type).toBe("string")
   });
 
 });
