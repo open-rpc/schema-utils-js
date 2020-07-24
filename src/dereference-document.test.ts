@@ -255,7 +255,7 @@ describe("dereferenceDocument", () => {
     }
   });
 
-  it("it works with boolean schemas & links", async () => {
+  it("works with boolean schemas & links", async () => {
     expect.assertions(1);
 
     const testDoc = {
@@ -292,7 +292,7 @@ describe("dereferenceDocument", () => {
     expect(result.methods[0].links[0]).toBe(testDoc.components.links.fooLink)
   });
 
-  it("it works with ref to a file", async () => {
+  it("works with ref to a file", async () => {
     expect.assertions(1);
 
     const testDoc = {
@@ -318,4 +318,78 @@ describe("dereferenceDocument", () => {
     expect(result.methods[0].result.schema.type).toBe("string")
   });
 
+  it("works with schema that makes ref to a schema from components", async () => {
+    expect.assertions(1);
+
+    const testDoc = {
+      openrpc: "1.2.4",
+      info: {
+        title: "foo",
+        version: "1",
+      },
+      methods: [
+        {
+          name: "foo",
+          params: [],
+          result: {
+            name: "fooResult",
+            schema: {
+              type: "object",
+              properties: {
+                foo: { $ref: "#/components/schemas/foo" }
+              }
+            }
+          }
+        }
+      ],
+      components: {
+        schemas: {
+          foo: { type: "string" }
+        }
+      }
+    };
+
+    const result = await dereferenceDocument(testDoc as OpenrpcDocument) as any;
+
+    expect(result.methods[0].result.schema.properties.foo).toBe(result.components.schemas.foo);
+  });
+
+  it("throws when a schema cannot be resolved from componnets", async () => {
+    expect.assertions(1);
+
+    const testDoc = {
+      openrpc: "1.2.4",
+      info: {
+        title: "foo",
+        version: "1",
+      },
+      methods: [
+        {
+          name: "foo",
+          params: [],
+          result: {
+            name: "fooResult",
+            schema: {
+              type: "object",
+              properties: {
+                foo: { $ref: "#/components/schemas/foo" }
+              }
+            }
+          }
+        }
+      ],
+      components: {
+        schemas: {
+          foo: { $ref: "#/components/schemas/bar" },
+          bar: { $ref: "#/not/real" },
+        }
+      }
+    };
+
+    try {
+      await dereferenceDocument(testDoc as OpenrpcDocument) as any;
+    } catch (e) {
+      expect(e).toBeInstanceOf(OpenRPCDocumentDereferencingError);
+    }
+  });
 });

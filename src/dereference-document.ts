@@ -1,6 +1,5 @@
 import Dereferencer from "@json-schema-tools/dereferencer";
 import { OpenrpcDocument as OpenRPC, ReferenceObject, ExamplePairingObject, JSONSchema, SchemaComponents, ContentDescriptorComponents, ContentDescriptorObject, OpenrpcDocument, MethodObject } from "@open-rpc/meta-schema";
-import Ptr, { EvalError, InvalidPtrError } from "@json-schema-spec/json-pointer"
 import referenceResolver from "@json-schema-tools/reference-resolver";
 
 /**
@@ -45,7 +44,7 @@ const derefItems = async (items: ReferenceObject[], doc: OpenRPC) => {
   return dereffed;
 };
 
-const handleSchemaWithSchemaComponents = async (s: JSONSchema, schemaComponents: SchemaComponents) => {
+const handleSchemaWithSchemaComponents = async (s: JSONSchema, schemaComponents: SchemaComponents | undefined) => {
   if (s === true || s === false) {
     return Promise.resolve(s);
   }
@@ -55,7 +54,6 @@ const handleSchemaWithSchemaComponents = async (s: JSONSchema, schemaComponents:
   }
 
   const dereffer = new Dereferencer(s);
-
   try {
     const dereffed = await dereffer.resolve();
     if (dereffed !== true && dereffed !== false) {
