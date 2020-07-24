@@ -1,9 +1,8 @@
 import * as _fs from "fs-extra";
-import makeDereferenceDocument, { OpenRPCDocumentDereferencingError } from "./dereference-document";
+import dereferenceDocument, { OpenRPCDocumentDereferencingError } from "./dereference-document";
 import { OpenrpcDocument, ContentDescriptorObject, JSONSchema } from "@open-rpc/meta-schema";
 import { JSONSchemaObject } from "@json-schema-tools/meta-schema";
 
-const dereferenceDocument = makeDereferenceDocument();
 
 const workingDocument: OpenrpcDocument = {
   info: {

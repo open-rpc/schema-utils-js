@@ -1,4 +1,4 @@
-import makeDereferenceDocument from "./dereference-document";
+import dereferenceDocument from "./dereference-document";
 import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
 import isUrl = require("is-url");
 import { OpenrpcDocument } from "@open-rpc/meta-schema";
@@ -41,8 +41,6 @@ const defaultParseOpenRPCDocumentOptions = {
 };
 
 const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchemaFromFile: TGetOpenRPCDocument) => {
-  const derefenceDocument = makeDereferenceDocument();
-
   /**
    * Resolves an OpenRPC document from a variety of input types. The resolved OpenRPC document
    * will be dereferenced and validated against the [meta-schema](https://github.com/open-rpc/meta-schema).
@@ -106,7 +104,7 @@ const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchem
 
     let postDeref: OpenrpcDocument = parsedSchema;
     if (parseOptions.dereference) {
-      postDeref = await derefenceDocument(parsedSchema);
+      postDeref = await dereferenceDocument(parsedSchema);
     }
 
     if (parseOptions.validate) {

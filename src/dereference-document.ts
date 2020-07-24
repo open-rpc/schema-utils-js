@@ -110,7 +110,6 @@ const handleSchemasInsideContentDescriptorComponents = async (doc: OpenrpcDocume
   return doc;
 };
 
-
 const handleMethod = async (method: MethodObject, doc: OpenrpcDocument): Promise<MethodObject> => {
   if (method.tags !== undefined) {
     method.tags = await derefItems(method.tags as ReferenceObject[], doc);
@@ -153,46 +152,41 @@ const handleMethod = async (method: MethodObject, doc: OpenrpcDocument): Promise
   return method;
 };
 
+/**
+ * replaces $ref's within a document and its schemas. The replaced value will be a javascript object reference to the
+ * real schema / open-rpc component
+ *
+ * @param schema The OpenRPC document
+ *
+ * @returns The same OpenRPC Document that was passed in, but with all $ref's dereferenced.
+ *
+ * @throws [[OpenRPCDocumentDereferencingError]]
+ *
+ * @example
+ * ```typescript
+ *
+ * const { OpenRPC } from "@open-rpc/meta-schema"
+ * const { dereferenceDocument } from "@open-rpc/schema-utils-js";
+ *
+ * try {
+ *   const dereffedDocument = await dereferenceDocument({ ... }) as OpenRPC;
+ * } catch (e) {
+ *   // handle validation errors
+ * }
+ * ```
+ *
+ */
+export default async function dereferenceDocument(openrpcDocument: OpenRPC): Promise<OpenRPC> {
+  let derefDoc = { ...openrpcDocument };
 
-const makeDereferenceDocument = () => {
-  /**
-   * replaces $ref's within a document and its schemas. The replaced value will be a javascript object reference to the
-   * real schema / open-rpc component
-   *
-   * @param schema The OpenRPC document
-   *
-   * @returns The same OpenRPC Document that was passed in, but with all $ref's dereferenced.
-   *
-   * @throws [[OpenRPCDocumentDereferencingError]]
-   *
-   * @example
-   * ```typescript
-   *
-   * const { OpenRPC } from "@open-rpc/meta-schema"
-   * const { dereferenceDocument } from "@open-rpc/schema-utils-js";
-   *
-   * try {
-   *   const dereffedDocument = await dereferenceDocument({ ... }) as OpenRPC;
-   * } catch (e) {
-   *   // handle validation errors
-   * }
-   * ```
-   *
-   */
-  return async function dereferenceDocument(openrpcDocument: OpenRPC): Promise<OpenRPC> {
-    let derefDoc = { ...openrpcDocument };
+  derefDoc = await handleSchemaComponents(derefDoc);
+  derefDoc = await handleSchemasInsideContentDescriptorComponents(derefDoc);
+  const methods = [] as any;
+  for (const method of derefDoc.methods) {
+    methods.push(await handleMethod(method, derefDoc));
+  }
 
-    derefDoc = await handleSchemaComponents(derefDoc);
-    derefDoc = await handleSchemasInsideContentDescriptorComponents(derefDoc);
-    const methods = [] as any;
-    for (const method of derefDoc.methods) {
-      methods.push(await handleMethod(method, derefDoc));
-    }
+  derefDoc.methods = methods;
 
-    derefDoc.methods = methods;
-
-    return derefDoc;
-  };
+  return derefDoc;
 };
-
-export default makeDereferenceDocument;
