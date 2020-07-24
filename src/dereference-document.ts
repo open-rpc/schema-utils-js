@@ -189,4 +189,4 @@ export default async function dereferenceDocument(openrpcDocument: OpenRPC): Pro
   derefDoc.methods = methods;
 
   return derefDoc;
-};
+}
