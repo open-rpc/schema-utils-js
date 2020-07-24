@@ -1,6 +1,7 @@
 import Dereferencer from "@json-schema-tools/dereferencer";
 import { OpenrpcDocument as OpenRPC, ReferenceObject, ExamplePairingObject, JSONSchema, SchemaComponents, ContentDescriptorComponents, ContentDescriptorObject, OpenrpcDocument, MethodObject } from "@open-rpc/meta-schema";
 import Ptr, { EvalError, InvalidPtrError } from "@json-schema-spec/json-pointer"
+import referenceResolver from "@json-schema-tools/reference-resolver";
 
 /**
  * Provides an error interface for OpenRPC Document dereferencing problems
@@ -19,28 +20,29 @@ export class OpenRPCDocumentDereferencingError implements Error {
   }
 }
 
-const derefItem = (item: ReferenceObject, doc: OpenRPC) => {
+const derefItem = async (item: ReferenceObject, doc: OpenRPC) => {
   const { $ref } = item;
   if ($ref === undefined) { return item; }
 
-  const ref = $ref.replace("#", "");
-  let pointer;
   try {
-    pointer = Ptr.parse(ref);
-  } catch (err) {
-    throw new OpenRPCDocumentDereferencingError([`Invalid JSON Pointer - ${$ref}`, `The doc: ${JSON.stringify(doc)}`].join("\n"));
-  }
-
-  try {
-    return pointer.eval(doc);
+    return await referenceResolver($ref, doc);
   } catch (err) {
     throw new OpenRPCDocumentDereferencingError([
       `unable to eval pointer against OpenRPC Document.`,
+      `error type: ${err.name}`,
       `instance: ${err.instance}`,
       `token: ${err.token}`,
       `pointer: ${$ref}`,
     ].join("\n"));
   }
+};
+
+const derefItems = async (items: ReferenceObject[], doc: OpenRPC) => {
+  const dereffed = [];
+  for (const i of items) {
+    dereffed.push(await derefItem(i, doc))
+  }
+  return dereffed;
 };
 
 const handleSchemaWithSchemaComponents = async (s: JSONSchema, schemaComponents: SchemaComponents) => {
@@ -113,29 +115,27 @@ const handleSchemasInsideContentDescriptorComponents = async (doc: OpenrpcDocume
 
 const handleMethod = async (method: MethodObject, doc: OpenrpcDocument): Promise<MethodObject> => {
   if (method.tags !== undefined) {
-    method.tags = method.tags.map((t) => derefItem(t as ReferenceObject, doc));
+    method.tags = await derefItems(method.tags as ReferenceObject[], doc);
   }
 
   if (method.errors !== undefined) {
-    method.errors = method.errors.map((e) => derefItem(e as ReferenceObject, doc));
+    method.errors = await derefItems(method.errors as ReferenceObject[], doc);
   }
 
   if (method.links !== undefined) {
-    method.links = method.links.map((e) => derefItem(e as ReferenceObject, doc));
+    method.links = await derefItems(method.links as ReferenceObject[], doc);
   }
 
   if (method.examples !== undefined) {
-    method.examples = method.examples.map((ex) => derefItem(ex as ReferenceObject, doc));
-    method.examples.map((ex) => {
-      const exAsPairing = ex as ExamplePairingObject;
-      exAsPairing.params = exAsPairing.params.map((exParam) => derefItem(exParam as ReferenceObject, doc));
-      exAsPairing.result = derefItem(exAsPairing.result as ReferenceObject, doc);
-      return exAsPairing;
-    });
+    method.examples = await derefItems(method.examples as ReferenceObject[], doc);
+    for (const exPairing of method.examples as ExamplePairingObject[]) {
+      exPairing.params = await derefItems(exPairing.params as ReferenceObject[], doc);
+      exPairing.result = await derefItem(exPairing.result as ReferenceObject, doc);
+    }
   }
 
-  method.params = method.params.map((p) => derefItem(p as ReferenceObject, doc));
-  method.result = derefItem((method.result as ReferenceObject), doc);
+  method.params = await derefItems(method.params as ReferenceObject[], doc);
+  method.result = await derefItem(method.result as ReferenceObject, doc);
 
 
   let componentSchemas: SchemaComponents = {};
