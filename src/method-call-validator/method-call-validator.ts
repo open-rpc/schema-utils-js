@@ -1,9 +1,10 @@
 import Ajv, { ErrorObject, Ajv as IAjv } from "ajv";
-import * as _ from "lodash";
 import { generateMethodParamId } from "../generate-method-id";
 import ParameterValidationError from "./parameter-validation-error";
 import { OpenrpcDocument as OpenRPC, MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
 import MethodNotFoundError from "./method-not-found-error";
+import { find } from "../helper-functions";
+import * as _ from "lodash";
 
 /**
  * A class to assist in validating method calls to an OpenRPC-based service. Generated Clients,
@@ -64,7 +65,7 @@ export default class MethodCallValidator {
     params: any,
   ): ParameterValidationError[] | MethodNotFoundError {
     if (methodName === "rpc.discover") { return []; }
-    const method = _.find(this.document.methods, { name: methodName }) as MethodObject;
+    const method = find(this.document.methods, (o: MethodObject) => { return o.name == methodName }) as MethodObject;
 
     if (!method) {
       return new MethodNotFoundError(methodName, this.document, params);

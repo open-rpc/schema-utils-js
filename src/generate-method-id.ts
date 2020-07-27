@@ -1,5 +1,6 @@
-import { findIndex } from "lodash";
+
 import { MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
+import { findIndex } from "./helper-functions";
 
 /**
  * Provides an error interface for handling when we are unable to find a contentDescriptor in a methodObject
@@ -64,7 +65,7 @@ export function generateMethodParamId(
   method: MethodObject,
   contentDescriptor: ContentDescriptorObject,
 ): string {
-  const pos = findIndex(method.params, { name: contentDescriptor.name });
+  const pos = findIndex(method.params, (o: any) => { return o.name == contentDescriptor.name });
 
   if (pos === -1) {
     throw new ContentDescriptorNotFoundInMethodError(method, contentDescriptor);
