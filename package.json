@@ -35,8 +35,7 @@
     "fs-extra": "^9.0.0",
     "is-url": "^1.2.4",
     "isomorphic-fetch": "^2.2.1",
-    "json-schema-ref-parser": "^7.0.1",
-    "lodash": "^4.17.19"
+    "json-schema-ref-parser": "^7.0.1"
   },
   "devDependencies": {
     "@types/ajv": "^1.0.0",
@@ -46,7 +45,6 @@
     "@types/isomorphic-fetch": "0.0.35",
     "@types/jest": "^26.0.5",
     "@types/json-schema": "^7.0.3",
-    "@types/lodash": "^4.14.158",
     "@types/node-fetch": "^2.1.6",
     "@types/rimraf": "^3.0.0",
     "@types/webpack-env": "^1.13.9",

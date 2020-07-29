@@ -2,7 +2,7 @@ import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 
 /** 
  * finds array index of array object which matches predicate
- * @param array {any[]}
+ * @param array {Array}
  * @param predicate {Function}
  * @returns {number} || {undefined}
 */
@@ -20,9 +20,26 @@ export const findIndex = (array: any[], predicate: Function) => {
   return -1;
 };
 
+/**
+ * Removes false and null values from array
+ * @param array {Array}
+ * @returns {Array} 
+ */
+export const compact = (array: any[]) => {
+  let index = 0;
+  const result: any[] = [];
+
+  for (const value of array) {
+    if (value) {
+      result[index++] = value;
+    }
+  }
+  return result;
+};
+
 /** 
  * finds an array elements which matches the predicate
- * @param array {any[]}
+ * @param array {Array}
  * @param predicate {Function}
  * @returns {any} || {undefined}
 */

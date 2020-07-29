@@ -3,8 +3,7 @@ import { generateMethodParamId } from "../generate-method-id";
 import ParameterValidationError from "./parameter-validation-error";
 import { OpenrpcDocument as OpenRPC, MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
 import MethodNotFoundError from "./method-not-found-error";
-import { find } from "../helper-functions";
-import * as _ from "lodash";
+import { find, compact } from "../helper-functions";
 
 /**
  * A class to assist in validating method calls to an OpenRPC-based service. Generated Clients,
@@ -71,10 +70,11 @@ export default class MethodCallValidator {
       return new MethodNotFoundError(methodName, this.document, params);
     }
 
-    return _.chain(method.params as ContentDescriptorObject[])
-      .map((param: ContentDescriptorObject, index: number): ParameterValidationError | undefined => {
+    if (method.params) {
+      const paramMap = (method.params as ContentDescriptorObject[]);
+      return compact(paramMap.map((param: ContentDescriptorObject, index: number): ParameterValidationError | undefined => {
         let id: string | number;
-
+        
         if (method.paramStructure === "by-position") {
           id = index;
         } else if (method.paramStructure === "by-name") {
@@ -82,11 +82,10 @@ export default class MethodCallValidator {
         } else {
           if (params[index] !== undefined ) {
             id = index;
-          } else {
+          } else {              
             id = param.name;
           }
         }
-
         const input = params[id];
 
         if (input === undefined && !param.required) { return; }
@@ -98,8 +97,9 @@ export default class MethodCallValidator {
         if (!isValid) {
           return new ParameterValidationError(id, param.schema, input, errors);
         }
-      })
-      .compact()
-      .value() as ParameterValidationError[];
+      })) as ParameterValidationError[];      
+    } else {
+      return [] as ParameterValidationError[];
+    }
   }
 }

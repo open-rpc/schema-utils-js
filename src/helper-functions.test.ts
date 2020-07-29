@@ -15,7 +15,7 @@ describe("helper functions", () => {
       expect(help.findIndex(array, (o: any[]) => {return o === null})).toBe(-1);
     })
   });
-
+  
 	describe("rpcDocIsEqual", () => {
 		it("missing key", () => {
 			const doc1: OpenRPC = {
