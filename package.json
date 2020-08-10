@@ -37,8 +37,7 @@
     "detect-node": "^2.0.4",
     "fs-extra": "^9.0.0",
     "is-url": "^1.2.4",
-    "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.17.15"
+    "isomorphic-fetch": "^2.2.1"
   },
   "devDependencies": {
     "@types/detect-node": "^2.0.0",
@@ -47,7 +46,6 @@
     "@types/isomorphic-fetch": "0.0.35",
     "@types/jest": "^26.0.5",
     "@types/json-schema": "^7.0.3",
-    "@types/lodash": "^4.14.123",
     "@types/node-fetch": "^2.1.6",
     "@types/rimraf": "^3.0.0",
     "@types/webpack-env": "^1.13.9",

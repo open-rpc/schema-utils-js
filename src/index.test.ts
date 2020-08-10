@@ -5,6 +5,7 @@ import rimraf from "rimraf";
 import { promisify } from "util";
 import http from "http";
 import { AddressInfo } from "net";
+import { rpcDocIsEqual } from "./helper-functions";
 const rmDir = promisify(rimraf);
 
 export const mockServer = (file: string): Promise<http.Server> => {
@@ -53,18 +54,18 @@ describe("parseOpenRPCDocument", () => {
 
   it("should parseOpenRPCDocument from string", async () => {
     const doc = await parseOpenRPCDocument(JSON.stringify(testDoc, null, 2));
-    expect(doc).toEqual(testDoc);
+    expect(rpcDocIsEqual(doc, testDoc)).toBe(true);
   });
 
   it("should parseOpenRPCDocument from file", async () => {
     const doc = await parseOpenRPCDocument(testDocPath);
-    expect(doc).toEqual(testDoc);
+    expect(rpcDocIsEqual(doc, testDoc)).toBe(true);
   });
 
   it("should parseOpenRPCDocument from server", async () => {
     const { port } = testServer.address() as AddressInfo;
     const doc = await parseOpenRPCDocument(`http://localhost:${port}/download/openrpc.json`);
-    expect(doc).toEqual(testDoc);
+    expect(rpcDocIsEqual(doc, testDoc)).toBe(true);
   });
 
 });
