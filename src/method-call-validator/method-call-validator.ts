@@ -74,7 +74,6 @@ export default class MethodCallValidator {
       const paramMap = (method.params as ContentDescriptorObject[]);
       return compact(paramMap.map((param: ContentDescriptorObject, index: number): ParameterValidationError | undefined => {
         let id: string | number;
-        
         if (method.paramStructure === "by-position") {
           id = index;
         } else if (method.paramStructure === "by-name") {
@@ -82,7 +81,7 @@ export default class MethodCallValidator {
         } else {
           if (params[index] !== undefined ) {
             id = index;
-          } else {              
+          } else {
             id = param.name;
           }
         }
