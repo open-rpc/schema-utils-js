@@ -35,7 +35,7 @@ export default class MethodCallValidator {
       params.forEach((param: ContentDescriptorObject) => {
         if (param.schema === undefined) { return; }
 
-        this.ajvValidator.addSchema(param.schema, generateMethodParamId(method, param));
+        this.ajvValidator.addSchema(param.schema as any, generateMethodParamId(method, param));
       });
     });
   }
@@ -79,7 +79,7 @@ export default class MethodCallValidator {
         } else if (method.paramStructure === "by-name") {
           id = param.name;
         } else {
-          if (params[index] !== undefined ) {
+          if (params[index] !== undefined) {
             id = index;
           } else {
             id = param.name;
@@ -89,12 +89,14 @@ export default class MethodCallValidator {
 
         if (input === undefined && !param.required) { return; }
 
-        const idForMethod = generateMethodParamId(method, param);
-        const isValid = this.ajvValidator.validate(idForMethod, input);
-        const errors = this.ajvValidator.errors as ErrorObject[];
+        if (param.schema !== undefined) {
+          const idForMethod = generateMethodParamId(method, param);
+          const isValid = this.ajvValidator.validate(idForMethod, input);
+          const errors = this.ajvValidator.errors as ErrorObject[];
 
-        if (!isValid) {
-          return new ParameterValidationError(id, param.schema, input, errors);
+          if (!isValid) {
+            return new ParameterValidationError(id, param.schema, input, errors);
+          }
         }
       })) as ParameterValidationError[];      
     } else {

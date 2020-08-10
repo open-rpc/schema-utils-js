@@ -74,17 +74,20 @@ describe("MethodCallValidator", () => {
         {
           name: "foo",
           paramStructure: "by-name",
-          params: [{ name: "foofoo", required: true, schema: { type: "string" } }],
+          params: [
+            { name: "foofoo", required: true, schema: { type: "string" } },
+            { name: "barbar", required: true }
+          ],
           result: { name: "foofoo", schema: { type: "integer" } },
         },
       ],
       openrpc: "1.0.0-rc1",
     } as OpenrpcDocument;
     const methodCallValidator = new MethodCallValidator(example);
-    const result0 = methodCallValidator.validate("foo", { foofoo: "123" });
+    const result0 = methodCallValidator.validate("foo", { foofoo: "123", barbar: "abc" });
     expect(result0).toBeInstanceOf(Array);
     expect(result0).toHaveLength(0);
-    const result1 = methodCallValidator.validate("foo", { foofoo: 123 });
+    const result1 = methodCallValidator.validate("foo", { foofoo: 123, barbar: "abc" });
     expect(result1).toBeInstanceOf(Array);
     expect(result1).toHaveLength(1);
     const resAsArr = result1 as any[];
