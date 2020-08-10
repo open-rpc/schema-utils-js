@@ -46,6 +46,7 @@ describe("parseOpenRPCDocument", () => {
     await fs.writeFile(testDocPath, JSON.stringify(testDoc, null, 2));
     testServer = await mockServer(testDocPath);
   });
+
   afterAll(async () => {
     await rmDir(dirName);
     await new Promise((resolve) => testServer.close(resolve));

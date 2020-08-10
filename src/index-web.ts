@@ -1,4 +1,4 @@
-import makeParseOpenRPCDocument, { OpenRPCDocumentDereferencingError } from "./parse-open-rpc-document";
+import makeParseOpenRPCDocument from "./parse-open-rpc-document";
 import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
 import {
   generateMethodParamId,
@@ -24,6 +24,5 @@ export {
   MethodCallValidator,
   ParameterValidationError,
   OpenRPCDocumentValidationError,
-  OpenRPCDocumentDereferencingError,
   ContentDescriptorNotFoundInMethodError,
 };

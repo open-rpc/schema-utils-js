@@ -1,3 +1,34 @@
+# [1.14.0](https://github.com/open-rpc/schema-utils-js/compare/1.13.4...1.14.0) (2020-07-30)
+
+
+### Bug Fixes
+
+* add failing test ([8e38df1](https://github.com/open-rpc/schema-utils-js/commit/8e38df16a8552575829c98735369967111ca12fc))
+* add some testing ([8da42a8](https://github.com/open-rpc/schema-utils-js/commit/8da42a8172f416dcb593b536db38cc3112246df2))
+* add test cov ([1a0f23a](https://github.com/open-rpc/schema-utils-js/commit/1a0f23a93225e95ffa8f33e75de71782f092836f))
+* all green ([a1bb755](https://github.com/open-rpc/schema-utils-js/commit/a1bb7559fbc3fea57d34e4b3409a89a4e95e90c3))
+* another line covered ([242afe3](https://github.com/open-rpc/schema-utils-js/commit/242afe34a2031c48d5426bd2820a6792df12a249))
+* everything working except web build ([9fb9374](https://github.com/open-rpc/schema-utils-js/commit/9fb9374aa4e1d00a8d918eece0b9d25f53a3c841))
+* export dereferenceDocument method ([2d6964a](https://github.com/open-rpc/schema-utils-js/commit/2d6964ad832065becc649502d8282b9ca77f1c6b))
+* lint fixing ([b69b61c](https://github.com/open-rpc/schema-utils-js/commit/b69b61ca7d1a20eb1a8b025c6a8e1c5098db7dff))
+* more testing ([e0e19d7](https://github.com/open-rpc/schema-utils-js/commit/e0e19d734d403c70c548f88e18a70fbd38a6b175))
+* packagejson license ([9576334](https://github.com/open-rpc/schema-utils-js/commit/9576334f00b29633e05df2f2aea1ca05948d45bf))
+* race condition in testing ([7110293](https://github.com/open-rpc/schema-utils-js/commit/7110293bf1123527dcfcdc7f210dbd7bc41144de))
+* rebase and audit fix ([dff5b0b](https://github.com/open-rpc/schema-utils-js/commit/dff5b0b54473fdadceeae342987c43b3dafe702c))
+* rebase master and update packagelock ([b20f533](https://github.com/open-rpc/schema-utils-js/commit/b20f5335fba6c686da84405445a0520d593c5afc))
+* remove cold code ([76810c8](https://github.com/open-rpc/schema-utils-js/commit/76810c83eec3dc4d7759e565fed3923ff5d3dfcc))
+* remove extra semi ([d7af4f4](https://github.com/open-rpc/schema-utils-js/commit/d7af4f47787fa4bb360b28bfc5e14eaf2b29afd5))
+* update package-lock ([4cea476](https://github.com/open-rpc/schema-utils-js/commit/4cea476889951da16c717c1e5e52dd9da25bf82d))
+* update tests ([f048e56](https://github.com/open-rpc/schema-utils-js/commit/f048e56fe57664b771d24392503ac7892ae14fc1))
+* use json schema from json schema tools ([084bc27](https://github.com/open-rpc/schema-utils-js/commit/084bc27adc52e2c90acc371387682a905fa31ef0))
+* web build working again ([449a429](https://github.com/open-rpc/schema-utils-js/commit/449a429fff25e70023cdb3023c7ddb05408c18c5))
+
+
+### Features
+
+* add dererenceDocument method ([60de791](https://github.com/open-rpc/schema-utils-js/commit/60de79149e0bb794474063b4888e6ced24af2d06))
+* remote refs for open rpc resources ([dcbfa15](https://github.com/open-rpc/schema-utils-js/commit/dcbfa1547f1be279f54deec8866ceb6017bf8ee5))
+
 ## [1.13.4](https://github.com/open-rpc/schema-utils-js/compare/1.13.3...1.13.4) (2020-05-27)
 
 
