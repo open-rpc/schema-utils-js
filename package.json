@@ -37,7 +37,7 @@
     "detect-node": "^2.0.4",
     "fs-extra": "^9.0.0",
     "is-url": "^1.2.4",
-    "isomorphic-fetch": "^2.2.1"
+    "isomorphic-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@types/detect-node": "^2.0.0",
