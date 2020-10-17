@@ -33,7 +33,7 @@ const derefItem = async (item: ReferenceObject, doc: OpenRPC) => {
       `instance: ${err.instance}`,
       `token: ${err.token}`,
       `pointer: ${$ref}`,
-      `reference object: ${JSON.stringify(item)}`
+      `reference object: ${safeStringify(item)}`
     ].join("\n"));
   }
 };
