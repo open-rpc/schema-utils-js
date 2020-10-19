@@ -1,6 +1,7 @@
 import Dereferencer from "@json-schema-tools/dereferencer";
 import { OpenrpcDocument as OpenRPC, ReferenceObject, ExamplePairingObject, JSONSchema, SchemaComponents, ContentDescriptorComponents, ContentDescriptorObject, OpenrpcDocument, MethodObject } from "@open-rpc/meta-schema";
 import referenceResolver from "@json-schema-tools/reference-resolver";
+import safeStringify from  "fast-safe-stringify";
 
 /**
  * Provides an error interface for OpenRPC Document dereferencing problems
@@ -32,6 +33,7 @@ const derefItem = async (item: ReferenceObject, doc: OpenRPC) => {
       `instance: ${err.instance}`,
       `token: ${err.token}`,
       `pointer: ${$ref}`,
+      `reference object: ${safeStringify(item)}`
     ].join("\n"));
   }
 };
@@ -64,7 +66,8 @@ const handleSchemaWithSchemaComponents = async (s: JSONSchema, schemaComponents:
     throw new OpenRPCDocumentDereferencingError([
       "Unable to parse reference inside of JSONSchema",
       s.title ? `Schema Title: ${s.title}` : "",
-      `error message: ${e.message}`
+      `error message: ${e.message}`,
+      `schema in question: ${safeStringify(s)}`
     ].join("\n"));
   }
 };
