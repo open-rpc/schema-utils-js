@@ -104,10 +104,13 @@
 							</ul>
 							<h3>Other Functions</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-function"><a href="globals.html#compact" class="tsd-kind-icon">compact</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#derefitem" class="tsd-kind-icon">deref<wbr>Item</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#derefitems" class="tsd-kind-icon">deref<wbr>Items</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#dereferencedocument" class="tsd-kind-icon">dereference<wbr>Document</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#fetchurlschema" class="tsd-kind-icon">fetch<wbr>Url<wbr>Schema</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#find" class="tsd-kind-icon">find</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#findindex" class="tsd-kind-icon">find<wbr>Index</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#handlemethod" class="tsd-kind-icon">handle<wbr>Method</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#handleschemacomponents" class="tsd-kind-icon">handle<wbr>Schema<wbr>Components</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#handleschemawithschemacomponents" class="tsd-kind-icon">handle<wbr>Schema<wbr>With<wbr>Schema<wbr>Components</a></li>
@@ -115,6 +118,7 @@
 								<li class="tsd-kind-function"><a href="globals.html#makeparseopenrpcdocument" class="tsd-kind-icon">make<wbr>Parse<wbr>OpenRPCDocument</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#noop" class="tsd-kind-icon">noop</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#readschemafromfile" class="tsd-kind-icon">read<wbr>Schema<wbr>From<wbr>File</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#rpcdocisequal" class="tsd-kind-icon">rpc<wbr>Doc<wbr>IsEqual</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#validateopenrpcdocument" class="tsd-kind-icon">validate<wbr>OpenRPCDocument</a></li>
 							</ul>
 						</section>
@@ -135,7 +139,7 @@
 					<div class="tsd-signature tsd-kind-icon">TGet<wbr>OpenRPCDocument<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>schema<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">OpenRPC</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/get-open-rpc-document.ts#L2">get-open-rpc-document.ts:2</a></li>
+							<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/get-open-rpc-document.ts#L2">get-open-rpc-document.ts:2</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -169,7 +173,7 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Url<span class="tsd-signature-symbol">:</span> <a href="globals.html#isurl" class="tsd-signature-type">isUrl</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/parse-open-rpc-document.ts#L3">parse-open-rpc-document.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/parse-open-rpc-document.ts#L3">parse-open-rpc-document.ts:3</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -179,8 +183,8 @@
 					<div class="tsd-signature tsd-kind-icon">parse<wbr>OpenRPCDocument<span class="tsd-signature-symbol">:</span> <a href="globals.html#parseopenrpcdocument" class="tsd-signature-type">parseOpenRPCDocument</a><span class="tsd-signature-symbol"> = makeParseOpenRPCDocument(fetchUrlSchema, readSchemaFromFile)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/index-web.ts#L16">index-web.ts:16</a></li>
-							<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/index.ts#L13">index.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/index-web.ts#L16">index-web.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/index.ts#L13">index.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -197,7 +201,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/generate-method-id.ts#L63">generate-method-id.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/generate-method-id.ts#L64">generate-method-id.ts:64</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -262,7 +266,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/generate-method-id.ts#L120">generate-method-id.ts:120</a></li>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/generate-method-id.ts#L121">generate-method-id.ts:121</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -317,6 +321,34 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Other Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="compact" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> compact</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">compact<span class="tsd-signature-symbol">(</span>array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/helper-functions.ts#L26">helper-functions.ts:26</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Removes false and null values from array</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>array: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="derefitem" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> deref<wbr>Item</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -326,7 +358,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/dereference-document.ts#L22">dereference-document.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/dereference-document.ts#L23">dereference-document.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -352,7 +384,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/dereference-document.ts#L39">dereference-document.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/dereference-document.ts#L41">dereference-document.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -378,7 +410,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/dereference-document.ts#L179">dereference-document.ts:179</a></li>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/dereference-document.ts#L182">dereference-document.ts:182</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -424,7 +456,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/get-open-rpc-document-from-url.ts#L5">get-open-rpc-document-from-url.ts:5</a></li>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/get-open-rpc-document-from-url.ts#L5">get-open-rpc-document-from-url.ts:5</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -438,6 +470,70 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="find" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> find</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">find<span class="tsd-signature-symbol">(</span>array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span>, predicate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/helper-functions.ts#L44">helper-functions.ts:44</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>finds an array elements which matches the predicate</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>array: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>predicate: <span class="tsd-signature-type">Function</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<p>|| {undefined}</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="findindex" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> find<wbr>Index</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">find<wbr>Index<span class="tsd-signature-symbol">(</span>array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span>, predicate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/helper-functions.ts#L7">helper-functions.ts:7</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>finds array index of array object which matches predicate</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>array: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>predicate: <span class="tsd-signature-type">Function</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>|| {undefined}</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="handlemethod" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> handle<wbr>Method</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -447,7 +543,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/dereference-document.ts#L113">dereference-document.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/dereference-document.ts#L116">dereference-document.ts:116</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -473,7 +569,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/dereference-document.ts#L72">dereference-document.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/dereference-document.ts#L75">dereference-document.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -490,13 +586,13 @@
 					<a name="handleschemawithschemacomponents" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> handle<wbr>Schema<wbr>With<wbr>Schema<wbr>Components</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">handle<wbr>Schema<wbr>With<wbr>Schema<wbr>Components<span class="tsd-signature-symbol">(</span>s<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JSONSchema</span>, schemaComponents<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SchemaComponents</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">JSONSchemaObject</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Schema<wbr>With<wbr>Schema<wbr>Components<span class="tsd-signature-symbol">(</span>s<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JSONSchema</span>, schemaComponents<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SchemaComponents</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">JSONSchema</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/dereference-document.ts#L47">dereference-document.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/dereference-document.ts#L49">dereference-document.ts:49</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -508,7 +604,7 @@
 									<h5>schemaComponents: <span class="tsd-signature-type">SchemaComponents</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">JSONSchemaObject</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">JSONSchema</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -522,7 +618,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/dereference-document.ts#L90">dereference-document.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/dereference-document.ts#L93">dereference-document.ts:93</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -545,7 +641,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/parse-open-rpc-document.ts#L43">parse-open-rpc-document.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/parse-open-rpc-document.ts#L43">parse-open-rpc-document.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -571,7 +667,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/index-web.ts#L12">index-web.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/index-web.ts#L12">index-web.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -594,7 +690,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/get-open-rpc-document-from-file.ts#L5">get-open-rpc-document-from-file.ts:5</a></li>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/get-open-rpc-document-from-file.ts#L5">get-open-rpc-document-from-file.ts:5</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -608,6 +704,37 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="rpcdocisequal" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> rpc<wbr>Doc<wbr>IsEqual</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">rpc<wbr>Doc<wbr>IsEqual<span class="tsd-signature-symbol">(</span>doc1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, doc2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/helper-functions.ts#L65">helper-functions.ts:65</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>compares OpenrpcDocuments</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>doc1: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>doc2: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="validateopenrpcdocument" class="tsd-anchor"></a>
 					<h3>validate<wbr>OpenRPCDocument</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -617,7 +744,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/validate-open-rpc-document.ts#L48">validate-open-rpc-document.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/validate-open-rpc-document.ts#L48">validate-open-rpc-document.ts:48</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -660,7 +787,7 @@
 					<div class="tsd-signature tsd-kind-icon">default<wbr>Parse<wbr>OpenRPCDocument<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/parse-open-rpc-document.ts#L38">parse-open-rpc-document.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/parse-open-rpc-document.ts#L38">parse-open-rpc-document.ts:38</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -669,7 +796,7 @@
 						<div class="tsd-signature tsd-kind-icon">dereference<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/parse-open-rpc-document.ts#L39">parse-open-rpc-document.ts:39</a></li>
+								<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/parse-open-rpc-document.ts#L39">parse-open-rpc-document.ts:39</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -679,7 +806,7 @@
 						<div class="tsd-signature tsd-kind-icon">validate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/c3508e6/src/parse-open-rpc-document.ts#L40">parse-open-rpc-document.ts:40</a></li>
+								<li>Defined in <a href="https://github.com/open-rpc/schema-utils-js/blob/d0e7f02/src/parse-open-rpc-document.ts#L40">parse-open-rpc-document.ts:40</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -713,6 +840,9 @@
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#parseopenrpcdocument" class="tsd-kind-icon">parse<wbr>OpenRPCDocument</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#dereferencedocument" class="tsd-kind-icon">dereference<wbr>Document</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#generatemethodparamid" class="tsd-kind-icon">generate<wbr>Method<wbr>Param<wbr>Id</a>
