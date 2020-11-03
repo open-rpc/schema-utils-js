@@ -1,3 +1,22 @@
+## [1.14.1](https://github.com/open-rpc/schema-utils-js/compare/1.14.0...1.14.1) (2020-11-03)
+
+
+### Bug Fixes
+
+* add better debugging info to error message ([19fd834](https://github.com/open-rpc/schema-utils-js/commit/19fd83485243dc323bae455074b7bf48dcd87fdb)), closes [#447](https://github.com/open-rpc/schema-utils-js/issues/447)
+* add deref document to the table of contents ([e4dd3df](https://github.com/open-rpc/schema-utils-js/commit/e4dd3df6eab4e07342e57e749d188110d8d67565))
+* add discord link ([7d2956a](https://github.com/open-rpc/schema-utils-js/commit/7d2956a86d7c6ac52f1ead38d13c68cdda9aea2a))
+* add helper functions to remove lodash dependencies ([8ea4919](https://github.com/open-rpc/schema-utils-js/commit/8ea4919ba26f0f1fa7a07a54aacce4519576efb7))
+* add link to typedoc ([b28a92e](https://github.com/open-rpc/schema-utils-js/commit/b28a92ea738282c9b0eba2779ac300419867af12))
+* add remaining functions and tests ([146a188](https://github.com/open-rpc/schema-utils-js/commit/146a188a5a84a6ef2a783fd2339fc8d1539769ef)), closes [#406](https://github.com/open-rpc/schema-utils-js/issues/406)
+* mixed up use of type vs var ([7d3bc6f](https://github.com/open-rpc/schema-utils-js/commit/7d3bc6fda57301bbed4ad4a60c832e11b0e29a4a))
+* remove ts-lint ignore ([80996c7](https://github.com/open-rpc/schema-utils-js/commit/80996c7de35cfff95afa3a687c34e2ed129cd8bc))
+* remove unused discord badge ([d0e7f02](https://github.com/open-rpc/schema-utils-js/commit/d0e7f0259fcdd3c6ba2ab26c70a60c251e3cd3f9))
+* replace use of json stringify ([78b5b5e](https://github.com/open-rpc/schema-utils-js/commit/78b5b5ef069a82382408580f934bff6c68368cd1))
+* spacing and add editorconfig ([795deff](https://github.com/open-rpc/schema-utils-js/commit/795deffe385122a6873e812b18b2efb5c39b902a)), closes [#420](https://github.com/open-rpc/schema-utils-js/issues/420)
+* update node version in ci ([c3a397e](https://github.com/open-rpc/schema-utils-js/commit/c3a397eaf8132a2a3abbc491e3a5b476f19d165f))
+* update reference resolver & dereferencer ([401cd1e](https://github.com/open-rpc/schema-utils-js/commit/401cd1e180d090618962bd8984a49309cc6c3597))
+
 # [1.14.0](https://github.com/open-rpc/schema-utils-js/compare/1.13.4...1.14.0) (2020-07-30)
 
 
