@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/open-rpc/schema-utils-js#readme",
   "dependencies": {
-    "@json-schema-tools/dereferencer": "^1.2.6",
+    "@json-schema-tools/dereferencer": "^1.3.1",
     "@json-schema-tools/meta-schema": "^1.3.0",
     "@json-schema-tools/reference-resolver": "^1.0.2",
     "@open-rpc/meta-schema": "^1.12.5",
