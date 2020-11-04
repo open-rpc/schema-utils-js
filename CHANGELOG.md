@@ -1,3 +1,10 @@
+## [1.14.2](https://github.com/open-rpc/schema-utils-js/compare/1.14.1...1.14.2) (2020-11-04)
+
+
+### Bug Fixes
+
+* update json-schema-tools/dereferencer ([8cc3400](https://github.com/open-rpc/schema-utils-js/commit/8cc340031dcfa00cd04ba6844f2db1f30b05848b))
+
 ## [1.14.1](https://github.com/open-rpc/schema-utils-js/compare/1.14.0...1.14.1) (2020-11-03)
 
 
