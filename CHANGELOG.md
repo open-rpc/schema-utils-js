@@ -1,3 +1,12 @@
+## [1.14.3](https://github.com/open-rpc/schema-utils-js/compare/1.14.2...1.14.3) (2020-11-10)
+
+
+### Bug Fixes
+
+* regen package lock ([d41fd35](https://github.com/open-rpc/schema-utils-js/commit/d41fd352c36f089b2db49e676f0d2f5e90cec1ff))
+* update and rebase ([f37d6e5](https://github.com/open-rpc/schema-utils-js/commit/f37d6e5096e375f810d8350c6a4f6e889a7e8df8))
+* update derefer and meta-schema ([768ec41](https://github.com/open-rpc/schema-utils-js/commit/768ec4115908637ee8a1b5e4ebc7f4c4f1730012))
+
 ## [1.14.2](https://github.com/open-rpc/schema-utils-js/compare/1.14.1...1.14.2) (2020-11-04)
 
 
