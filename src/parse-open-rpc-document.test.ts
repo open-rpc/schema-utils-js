@@ -112,6 +112,12 @@ describe("parseOpenRPCDocument", () => {
     expect(document.methods).toBeDefined();
   });
 
+  it("can disable fallback examples", async () => {
+    expect.assertions(1);
+    const document = await parseOpenRPCDocument(workingDocument, { fallbackExamples: false });
+    expect(document.methods).toBeDefined();
+  });
+
   describe("errors", () => {
 
     it("rejects when unable to find file via default", async () => {

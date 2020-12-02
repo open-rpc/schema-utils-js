@@ -3,6 +3,7 @@ import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./valid
 import isUrl = require("is-url");
 import { OpenrpcDocument } from "@open-rpc/meta-schema";
 import { TGetOpenRPCDocument } from "./get-open-rpc-document";
+import fallbackExamples from "./fallback-examples";
 
 /**
  * @ignore
@@ -33,11 +34,20 @@ export interface ParseOpenRPCDocumentOptions {
    *
    */
   dereference?: boolean;
+
+  /*
+   * Enable or disable the fallback of schema.example => method.examples if possible.
+   *
+   * @default true
+   *
+   */
+  fallbackExamples?: boolean;
 }
 
 const defaultParseOpenRPCDocumentOptions = {
   dereference: true,
   validate: true,
+  fallbackExamples: true
 };
 
 const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchemaFromFile: TGetOpenRPCDocument) => {
@@ -112,6 +122,10 @@ const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchem
       if (isValid instanceof OpenRPCDocumentValidationError) {
         throw isValid;
       }
+    }
+
+    if (parseOptions.fallbackExamples) {
+      postDeref = await fallbackExamples(postDeref);
     }
 
     return postDeref;
