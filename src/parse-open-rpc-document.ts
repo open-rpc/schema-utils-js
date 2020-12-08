@@ -36,7 +36,7 @@ export interface ParseOpenRPCDocumentOptions {
   dereference?: boolean;
 
   /*
-   * Enable or disable the fallback of schema.example => method.examples if possible.
+   * Enable or disable the fallback of schema.examples => method.examples if possible.
    *
    * @default true
    *
