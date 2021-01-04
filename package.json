@@ -12,7 +12,8 @@
     "test": "npm run test:unit && npm run test:web",
     "test:unit": "jest --coverage",
     "test:web": "npm run build:code && webpack && rm -rf dist",
-    "watch:test": "jest --watch"
+    "watch:test": "jest --watch",
+    "lint": "eslint . --ext .ts"
   },
   "files": [
     "build",
@@ -50,6 +51,9 @@
     "@types/node-fetch": "^2.1.6",
     "@types/rimraf": "^3.0.0",
     "@types/webpack-env": "^1.13.9",
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
+    "@typescript-eslint/parser": "^4.11.1",
+    "eslint": "^7.17.0",
     "jest": "^25.1.0",
     "json-schema": "^0.2.3",
     "rimraf": "^3.0.0",
