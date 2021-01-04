@@ -1,10 +1,11 @@
+type TPredicate = (value: any) => boolean
 /**
  * finds array index of array object which matches predicate
  * @param array {Array}
  * @param predicate {Function}
  * @returns {number} || {undefined}
 */
-export const findIndex = (array: any[], predicate: Function) => {
+export const findIndex = (array: any[], predicate: TPredicate): number => {
   const length = array == null ? 0 : array.length;
   if (!length) {
     return -1;
@@ -41,7 +42,7 @@ export const compact = (array: any[]) => {
  * @param predicate {Function}
  * @returns {any} || {undefined}
 */
-export const find = (array: any[], predicate: Function) => {
+export const find = (array: any[], predicate: TPredicate) => {
   const length = array == null ? 0 : array.length;
   if(!length) {
     return undefined;
