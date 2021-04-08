@@ -168,8 +168,8 @@ const handleMethod = async (method: MethodObject, doc: OpenrpcDocument): Promise
  * @example
  * ```typescript
  *
- * const { OpenRPC } from "@open-rpc/meta-schema"
- * const { dereferenceDocument } from "@open-rpc/schema-utils-js";
+ * import { OpenRPC } from "@open-rpc/meta-schema"
+ * import { dereferenceDocument } from "@open-rpc/schema-utils-js";
  *
  * try {
  *   const dereffedDocument = await dereferenceDocument({ ... }) as OpenRPC;
