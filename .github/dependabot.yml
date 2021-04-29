@@ -1,0 +1,118 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  reviewers:
+  - BelfordZ
+  assignees:
+  - BelfordZ
+  ignore:
+  - dependency-name: "@qiwi/semantic-release-gh-pages-plugin"
+    versions:
+    - ">= 1.7.0.a, < 1.7.1"
+  - dependency-name: quicktype
+    versions:
+    - ">= 14.a, < 15"
+  - dependency-name: quicktype
+    versions:
+    - ">= 15.a, < 16"
+  - dependency-name: webpack
+    versions:
+    - 5.18.0
+    - 5.19.0
+    - 5.20.0
+    - 5.20.1
+    - 5.20.2
+    - 5.21.2
+    - 5.22.0
+    - 5.23.0
+    - 5.24.0
+    - 5.24.1
+    - 5.24.2
+    - 5.24.3
+    - 5.24.4
+    - 5.25.1
+    - 5.26.0
+    - 5.26.2
+    - 5.26.3
+    - 5.27.1
+    - 5.27.2
+    - 5.28.0
+    - 5.30.0
+    - 5.31.0
+    - 5.31.2
+    - 5.32.0
+    - 5.34.0
+    - 5.35.1
+    - 5.36.0
+  - dependency-name: eslint
+    versions:
+    - 7.24.0
+  - dependency-name: typedoc
+    versions:
+    - 0.20.19
+    - 0.20.20
+    - 0.20.23
+    - 0.20.24
+    - 0.20.25
+    - 0.20.27
+    - 0.20.28
+    - 0.20.29
+    - 0.20.30
+    - 0.20.32
+    - 0.20.33
+    - 0.20.34
+    - 0.20.35
+  - dependency-name: "@typescript-eslint/eslint-plugin"
+    versions:
+    - 4.14.1
+    - 4.14.2
+    - 4.15.0
+    - 4.15.1
+    - 4.15.2
+    - 4.16.1
+    - 4.17.0
+    - 4.18.0
+    - 4.19.0
+    - 4.20.0
+    - 4.21.0
+  - dependency-name: "@types/fs-extra"
+    versions:
+    - 9.0.10
+    - 9.0.6
+    - 9.0.7
+    - 9.0.8
+    - 9.0.9
+  - dependency-name: "@typescript-eslint/parser"
+    versions:
+    - 4.14.1
+    - 4.14.2
+    - 4.15.0
+    - 4.15.1
+    - 4.15.2
+    - 4.16.1
+    - 4.17.0
+    - 4.18.0
+    - 4.19.0
+    - 4.20.0
+    - 4.21.0
+  - dependency-name: highlight.js
+    versions:
+    - 10.5.0
+    - 10.6.0
+    - 10.7.1
+  - dependency-name: webpack-cli
+    versions:
+    - 4.4.0
+    - 4.5.0
+  - dependency-name: "@types/jest"
+    versions:
+    - 26.0.20
+    - 26.0.21
+  - dependency-name: y18n
+    versions:
+    - 4.0.1
+    - 4.0.2
