@@ -3,6 +3,7 @@ import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./valid
 import isUrl = require("is-url");
 import { OpenrpcDocument } from "@open-rpc/meta-schema";
 import { TGetOpenRPCDocument } from "./get-open-rpc-document";
+import { ProtocolHandlerMap } from "@json-schema-tools/reference-resolver/build/reference-resolver";
 
 /**
  * @ignore
@@ -33,11 +34,20 @@ export interface ParseOpenRPCDocumentOptions {
    *
    */
   dereference?: boolean;
+
+  /*
+   * If Dereferencing is enabled, this option allows the user to implement custom protocol handling for the parsed references.
+   *
+   * @default true
+   *
+   */
+  dereferencerProtocolHandlerMap?: ProtocolHandlerMap;
 }
 
 const defaultParseOpenRPCDocumentOptions = {
   dereference: true,
   validate: true,
+  dereferencerProtocolHandlerMap: {},
 };
 
 const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchemaFromFile: TGetOpenRPCDocument) => {
@@ -104,7 +114,7 @@ const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchem
 
     let postDeref: OpenrpcDocument = parsedSchema;
     if (parseOptions.dereference) {
-      postDeref = await dereferenceDocument(parsedSchema);
+      postDeref = await dereferenceDocument(parsedSchema, { protocolHandlerMap: options.dereferencerProtocolHandlerMap });
     }
 
     if (parseOptions.validate) {
