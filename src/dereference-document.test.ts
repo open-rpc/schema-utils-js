@@ -392,3 +392,40 @@ describe("dereferenceDocument", () => {
     }
   });
 });
+
+describe("custom protocols", () => {
+  it("can handle a a basic impl", async () => {
+    expect.assertions(1);
+
+    const testDoc = {
+      openrpc: "1.2.4",
+      info: {
+        title: "foo",
+        version: "1",
+      },
+      methods: [
+        {
+          name: "foo",
+          params: [],
+          result: {
+            name: "fooResult",
+            schema: {
+              $ref: "ipfs://1231231231231"
+            }
+          }
+        }
+      ]
+    };
+
+    const result = await dereferenceDocument(testDoc as OpenrpcDocument, {
+      protocolHandlerMap: {
+        ipfs: (ref) => Promise.resolve({
+          type: "string",
+          title: "schemaFromIpfs"
+        })
+      }
+    }) as any;
+
+    expect(result.methods[0].result.schema.title).toBe("schemaFromIpfs");
+  });
+});
