@@ -1,9 +1,10 @@
 import Ajv, { ErrorObject, Ajv as IAjv } from "ajv";
 import { generateMethodParamId } from "../generate-method-id";
 import ParameterValidationError from "./parameter-validation-error";
-import { OpenrpcDocument as OpenRPC, MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC, MethodObject, ContentDescriptorObject, MethodOrReference } from "@open-rpc/meta-schema";
 import MethodNotFoundError from "./method-not-found-error";
 import { find, compact } from "../helper-functions";
+import MethodRefUnexpectedError from "./method-ref-unexpected-error";
 
 /**
  * A class to assist in validating method calls to an OpenRPC-based service. Generated Clients,
@@ -28,9 +29,13 @@ export default class MethodCallValidator {
   constructor(private document: OpenRPC) {
     this.ajvValidator = new Ajv();
 
-    document.methods.forEach((method: MethodObject) => {
+    // Validate that the methods are dereferenced
+    document.methods.forEach((method: MethodOrReference) => {
+      if (method.$ref) throw new MethodRefUnexpectedError(method.$ref, document);
+    });
+
+    (document.methods as MethodObject[]).forEach((method: MethodObject) => {
       const params = method.params as ContentDescriptorObject[];
-      if (method.params === undefined) { return; }
 
       params.forEach((param: ContentDescriptorObject) => {
         if (param.schema === undefined) { return; }
@@ -70,37 +75,33 @@ export default class MethodCallValidator {
       return new MethodNotFoundError(methodName, this.document, params);
     }
 
-    if (method.params) {
-      const paramMap = (method.params as ContentDescriptorObject[]);
-      return compact(paramMap.map((param: ContentDescriptorObject, index: number): ParameterValidationError | undefined => {
-        let id: string | number;
-        if (method.paramStructure === "by-position") {
+    const paramMap = (method.params as ContentDescriptorObject[]);
+    return compact(paramMap.map((param: ContentDescriptorObject, index: number): ParameterValidationError | undefined => {
+      let id: string | number;
+      if (method.paramStructure === "by-position") {
+        id = index;
+      } else if (method.paramStructure === "by-name") {
+        id = param.name;
+      } else {
+        if (params[index] !== undefined) {
           id = index;
-        } else if (method.paramStructure === "by-name") {
-          id = param.name;
         } else {
-          if (params[index] !== undefined) {
-            id = index;
-          } else {
-            id = param.name;
-          }
+          id = param.name;
         }
-        const input = params[id];
+      }
+      const input = params[id];
 
-        if (input === undefined && !param.required) { return; }
+      if (input === undefined && !param.required) { return; }
 
-        if (param.schema !== undefined) {
-          const idForMethod = generateMethodParamId(method, param);
-          const isValid = this.ajvValidator.validate(idForMethod, input);
-          const errors = this.ajvValidator.errors as ErrorObject[];
+      if (param.schema !== undefined) {
+        const idForMethod = generateMethodParamId(method, param);
+        const isValid = this.ajvValidator.validate(idForMethod, input);
+        const errors = this.ajvValidator.errors as ErrorObject[];
 
-          if (!isValid) {
-            return new ParameterValidationError(id, param.schema, input, errors);
-          }
+        if (!isValid) {
+          return new ParameterValidationError(id, param.schema, input, errors);
         }
-      })) as ParameterValidationError[];      
-    } else {
-      return [] as ParameterValidationError[];
-    }
+      }
+    })) as ParameterValidationError[];
   }
 }

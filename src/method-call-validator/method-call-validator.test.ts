@@ -1,8 +1,9 @@
 import MethodCallValidator from "./method-call-validator";
-import { OpenrpcDocument as OpenRPC, OpenrpcDocument } from "@open-rpc/meta-schema";
+import { MethodObject, OpenrpcDocument as OpenRPC, OpenrpcDocument } from "@open-rpc/meta-schema";
 import MethodCallParameterValidationError from "./parameter-validation-error";
 import MethodCallMethodNotFoundError from "./method-not-found-error";
 import MethodNotFoundError from "./method-not-found-error";
+import MethodRefUnexpectedError from "./method-ref-unexpected-error";
 
 const getExampleSchema = (): OpenRPC => ({
   info: { title: "123", version: "1" },
@@ -29,9 +30,9 @@ describe("MethodCallValidator", () => {
     expect(result).toEqual([]);
   });
 
-  it("can handle having params undefined", () => {
+  it("can handle having params empty", () => {
     const example = getExampleSchema();
-    delete example.methods[0].params;
+    (example.methods[0] as MethodObject).params = [];
     const methodCallValidator = new MethodCallValidator(example);
     const result = methodCallValidator.validate("foo", ["foobar"]);
     expect(result).toEqual([]);
@@ -144,4 +145,13 @@ describe("MethodCallValidator", () => {
     const result0 = methodCallValidator.validate("rawr", { barbar: "123" });
     expect(result0).toBeInstanceOf(MethodNotFoundError);
   });
+
+  it("unexpected reference error when the document has unresolved method reference passed", () => {
+    const example = getExampleSchema() as any;
+    example['x-methods']={ foobar: { name: "foobar", params: [], 
+    result: { name: "abcfoo", schema: { type: "number" } } } }
+    example.methods.push({"$ref":"#/x-methods/foobar"})
+   expect(()=>new MethodCallValidator(example)).toThrowError(MethodRefUnexpectedError);
+  });
+
 });

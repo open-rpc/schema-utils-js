@@ -1,8 +1,9 @@
 import Dereferencer from "@json-schema-tools/dereferencer";
-import { OpenrpcDocument as OpenRPC, ReferenceObject, ExamplePairingObject, JSONSchema, SchemaComponents, ContentDescriptorComponents, ContentDescriptorObject, OpenrpcDocument, MethodObject } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC, ReferenceObject, ExamplePairingObject, JSONSchema, SchemaComponents, ContentDescriptorComponents, ContentDescriptorObject, OpenrpcDocument, MethodObject, MethodOrReference } from "@open-rpc/meta-schema";
 import referenceResolver from "@json-schema-tools/reference-resolver";
 import safeStringify from  "fast-safe-stringify";
 
+export type ReferenceResolver = typeof referenceResolver
 /**
  * Provides an error interface for OpenRPC Document dereferencing problems
  *
@@ -20,12 +21,13 @@ export class OpenRPCDocumentDereferencingError implements Error {
   }
 }
 
-const derefItem = async (item: ReferenceObject, doc: OpenRPC) => {
+const derefItem = async (item: ReferenceObject, doc: OpenRPC, resolver: ReferenceResolver) => {
   const { $ref } = item;
   if ($ref === undefined) { return item; }
 
   try {
-    return await referenceResolver($ref, doc);
+    // returns resolved value of the reference
+    return (await resolver.resolve($ref, doc) as any);
   } catch (err) {
     throw new OpenRPCDocumentDereferencingError([
       `unable to eval pointer against OpenRPC Document.`,
@@ -38,10 +40,10 @@ const derefItem = async (item: ReferenceObject, doc: OpenRPC) => {
   }
 };
 
-const derefItems = async (items: ReferenceObject[], doc: OpenRPC) => {
+const derefItems = async (items: ReferenceObject[], doc: OpenRPC, resolver: ReferenceResolver) => {
   const dereffed = [];
   for (const i of items) {
-    dereffed.push(await derefItem(i, doc))
+    dereffed.push(await derefItem(i, doc, resolver))
   }
   return dereffed;
 };
@@ -113,29 +115,35 @@ const handleSchemasInsideContentDescriptorComponents = async (doc: OpenrpcDocume
   return doc;
 };
 
-const handleMethod = async (method: MethodObject, doc: OpenrpcDocument): Promise<MethodObject> => {
+const handleMethod = async (methodOrRef: MethodOrReference, doc: OpenrpcDocument, resolver: ReferenceResolver): Promise<MethodObject> => {
+  let method = methodOrRef as MethodObject;
+
+  if(methodOrRef.$ref !== undefined){
+    method = await derefItem({$ref: methodOrRef.$ref}, doc, resolver)
+  }
+
   if (method.tags !== undefined) {
-    method.tags = await derefItems(method.tags as ReferenceObject[], doc);
+    method.tags = await derefItems(method.tags as ReferenceObject[], doc, resolver);
   }
 
   if (method.errors !== undefined) {
-    method.errors = await derefItems(method.errors as ReferenceObject[], doc);
+    method.errors = await derefItems(method.errors as ReferenceObject[], doc, resolver);
   }
 
   if (method.links !== undefined) {
-    method.links = await derefItems(method.links as ReferenceObject[], doc);
+    method.links = await derefItems(method.links as ReferenceObject[], doc, resolver);
   }
 
   if (method.examples !== undefined) {
-    method.examples = await derefItems(method.examples as ReferenceObject[], doc);
+    method.examples = await derefItems(method.examples as ReferenceObject[], doc, resolver);
     for (const exPairing of method.examples as ExamplePairingObject[]) {
-      exPairing.params = await derefItems(exPairing.params as ReferenceObject[], doc);
-      exPairing.result = await derefItem(exPairing.result as ReferenceObject, doc);
+      exPairing.params = await derefItems(exPairing.params as ReferenceObject[], doc, resolver);
+      exPairing.result = await derefItem(exPairing.result as ReferenceObject, doc, resolver);
     }
   }
 
-  method.params = await derefItems(method.params as ReferenceObject[], doc);
-  method.result = await derefItem(method.result as ReferenceObject, doc);
+  method.params = await derefItems(method.params as ReferenceObject[], doc, resolver);
+  method.result = await derefItem(method.result as ReferenceObject, doc, resolver);
 
 
   let componentSchemas: SchemaComponents = {};
@@ -179,14 +187,14 @@ const handleMethod = async (method: MethodObject, doc: OpenrpcDocument): Promise
  * ```
  *
  */
-export default async function dereferenceDocument(openrpcDocument: OpenRPC): Promise<OpenRPC> {
+export default async function dereferenceDocument(openrpcDocument: OpenRPC, resolver: ReferenceResolver): Promise<OpenRPC> {
   let derefDoc = { ...openrpcDocument };
-
+  
   derefDoc = await handleSchemaComponents(derefDoc);
   derefDoc = await handleSchemasInsideContentDescriptorComponents(derefDoc);
   const methods = [] as any;
   for (const method of derefDoc.methods) {
-    methods.push(await handleMethod(method, derefDoc));
+    methods.push(await handleMethod(method, derefDoc, resolver));
   }
 
   derefDoc.methods = methods;
