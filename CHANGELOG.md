@@ -1,3 +1,18 @@
+# [1.15.0](https://github.com/open-rpc/schema-utils-js/compare/1.14.3...1.15.0) (2021-05-29)
+
+
+### Bug Fixes
+
+* **dereference-document:** example imports ([2a47014](https://github.com/open-rpc/schema-utils-js/commit/2a470140f5ca0a54f8db45f1a892433dd7b5a39a))
+* add eslint script to package.json ([9b01744](https://github.com/open-rpc/schema-utils-js/commit/9b01744ecd058985763f6365562b81dc87f0cc67))
+* github action linting workflow ([80250e0](https://github.com/open-rpc/schema-utils-js/commit/80250e058ec1ed8d067bfdce56a12dbeb48881bd))
+* linting errors ([647ad1a](https://github.com/open-rpc/schema-utils-js/commit/647ad1acd017171efe06913d9703e489ffa759ca))
+
+
+### Features
+
+* this brings schema-utils into parity with ([e659f42](https://github.com/open-rpc/schema-utils-js/commit/e659f4279d749c9b47056b5fc09a72ddba24dbc1))
+
 ## [1.14.3](https://github.com/open-rpc/schema-utils-js/compare/1.14.2...1.14.3) (2020-11-10)
 
 
