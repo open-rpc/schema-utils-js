@@ -114,7 +114,7 @@ const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchem
 
     let postDeref: OpenrpcDocument = parsedSchema;
     if (parseOptions.dereference) {
-      if(parseOptions.resolver !== undefined){
+      if (parseOptions.resolver !== undefined) {
         postDeref = await dereferenceDocument(parsedSchema, parseOptions.resolver);
       } else {
         postDeref = await dereferenceDocument(parsedSchema, defaultResolver);
