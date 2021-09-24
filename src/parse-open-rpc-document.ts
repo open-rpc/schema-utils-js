@@ -4,6 +4,8 @@ import defaultResolver from "@json-schema-tools/reference-resolver"
 import isUrl = require("is-url");
 import { OpenrpcDocument } from "@open-rpc/meta-schema";
 import { TGetOpenRPCDocument } from "./get-open-rpc-document";
+import ReferenceResolver, { ProtocolHandlerMap } from "@json-schema-tools/reference-resolver/build/reference-resolver";
+export { JSONSchema } from "@json-schema-tools/meta-schema";
 
 /**
  * @ignore
@@ -34,6 +36,13 @@ export interface ParseOpenRPCDocumentOptions {
    *
    */
   dereference?: boolean;
+  /*
+   * Enable custom reference resolver. This will allow people to resolve 3rd party custom reference values like for ipfs.
+   *
+   * @default defaultReferenceResolver  
+   *
+   */
+  resolver?: ReferenceResolver;
 }
 
 const defaultParseOpenRPCDocumentOptions = {
@@ -105,7 +114,11 @@ const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchem
 
     let postDeref: OpenrpcDocument = parsedSchema;
     if (parseOptions.dereference) {
-      postDeref = await dereferenceDocument(parsedSchema, defaultResolver);
+      if (parseOptions.resolver !== undefined) {
+        postDeref = await dereferenceDocument(parsedSchema, parseOptions.resolver);
+      } else {
+        postDeref = await dereferenceDocument(parsedSchema, defaultResolver);
+      }
     }
 
     if (parseOptions.validate) {
@@ -118,5 +131,9 @@ const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchem
     return postDeref;
   };
 };
+
+export function makeCustomResolver(protocolMapHandler: ProtocolHandlerMap): ReferenceResolver{
+  return new ReferenceResolver(protocolMapHandler);
+}
 
 export default makeParseOpenRPCDocument;
