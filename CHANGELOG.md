@@ -1,3 +1,16 @@
+# [1.16.0](https://github.com/open-rpc/schema-utils-js/compare/1.15.0...1.16.0) (2021-09-24)
+
+
+### Bug Fixes
+
+* node version bump ([5f92ca3](https://github.com/open-rpc/schema-utils-js/commit/5f92ca3b8bec316432a7f15160b4d4b11d28b953))
+* version bump ([fd86502](https://github.com/open-rpc/schema-utils-js/commit/fd8650266f04d92c98f1df44389278cd1cca33a4))
+
+
+### Features
+
+* expose an option to support custom resolver resolution. ([103f022](https://github.com/open-rpc/schema-utils-js/commit/103f02253af96cf59f13460c7fe56cb5159994d7)), closes [#587](https://github.com/open-rpc/schema-utils-js/issues/587)
+
 # [1.15.0](https://github.com/open-rpc/schema-utils-js/compare/1.14.3...1.15.0) (2021-05-29)
 
 
