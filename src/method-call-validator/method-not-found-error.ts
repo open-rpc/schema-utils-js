@@ -1,4 +1,4 @@
-import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
+import { MethodObject, OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 
 /**
  * Provides an error interface for handling when a method is trying to be called but does not exist.
@@ -25,7 +25,7 @@ export default class MethodNotFoundError implements Error {
 
     if (openrpcDocument.methods.length > 0) {
       msg.push(
-        `Valid method names are as follows: ${openrpcDocument.methods.map(({ name }) => name).join(", ")}`,
+        `Valid method names are as follows: ${openrpcDocument.methods.map((method) => (method as MethodObject).name).join(", ")}`,
       );
     }
 

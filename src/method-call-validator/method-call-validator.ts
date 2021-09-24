@@ -1,7 +1,7 @@
 import Ajv, { ErrorObject, Ajv as IAjv } from "ajv";
 import { generateMethodParamId } from "../generate-method-id";
 import ParameterValidationError from "./parameter-validation-error";
-import { OpenrpcDocument as OpenRPC, MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC, MethodObject, MethodOrReference, ContentDescriptorObject } from "@open-rpc/meta-schema";
 import MethodNotFoundError from "./method-not-found-error";
 import { find, compact } from "../helper-functions";
 
@@ -28,14 +28,14 @@ export default class MethodCallValidator {
   constructor(private document: OpenRPC) {
     this.ajvValidator = new Ajv();
 
-    document.methods.forEach((method: MethodObject) => {
-      const params = method.params as ContentDescriptorObject[];
-      if (method.params === undefined) { return; }
+    document.methods.forEach((method: MethodOrReference) => {
+      const params = (method as MethodObject).params as ContentDescriptorObject[];
+      if (params === undefined) { return; }
 
       params.forEach((param: ContentDescriptorObject) => {
         if (param.schema === undefined) { return; }
 
-        this.ajvValidator.addSchema(param.schema as any, generateMethodParamId(method, param));
+        this.ajvValidator.addSchema(param.schema as any, generateMethodParamId(method as MethodObject, param));
       });
     });
   }

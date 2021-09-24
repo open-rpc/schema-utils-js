@@ -1,6 +1,6 @@
 import * as _fs from "fs-extra";
 import dereferenceDocument, { OpenRPCDocumentDereferencingError } from "./dereference-document";
-import { OpenrpcDocument, ContentDescriptorObject, JSONSchema } from "@open-rpc/meta-schema";
+import { OpenrpcDocument, ContentDescriptorObject, JSONSchema, MethodObject } from "@open-rpc/meta-schema";
 import { JSONSchemaObject } from "@json-schema-tools/meta-schema";
 
 
@@ -93,13 +93,14 @@ describe("dereferenceDocument", () => {
     });
 
     const document = await dereferenceDocument(testDoc);
+    const method = (document.methods[0] as MethodObject);
     expect(document.methods).toBeDefined();
-    expect(document.methods[0]).toBeDefined();
-    expect(document.methods[0].params[0]).toBeDefined();
-    expect((document.methods[0].params[0] as ContentDescriptorObject).name).toBe("bazerino");
-    expect(document.methods[0].result).toBeDefined();
-    expect(((document.methods[0].result as ContentDescriptorObject).schema as JSONSchemaObject).title).toBe("bigOlFoo");
-    expect(((document.methods[0].params as ContentDescriptorObject[])[1].schema as JSONSchemaObject).title).toBe("bigOlFoo");
+    expect(method).toBeDefined();
+    expect(method.params[0]).toBeDefined();
+    expect((method.params[0] as ContentDescriptorObject).name).toBe("bazerino");
+    expect(method.result).toBeDefined();
+    expect(((method.result as ContentDescriptorObject).schema as JSONSchemaObject).title).toBe("bigOlFoo");
+    expect(((method.params as ContentDescriptorObject[])[1].schema as JSONSchemaObject).title).toBe("bigOlFoo");
   });
 
   it("interdependent refs", async () => {
@@ -149,8 +150,8 @@ describe("dereferenceDocument", () => {
     expect(document.methods).toBeDefined();
     expect(document.methods[0]).toBeDefined();
 
-    const params = document.methods[0].params as ContentDescriptorObject[];
-    const result = document.methods[0].result as ContentDescriptorObject;
+    const params = (document.methods[0] as MethodObject).params as ContentDescriptorObject[];
+    const result = (document.methods[0] as MethodObject).result as ContentDescriptorObject;
     expect(params).toBeDefined();
     expect(result).toBeDefined();
 

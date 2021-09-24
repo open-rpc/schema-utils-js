@@ -190,7 +190,7 @@ export default async function dereferenceDocument(openrpcDocument: OpenRPC, dere
   derefDoc = await handleSchemasInsideContentDescriptorComponents(derefDoc, dereferencerOptions);
   const methods = [] as any;
   for (const method of derefDoc.methods) {
-    methods.push(await handleMethod(method, derefDoc, dereferencerOptions));
+    methods.push(await handleMethod(method as MethodObject, derefDoc, dereferencerOptions));
   }
 
   derefDoc.methods = methods;

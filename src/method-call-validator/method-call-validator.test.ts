@@ -1,5 +1,5 @@
 import MethodCallValidator from "./method-call-validator";
-import { OpenrpcDocument as OpenRPC, OpenrpcDocument } from "@open-rpc/meta-schema";
+import { MethodObject, OpenrpcDocument as OpenRPC, OpenrpcDocument } from "@open-rpc/meta-schema";
 import MethodCallParameterValidationError from "./parameter-validation-error";
 import MethodCallMethodNotFoundError from "./method-not-found-error";
 import MethodNotFoundError from "./method-not-found-error";
@@ -29,9 +29,9 @@ describe("MethodCallValidator", () => {
     expect(result).toEqual([]);
   });
 
-  it("can handle having params undefined", () => {
+  it("can handle having params as empty array", () => {
     const example = getExampleSchema();
-    delete example.methods[0].params;
+    (example.methods[0] as MethodObject).params = [];
     const methodCallValidator = new MethodCallValidator(example);
     const result = methodCallValidator.validate("foo", ["foobar"]);
     expect(result).toEqual([]);
