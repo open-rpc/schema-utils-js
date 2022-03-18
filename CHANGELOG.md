@@ -1,3 +1,11 @@
+## [1.16.1](https://github.com/open-rpc/schema-utils-js/compare/1.16.0...1.16.1) (2022-03-18)
+
+
+### Bug Fixes
+
+* update readme badges ([caf8527](https://github.com/open-rpc/schema-utils-js/commit/caf85272eae5ccd6cf50e2e285b647cf891a338e))
+* version bump referrs for rel path fix ([690e19d](https://github.com/open-rpc/schema-utils-js/commit/690e19d93026a9e499804707c9685ab253a704ab))
+
 # [1.16.0](https://github.com/open-rpc/schema-utils-js/compare/1.15.0...1.16.0) (2021-09-24)
 
 
