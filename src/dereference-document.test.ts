@@ -368,7 +368,7 @@ describe("dereferenceDocument", () => {
       },
       methods: [
         {
-          "$ref":  "./test-fixtures/method.json",
+          "$ref":  "./src/test-fixtures/method.json",
         }
       ]
     };
