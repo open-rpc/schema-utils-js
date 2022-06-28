@@ -45,7 +45,7 @@
     "@types/detect-node": "^2.0.0",
     "@types/fs-extra": "^9.0.1",
     "@types/is-url": "^1.2.28",
-    "@types/isomorphic-fetch": "0.0.35",
+    "@types/isomorphic-fetch": "0.0.36",
     "@types/jest": "^26.0.5",
     "@types/json-schema": "^7.0.3",
     "@types/node-fetch": "^2.1.6",
