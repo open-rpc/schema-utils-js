@@ -4,12 +4,13 @@ jest.mock("fs-extra", () => ({
 }));
 
 import * as _fs from "fs-extra";
-import makeParseOpenRPCDocument from "./parse-open-rpc-document";
+import makeParseOpenRPCDocument, { makeCustomResolver } from "./parse-open-rpc-document";
 import { OpenrpcDocument as OpenRPC, OpenrpcDocument } from "@open-rpc/meta-schema";
 import { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
 import fetchUrlSchema from "./get-open-rpc-document-from-url";
 import readSchemaFromFile from "./get-open-rpc-document-from-file";
 import { OpenRPCDocumentDereferencingError } from "./dereference-document";
+import { JSONSchema } from "@json-schema-tools/meta-schema";
 
 const parseOpenRPCDocument = makeParseOpenRPCDocument(fetchUrlSchema, readSchemaFromFile);
 const fs: any = _fs;
@@ -246,6 +247,35 @@ describe("parseOpenRPCDocument", () => {
       } catch (e) {
         expect(e).toBeInstanceOf(OpenRPCDocumentDereferencingError);
       }
+    });
+
+    it("should make a reference resolver", ()=> {
+      const resolver = makeCustomResolver({"file": 
+        async (): Promise<JSONSchema> => {  
+          return {}
+        }
+      });
+      expect(resolver).toBeDefined()
+    });
+
+    it("should handle dereference option true", async ()=> {
+      const document = await parseOpenRPCDocument(workingDocument,{
+        dereference: true,
+      });
+      expect(document.methods).toBeDefined();
+    });
+
+    it("should handle custom resolver option", async ()=> {
+      const resolver = makeCustomResolver({"handler": 
+        async (uri: string): Promise<JSONSchema> => {  
+          return {}
+        }
+      });
+      const document = await parseOpenRPCDocument(workingDocument,{
+        resolver
+      });
+      expect(document.methods).toBeDefined();
+
     });
 
     it("rejects when the json provided is invalid from file", async () => {

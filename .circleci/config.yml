@@ -25,7 +25,7 @@ aliases:
 defaults: &defaults
   working_directory: ~/schema-utils-js
   docker:
-    - image: circleci/node:12.19.0
+    - image: circleci/node:14.17.6
 
 jobs:
   test:
