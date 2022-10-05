@@ -32,7 +32,7 @@
   "dependencies": {
     "@json-schema-tools/dereferencer": "1.5.5",
     "@json-schema-tools/meta-schema": "1.6.19",
-    "@json-schema-tools/reference-resolver": "1.2.4",
+    "@json-schema-tools/reference-resolver": "1.2.5",
     "@open-rpc/meta-schema": "1.14.2",
     "ajv": "^6.10.0",
     "detect-node": "^2.0.4",
