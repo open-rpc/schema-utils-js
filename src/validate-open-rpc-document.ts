@@ -35,13 +35,17 @@ export class OpenRPCDocumentValidationError implements Error {
  * @example
  * ```typescript
  *
- * const { types } from "@open-rpc/meta-schema"
- * const { validateOpenRPCDocument } from "@open-rpc/schema-utils-js";
- * const badOpenRPCDocument = {};
- * const errors = validateOpenRPCDocument({});
- * if (errors) {
- *   // handle errors
+ * import { validateOpenRPCDocument } from "@open-rpc/schema-utils-js";
+ * const badOpenRPCDocument = {} as any;
+ * try {
+ *   const isValid = validateOpenRPCDocument(badOpenRPCDocument);
+ *   if (isValid) {
+ *     // handle validity
+ *   }
+ * } catch (error) {
+ *   // handle error
  * }
+
  * ```
  *
  */
