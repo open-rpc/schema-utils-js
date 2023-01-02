@@ -37,15 +37,11 @@ export class OpenRPCDocumentValidationError implements Error {
  *
  * import { validateOpenRPCDocument } from "@open-rpc/schema-utils-js";
  * const badOpenRPCDocument = {} as any;
- * try {
- *   const isValid = validateOpenRPCDocument(badOpenRPCDocument);
- *   if (isValid) {
- *     // handle validity
- *   }
- * } catch (error) {
- *   // handle error
+ * 
+ * const result = validateOpenRPCDocument(badOpenRPCDocument);
+ * if (result !== true) {
+ *   console.error({ error: result })
  * }
-
  * ```
  *
  */
