@@ -40,7 +40,7 @@ export class OpenRPCDocumentValidationError implements Error {
  * 
  * const result = validateOpenRPCDocument(badOpenRPCDocument);
  * if (result !== true) {
- *   console.error({ error: result })
+ *   console.error(result);
  * }
  * ```
  *
