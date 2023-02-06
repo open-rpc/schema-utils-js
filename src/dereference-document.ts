@@ -1,7 +1,8 @@
 import Dereferencer from "@json-schema-tools/dereferencer";
 import { OpenrpcDocument as OpenRPC, ReferenceObject, ExamplePairingObject, JSONSchema, SchemaComponents, ContentDescriptorComponents, ContentDescriptorObject, OpenrpcDocument, MethodObject, MethodOrReference } from "@open-rpc/meta-schema";
 import referenceResolver from "@json-schema-tools/reference-resolver";
-import safeStringify from  "fast-safe-stringify";
+import safeStringify from "fast-safe-stringify";
+import path from "path";
 
 export type ReferenceResolver = typeof referenceResolver
 /**
@@ -23,9 +24,13 @@ export class OpenRPCDocumentDereferencingError implements Error {
 
 const derefItem = async (item: ReferenceObject, doc: OpenRPC, resolver: ReferenceResolver) => {
   const { $ref } = item;
-  if ($ref === undefined) { return item; }
+
+  if ($ref === undefined) {
+    return item;
+  }
 
   try {
+    console.log('Trying: ', item);
     // returns resolved value of the reference
     return (await resolver.resolve($ref, doc) as any);
   } catch (err) {
@@ -59,6 +64,7 @@ const handleSchemaWithSchemaComponents = async (s: JSONSchema, schemaComponents:
 
   const dereffer = new Dereferencer(s);
   try {
+    console.log('resolving json schema', s);
     const dereffed = await dereffer.resolve();
     if (dereffed !== true && dereffed !== false) {
       delete dereffed.components;
@@ -115,15 +121,31 @@ const handleSchemasInsideContentDescriptorComponents = async (doc: OpenrpcDocume
   return doc;
 };
 
+const isARelativeFilePath = (fp: string) => fp.startsWith(".");
+const makeFileRefsRelative = (r: ReferenceObject, parent: string) => {
+  if (parent !== undefined && r.$ref !== undefined && isARelativeFilePath(r.$ref)) {
+    r.$ref = path.resolve(path.parse(parent).dir, r.$ref);
+  }
+
+  return r;
+};
+
 const handleMethod = async (methodOrRef: MethodOrReference, doc: OpenrpcDocument, resolver: ReferenceResolver): Promise<MethodObject> => {
   let method = methodOrRef as MethodObject;
 
-  if(methodOrRef.$ref !== undefined){
-    method = await derefItem({$ref: methodOrRef.$ref}, doc, resolver)
+  if (methodOrRef.$ref !== undefined) {
+    method = await derefItem({ $ref: methodOrRef.$ref }, doc, resolver)
   }
 
   if (method.tags !== undefined) {
-    method.tags = await derefItems(method.tags as ReferenceObject[], doc, resolver);
+    method.tags = await derefItems(
+      method.tags.map((t) => makeFileRefsRelative(
+        t as ReferenceObject,
+        methodOrRef.$ref
+      )),
+      doc,
+      resolver
+    );
   }
 
   if (method.errors !== undefined) {
@@ -189,7 +211,7 @@ const handleMethod = async (methodOrRef: MethodOrReference, doc: OpenrpcDocument
  */
 export default async function dereferenceDocument(openrpcDocument: OpenRPC, resolver: ReferenceResolver): Promise<OpenRPC> {
   let derefDoc = { ...openrpcDocument };
-  
+
   derefDoc = await handleSchemaComponents(derefDoc);
   derefDoc = await handleSchemasInsideContentDescriptorComponents(derefDoc);
   const methods = [] as any;

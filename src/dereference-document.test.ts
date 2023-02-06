@@ -43,13 +43,13 @@ describe("dereferenceDocument", () => {
       ...workingDocument,
       "x-methods": {
         foobar: {
-           name: "foobar", 
-           params: [], 
-           result: { 
-             name: "abcfoo", 
-             schema: { type: "number" } 
-          } 
-        } 
+          name: "foobar",
+          params: [],
+          result: {
+            name: "abcfoo",
+            schema: { type: "number" }
+          }
+        }
       },
       components: {
         schemas: {
@@ -102,7 +102,7 @@ describe("dereferenceDocument", () => {
         schema: { $ref: "#/components/schemas/bigOlFoo" }
       }
     });
-    testDoc.methods.push({"$ref":"#/x-methods/foobar"})
+    testDoc.methods.push({ "$ref": "#/x-methods/foobar" })
 
     const document = await dereferenceDocument(testDoc, defaultResolver);
     const docMethods = document.methods as MethodObject[];
@@ -404,4 +404,25 @@ describe("dereferenceDocument", () => {
       expect(e).toBeInstanceOf(OpenRPCDocumentDereferencingError);
     }
   });
+
+  it.only("works when methods has a ref which itself has relative refs", async () => {
+    expect.assertions(1);
+
+    const testDoc = {
+      openrpc: "1.2.4",
+      info: {
+        title: "foo",
+        version: "1",
+      },
+      methods: [
+        {
+          $ref: `${__dirname}/dereferencer-tests/tags-ref-method.json`
+        }
+      ]
+    };
+
+    const result = await dereferenceDocument(testDoc as OpenrpcDocument, defaultResolver) as any;
+    expect(result).toBe({});
+  });
+
 });
