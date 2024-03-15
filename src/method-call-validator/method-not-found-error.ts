@@ -15,17 +15,19 @@ export default class MethodNotFoundError implements Error {
   constructor(
     public methodName: string,
     public openrpcDocument: OpenRPC,
-    public receievedParams: any[] | Record<string, unknown> = [],
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public receievedParams: any[] | Record<string, unknown> = []
   ) {
     const msg = [
       `Method Not Found Error for OpenRPC API named "${openrpcDocument.info.title}"`,
       `The requested method: "${methodName}" not a valid method.`,
-
     ];
 
     if (openrpcDocument.methods.length > 0) {
       msg.push(
-        `Valid method names are as follows: ${(openrpcDocument.methods as MethodObject[]).map(({ name }) => name).join(", ")}`,
+        `Valid method names are as follows: ${(openrpcDocument.methods as MethodObject[])
+          .map(({ name }) => name)
+          .join(", ")}`
       );
     }
 
@@ -33,7 +35,13 @@ export default class MethodNotFoundError implements Error {
     if (receievedParams instanceof Array) {
       if (receievedParams.length > 0) {
         stringedParams = receievedParams
-          .map((p) => { try { return JSON.stringify(p); } catch (e) { return p; } })
+          .map((p) => {
+            try {
+              return JSON.stringify(p);
+            } catch (e) {
+              return p;
+            }
+          })
           .join("\n");
       }
     } else {

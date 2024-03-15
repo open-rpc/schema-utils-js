@@ -1,10 +1,12 @@
-type TPredicate = (value: any) => boolean
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type TPredicate = (value: any) => boolean;
 /**
  * finds array index of array object which matches predicate
  * @param array {Array}
  * @param predicate {Function}
  * @returns {number} || {undefined}
-*/
+ */
+
 export const findIndex = (array: any[], predicate: TPredicate): number => {
   const length = array == null ? 0 : array.length;
   if (!length) {
@@ -24,7 +26,7 @@ export const findIndex = (array: any[], predicate: TPredicate): number => {
  * @param array {Array}
  * @returns {Array}
  */
-export const compact = (array: any[]) => {
+export const compact = (array: any[]): any[] => {
   let index = 0;
   const result: any[] = [];
 
@@ -41,10 +43,10 @@ export const compact = (array: any[]) => {
  * @param array {Array}
  * @param predicate {Function}
  * @returns {any} || {undefined}
-*/
-export const find = (array: any[], predicate: TPredicate) => {
+ */
+export const find = (array: any[], predicate: TPredicate): any => {
   const length = array == null ? 0 : array.length;
-  if(!length) {
+  if (!length) {
     return undefined;
   }
   let index = -1;
@@ -62,14 +64,14 @@ export const find = (array: any[], predicate: TPredicate) => {
  * @param doc1 {OpenrpcDocument}
  * @param doc2 {OpenrpcDocument}
  * @returns {boolean}
-*/
+ */
 export const rpcDocIsEqual = (doc1: any, doc2: any) => {
   const doc1Keys = Object.keys(doc1);
   const doc2Keys = Object.keys(doc2);
   const doc1Len = doc1Keys.length;
   const doc2Len = doc2Keys.length;
 
-  if(doc1Len != doc2Len) {
+  if (doc1Len != doc2Len) {
     return false;
   }
 
@@ -79,13 +81,11 @@ export const rpcDocIsEqual = (doc1: any, doc2: any) => {
     key = doc1Keys[index];
     if (!(key in doc2)) {
       return false;
-    }
-    else if (typeof doc1[key] === 'object' && typeof doc2[key] === 'object') {
+    } else if (typeof doc1[key] === "object" && typeof doc2[key] === "object") {
       if (!rpcDocIsEqual(doc1[key], doc2[key])) {
         return false;
       }
-    }
-    else if (doc1[key] != doc2[key]) {
+    } else if (doc1[key] != doc2[key]) {
       return false;
     }
   }

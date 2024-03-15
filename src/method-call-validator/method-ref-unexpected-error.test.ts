@@ -16,4 +16,3 @@ describe("MethodRefUnexpectedError", () => {
     expect(error).toBeInstanceOf(MethodRefUnexpectedError);
   });
 });
-

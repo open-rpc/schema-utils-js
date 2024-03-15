@@ -1,0 +1,65 @@
+{
+  "openrpc": "1.2.6",
+  "info": {
+    "title": "Minimal OpenRPC Example",
+    "version": "1.0.0"
+  },
+  "methods": [
+    {
+      "name": "getExampleData",
+      "summary": "Retrieves example data from the API.",
+      "x-notification": "string",
+      "params": [
+        {
+          "name": "dataId",
+          "schema": {
+            "type": "integer",
+            "description": "The ID of the data to retrieve."
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "exampleData",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The ID of the data."
+            },
+            "data": {
+              "type": "string",
+              "description": "The content of the data."
+            }
+          },
+          "required": [
+            "id",
+            "data"
+          ]
+        },
+        "description": "The result object containing the requested data."
+      }
+    }
+  ],
+  "x-extensions": [
+    {
+      "openrpcExtension": "0.0.0-development",
+      "name": "x-notification",
+      "version": "0.0.1",
+      "description": "Describe a notification for OpenRPC methods",
+      "summary": "OpenRPC Notification",
+      "externalDocumentation": {
+        "description": "github",
+        "url": "https://github.com/open-rpc/specification-extensions-spec/examples/x-notification-openrpc-ext.json"
+      },
+      "restricted": [
+        "methodObject"
+      ],
+      "schema": {
+        "type": "boolean",
+        "description": "wether or not this method is a notification or not"
+      }
+    }
+  ]
+}

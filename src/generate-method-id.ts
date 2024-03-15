@@ -1,4 +1,3 @@
-
 import { MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
 import { findIndex } from "./helper-functions";
 
@@ -63,9 +62,12 @@ export class ContentDescriptorNotFoundInMethodError implements Error {
  */
 export function generateMethodParamId(
   method: MethodObject,
-  contentDescriptor: ContentDescriptorObject,
+  contentDescriptor: ContentDescriptorObject
 ): string {
-  const pos = findIndex(method.params, (o: any) => { return o.name == contentDescriptor.name });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pos = findIndex(method.params, (o: any) => {
+    return o.name == contentDescriptor.name;
+  });
 
   if (pos === -1) {
     throw new ContentDescriptorNotFoundInMethodError(method, contentDescriptor);
@@ -120,7 +122,7 @@ export function generateMethodParamId(
  */
 export function generateMethodResultId(
   method: MethodObject,
-  contentDescriptor: ContentDescriptorObject,
+  contentDescriptor: ContentDescriptorObject
 ): string {
   const result = method.result as ContentDescriptorObject;
   if (result.name !== contentDescriptor.name) {

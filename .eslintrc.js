@@ -1,12 +1,16 @@
+/** @type {import('eslint').Linter.Config} */
 module.exports = {
-  root: true,
-  parser: '@typescript-eslint/parser',
-  plugins: [
-    '@typescript-eslint',
-  ],
   extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
   ],
+  env: {
+    node: true,
+    es2020: true,
+  },
+  rules: {
+    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+  },
+  ignorePatterns: ["dist/", "build/", "node_modules/"],
 };

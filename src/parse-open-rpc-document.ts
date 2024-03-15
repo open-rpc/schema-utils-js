@@ -1,17 +1,26 @@
 import dereferenceDocument from "./dereference-document";
-import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
-import defaultResolver from "@json-schema-tools/reference-resolver"
+import validateOpenRPCDocument, {
+  OpenRPCDocumentValidationError,
+} from "./validate-open-rpc-document";
+import defaultResolver from "@json-schema-tools/reference-resolver";
 import isUrl = require("is-url");
 import { OpenrpcDocument } from "@open-rpc/meta-schema";
 import { TGetOpenRPCDocument } from "./get-open-rpc-document";
-import ReferenceResolver, { ProtocolHandlerMap } from "@json-schema-tools/reference-resolver/build/reference-resolver";
+import ReferenceResolver, {
+  ProtocolHandlerMap,
+} from "@json-schema-tools/reference-resolver/build/reference-resolver";
 export { JSONSchema } from "@json-schema-tools/meta-schema";
 
 /**
  * @ignore
  */
 const isJson = (jsonString: string): boolean => {
-  try { JSON.parse(jsonString); return true; } catch (e) { return false; }
+  try {
+    JSON.parse(jsonString);
+    return true;
+  } catch (e) {
+    return false;
+  }
 };
 
 /**
@@ -50,7 +59,10 @@ const defaultParseOpenRPCDocumentOptions = {
   validate: true,
 };
 
-const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchemaFromFile: TGetOpenRPCDocument) => {
+const makeParseOpenRPCDocument = (
+  fetchUrlSchema: TGetOpenRPCDocument,
+  readSchemaFromFile: TGetOpenRPCDocument
+) => {
   /**
    * Resolves an OpenRPC document from a variety of input types. The resolved OpenRPC document
    * will be dereferenced and validated against the [meta-schema](https://github.com/open-rpc/meta-schema).
@@ -89,11 +101,14 @@ const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchem
    */
   return async function parseOpenRPCDocument(
     schema: string | OpenrpcDocument = "./openrpc.json",
-    options: ParseOpenRPCDocumentOptions = defaultParseOpenRPCDocumentOptions,
+    options: ParseOpenRPCDocumentOptions = defaultParseOpenRPCDocumentOptions
   ): Promise<OpenrpcDocument> {
     let parsedSchema: OpenrpcDocument;
 
-    const parseOptions = { ...defaultParseOpenRPCDocumentOptions, ...options } as ParseOpenRPCDocumentOptions;
+    const parseOptions = {
+      ...defaultParseOpenRPCDocumentOptions,
+      ...options,
+    } as ParseOpenRPCDocumentOptions;
 
     if (typeof schema !== "string") {
       parsedSchema = schema;
@@ -104,7 +119,6 @@ const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchem
     } else {
       parsedSchema = await readSchemaFromFile(schema as string);
     }
-
 
     if (parseOptions.validate) {
       const isValid = validateOpenRPCDocument(parsedSchema);
@@ -133,7 +147,7 @@ const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchem
   };
 };
 
-export function makeCustomResolver(protocolMapHandler: ProtocolHandlerMap): ReferenceResolver{
+export function makeCustomResolver(protocolMapHandler: ProtocolHandlerMap): ReferenceResolver {
   return new ReferenceResolver(protocolMapHandler);
 }
 

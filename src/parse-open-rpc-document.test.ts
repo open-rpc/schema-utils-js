@@ -13,6 +13,7 @@ import { OpenRPCDocumentDereferencingError } from "./dereference-document";
 import { JSONSchema } from "@json-schema-tools/meta-schema";
 
 const parseOpenRPCDocument = makeParseOpenRPCDocument(fetchUrlSchema, readSchemaFromFile);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fs: any = _fs;
 
 const workingDocument: OpenRPC = {
@@ -32,7 +33,7 @@ const notificationDocument: OpenRPC = {
       params: [
         {
           name: "bar",
-          schema: { "type": "boolean" },
+          schema: { type: "boolean" },
         },
       ],
       examples: [
@@ -45,7 +46,7 @@ const notificationDocument: OpenRPC = {
             },
           ],
         },
-      ]
+      ],
     },
   ],
 };
@@ -67,6 +68,7 @@ const badRefDocument: OpenRPC = {
     },
   ],
 };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const invalidDocument: any = {
   ...workingDocument,
   methods: [
@@ -88,7 +90,6 @@ const invalidDocument: any = {
 };
 
 describe("parseOpenRPCDocument", () => {
-
   beforeEach(() => {
     fs.readJson.mockResolvedValue(workingDocument);
   });
@@ -102,14 +103,15 @@ describe("parseOpenRPCDocument", () => {
   it("handles custom file path", async () => {
     expect.assertions(1);
     const document = await parseOpenRPCDocument(
-      "./node_modules/@open-rpc/examples/service-descriptions/petstore.json",
+      "./node_modules/@open-rpc/examples/service-descriptions/petstore.json"
     );
     expect(document.methods).toBeDefined();
   });
 
   it("handles urls", async () => {
     expect.assertions(1);
-    const url = "https://raw.githubusercontent.com/open-rpc/examples/master/service-descriptions/petstore-openrpc.json";
+    const url =
+      "https://raw.githubusercontent.com/open-rpc/examples/master/service-descriptions/petstore-openrpc.json";
     const document = await parseOpenRPCDocument(url);
     expect(document.methods).toBeDefined();
   });
@@ -145,7 +147,6 @@ describe("parseOpenRPCDocument", () => {
   });
 
   describe("errors", () => {
-
     it("rejects when unable to find file via default", async () => {
       expect.assertions(1);
       fs.readJson.mockClear();
@@ -162,7 +163,7 @@ describe("parseOpenRPCDocument", () => {
       fs.readJson.mockClear();
       fs.readJson.mockRejectedValue(new Error("cannot compute error"));
       try {
-        await parseOpenRPCDocument("./not/a/real/path.json")
+        await parseOpenRPCDocument("./not/a/real/path.json");
       } catch (e) {
         expect(e).toBeDefined();
       }
@@ -173,7 +174,7 @@ describe("parseOpenRPCDocument", () => {
       fs.readJson.mockClear();
       fs.readJson.mockRejectedValue(new Error("cannot compute error"));
       try {
-        await parseOpenRPCDocument("https://google.com")
+        await parseOpenRPCDocument("https://google.com");
       } catch (e) {
         expect(e).toBeDefined();
       }
@@ -183,7 +184,7 @@ describe("parseOpenRPCDocument", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
       try {
-        await parseOpenRPCDocument(badRefDocument)
+        await parseOpenRPCDocument(badRefDocument);
       } catch (e) {
         expect(e).toBeInstanceOf(OpenRPCDocumentDereferencingError);
       }
@@ -193,7 +194,7 @@ describe("parseOpenRPCDocument", () => {
       expect.assertions(1);
       fs.readJson.mockClear();
       try {
-        await parseOpenRPCDocument(invalidDocument)
+        await parseOpenRPCDocument(invalidDocument);
       } catch (e) {
         expect(e).toBeInstanceOf(OpenRPCDocumentValidationError);
       }
@@ -211,9 +212,7 @@ describe("parseOpenRPCDocument", () => {
         methods: [
           {
             name: "buildHelicopter",
-            params: [
-              { $ref: "#/components/contentDescriptors/NumBlades" },
-            ],
+            params: [{ $ref: "#/components/contentDescriptors/NumBlades" }],
             result: {
               name: "helicopterrr",
               schema: { $ref: `${__dirname}/bad-schema.json` },
@@ -253,9 +252,7 @@ describe("parseOpenRPCDocument", () => {
           methods: [
             {
               name: "foo",
-              params: [
-                { $ref: "#/components/contentDescriptors/LeFoo" },
-              ],
+              params: [{ $ref: "#/components/contentDescriptors/LeFoo" }],
               result: {
                 name: "bar",
                 schema: { $ref: "#/components/contentDescriptors/LeFoo" },
@@ -280,33 +277,32 @@ describe("parseOpenRPCDocument", () => {
       }
     });
 
-    it("should make a reference resolver", ()=> {
-      const resolver = makeCustomResolver({"file":
-        async (): Promise<JSONSchema> => {
-          return {}
-        }
+    it("should make a reference resolver", () => {
+      const resolver = makeCustomResolver({
+        file: async (): Promise<JSONSchema> => {
+          return {};
+        },
       });
-      expect(resolver).toBeDefined()
+      expect(resolver).toBeDefined();
     });
 
-    it("should handle dereference option true", async ()=> {
-      const document = await parseOpenRPCDocument(workingDocument,{
+    it("should handle dereference option true", async () => {
+      const document = await parseOpenRPCDocument(workingDocument, {
         dereference: true,
       });
       expect(document.methods).toBeDefined();
     });
 
-    it("should handle custom resolver option", async ()=> {
-      const resolver = makeCustomResolver({"handler":
-        async (uri: string): Promise<JSONSchema> => {
-          return {}
-        }
+    it("should handle custom resolver option", async () => {
+      const resolver = makeCustomResolver({
+        handler: async (_uri: string): Promise<JSONSchema> => {
+          return {};
+        },
       });
-      const document = await parseOpenRPCDocument(workingDocument,{
-        resolver
+      const document = await parseOpenRPCDocument(workingDocument, {
+        resolver,
       });
       expect(document.methods).toBeDefined();
-
     });
 
     it("rejects when the json provided is invalid from file", async () => {
@@ -315,7 +311,7 @@ describe("parseOpenRPCDocument", () => {
       fs.readJson.mockRejectedValue(new Error("SyntaxError: super duper bad one"));
       const file = "./node_modules/@open-rpc/examples/service-descriptions/petstore-openrpc.json";
       try {
-        await parseOpenRPCDocument(file)
+        await parseOpenRPCDocument(file);
       } catch (e) {
         expect(e).toBeDefined();
       }
