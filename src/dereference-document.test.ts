@@ -43,13 +43,13 @@ describe("dereferenceDocument", () => {
       ...workingDocument,
       "x-methods": {
         foobar: {
-           name: "foobar", 
-           params: [], 
-           result: { 
-             name: "abcfoo", 
-             schema: { type: "number" } 
-          } 
-        } 
+           name: "foobar",
+           params: [],
+           result: {
+             name: "abcfoo",
+             schema: { type: "number" }
+          }
+        }
       },
       components: {
         schemas: {
@@ -328,6 +328,55 @@ describe("dereferenceDocument", () => {
     const result = await dereferenceDocument(testDoc as OpenrpcDocument, defaultResolver) as any;
 
     expect(result.methods[0].result.schema.type).toBe("string")
+  });
+
+  it("works with ref to a nested file", async () => {
+    expect.assertions(2);
+
+    const testDoc = {
+      openrpc: "1.2.4",
+      info: {
+        title: "foo",
+        version: "1",
+      },
+      methods: [
+        {
+          name: "foo",
+          params: [],
+          result: {
+            name: "fooResult",
+            schema: { $ref: `${__dirname}/test-fixtures/nested-schema.json` }
+          }
+        }
+      ]
+    };
+
+    const result = await dereferenceDocument(testDoc as OpenrpcDocument, defaultResolver) as any;
+
+    expect(result.methods[0].result.schema.type).toBe("object")
+    expect(result.methods[0].result.schema.properties.foo.type).toBe("string")
+  });
+
+  it("works with ref to a double nested file", async () => {
+    expect.assertions(2);
+
+    const testDoc = {
+      openrpc: "1.2.4",
+      info: {
+        title: "foo",
+        version: "1",
+      },
+      methods: [
+        {
+          "$ref":  "./src/test-fixtures/method.json",
+        }
+      ]
+    };
+
+    const result = await dereferenceDocument(testDoc as OpenrpcDocument, defaultResolver) as any;
+
+    expect(result.methods[0].result.schema.type).toBe("object")
+    expect(result.methods[0].result.schema.properties.foo.type).toBe("string")
   });
 
   it("works with schema that makes ref to a schema from components", async () => {

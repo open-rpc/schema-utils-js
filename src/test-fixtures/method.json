@@ -1,0 +1,8 @@
+{
+  "name": "foo",
+  "params": [],
+  "result": {
+    "name": "fooResult",
+    "schema": { "$ref": "./nested-schema.json" }
+  }
+}
