@@ -1,0 +1,89 @@
+{
+	"$schema": "https://meta.json-schema.tools/",
+	"title": "OpenRPC Specification Extension",
+	"description": "A standard way to define OpenRPC Specification Extensions. This makes it easier to provide support for Specification Extensions in other tools.",
+	"type": "object",
+	"required": [
+		"name",
+		"schema",
+		"openrpcExtension",
+		"version"
+	],
+	"properties": {
+		"openrpcExtension": {
+			"title": "openrpcExtensionVersion",
+			"description": "**REQUIRED**. This string MUST be the semantic version number of the Specification that the document uses.",
+			"type": "string",
+			"enum": [
+				"0.0.0-development"
+			]
+		},
+		"name": {
+			"title": "specificationExtensionName",
+			"description": "**REQUIRED** Name of the Specification Extension. MUST start with `x-`",
+			"type": "string",
+			"pattern": "^x-",
+			"examples": [
+				"x-foobarbaz"
+			]
+		},
+		"version": {
+			"title": "specificationExtensionVersion",
+			"description": "**REQUIRED**. The version of the Extension (which is distinct from the `openrpcExtension` version and implementation version).",
+			"type": "string",
+			"examples": [
+				"0.0.1"
+			]
+		},
+		"required": {
+			"title": "specificationExtensionRequired",
+			"type": "boolean",
+			"description": "wether or not this specification extension is required or not"
+		},
+		"restricted": {
+			"title": "restrictedObjects",
+			"description": "A list of object names to restrict the usage of the specification extension to.",
+			"type": "array",
+			"items": {
+				"title": "restrictedObject",
+				"description": "restricted object",
+				"type": "string"
+			}
+		},
+		"description": {
+			"title": "specificationExtensionDescription",
+			"type": "string",
+			"description": "Markdown description describing the specification extension."
+		},
+		"summary": {
+			"title": "specificationExtensionSummary",
+			"type": "string",
+			"description": "A short summary of what the specification extension is."
+		},
+		"schema": {
+			"$ref": "https://meta.json-schema.tools"
+		},
+		"externalDocumentation": {
+			"title": "specificationExtensionExternalDocumentationObject",
+			"type": "object",
+			"additionalProperties": false,
+			"description": "Information about specification extension external documentation.",
+			"required": [
+				"url"
+			],
+			"properties": {
+				"description": {
+					"title": "specificationExtensionexternalDocumentationObjectDescription",
+					"description": "external documentation description.",
+					"type": "string"
+				},
+				"url": {
+					"title": "specificationExtensionexternalDocumentationObjectUrl",
+					"description": "external documentation description.",
+					"type": "string",
+					"format": "uri"
+				}
+			}
+		}
+	}
+}
