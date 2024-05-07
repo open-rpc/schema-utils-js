@@ -1,3 +1,19 @@
+# [2.0.0](https://github.com/open-rpc/schema-utils-js/compare/1.16.2...2.0.0) (2024-05-07)
+
+
+### Documentation
+
+* Adjusted try/catch ([ff7cf33](https://github.com/open-rpc/schema-utils-js/commit/ff7cf33b8cb7339a4141e6ec6d5913e3ec923821))
+* Removed object and added semicolon ([820f036](https://github.com/open-rpc/schema-utils-js/commit/820f03648eb9dd060f55770be190b931befba32b))
+* validateOpenRPCDocument Example ([a71ecde](https://github.com/open-rpc/schema-utils-js/commit/a71ecded0d35fbe0682cc39750ae440bf5e0bb30))
+
+
+### BREAKING CHANGES
+
+* N
+* N
+* N
+
 ## [1.16.2](https://github.com/open-rpc/schema-utils-js/compare/1.16.1...1.16.2) (2024-03-20)
 
 
