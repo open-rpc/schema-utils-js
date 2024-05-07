@@ -31,7 +31,7 @@
   "homepage": "https://github.com/open-rpc/schema-utils-js#readme",
   "dependencies": {
     "@json-schema-tools/dereferencer": "1.5.5",
-    "@json-schema-tools/meta-schema": "1.6.19",
+    "@json-schema-tools/meta-schema": "1.7.5",
     "@json-schema-tools/reference-resolver": "1.2.4",
     "@open-rpc/meta-schema": "1.14.2",
     "ajv": "^6.10.0",
