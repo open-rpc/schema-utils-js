@@ -1,3 +1,10 @@
+## [1.16.2](https://github.com/open-rpc/schema-utils-js/compare/1.16.1...1.16.2) (2024-03-20)
+
+
+### Bug Fixes
+
+* added context to circleci release ([0b243e7](https://github.com/open-rpc/schema-utils-js/commit/0b243e750f5421f27edc2c74e1624ea4feaf994c))
+
 ## [1.16.1](https://github.com/open-rpc/schema-utils-js/compare/1.16.0...1.16.1) (2022-03-18)
 
 

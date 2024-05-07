@@ -25,7 +25,7 @@ aliases:
 defaults: &defaults
   working_directory: ~/schema-utils-js
   docker:
-    - image: circleci/node:14.17.6
+    - image: cimg/node:20.11.1
 
 jobs:
   test:
@@ -83,5 +83,6 @@ workflows:
             - build
       - release:
           filters: *filter-only-master
+          context: open-rpc-deployer
           requires:
             - hold
