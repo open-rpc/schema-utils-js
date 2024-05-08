@@ -14,38 +14,18 @@
   },
   "typedocOptions": {
     "name": "@open-rpc/schema-utils-js",
-    "mode": "file",
-    "src": [ "./src/index.ts" ],
+    "entryPoints": [
+      "./src/index.ts"
+    ],
     "out": "docs",
-    "excludeExternals": true,
-    "includeDeclarations": false,
-    "excludeNotExported": true,
-    "excludePrivate": true,
-    "excludeProtected": true,
-    "hideGenerator": true,
-    "listInvalidSymbolLinks": true,
     "readme": "./README.md",
     "exclude": [
       "node_modules",
-      "lib",
       "docs",
       "build",
       "jest.config.js",
+      "src/*.test.ts",
       "src/**/*.test.ts"
-    ],
-    "toc": [
-      "parseOpenRPCDocument",
-      "makeDereferenceDocument",
-      "generateMethodParamId",
-      "generateMethodResultId",
-      "validateOpenRPCDocument",
-      "MethodCallValidator",
-      "MethodTypings",
-      "ParameterValidationError",
-      "OpenRPCDocumentValidationError",
-      "OpenRPCDocumentDereferencingError",
-      "ContentDescriptorNotFoundInMethodError",
-      "dereferenceDocument"
     ]
   }
 }
