@@ -259,7 +259,6 @@ describe("parseOpenRPCDocument", () => {
     });
 
     it("should handle dereference option true", async ()=> {
-      console.log("workingDocument", workingDocument);
       const document = await parseOpenRPCDocument(workingDocument,{
         dereference: true,
       });
