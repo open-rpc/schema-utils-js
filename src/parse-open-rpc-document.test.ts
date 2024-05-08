@@ -250,8 +250,8 @@ describe("parseOpenRPCDocument", () => {
     });
 
     it("should make a reference resolver", ()=> {
-      const resolver = makeCustomResolver({"file": 
-        async (): Promise<JSONSchema> => {  
+      const resolver = makeCustomResolver({"file":
+        async (): Promise<JSONSchema> => {
           return {}
         }
       });
@@ -259,6 +259,7 @@ describe("parseOpenRPCDocument", () => {
     });
 
     it("should handle dereference option true", async ()=> {
+      console.log("workingDocument", workingDocument);
       const document = await parseOpenRPCDocument(workingDocument,{
         dereference: true,
       });
@@ -266,8 +267,8 @@ describe("parseOpenRPCDocument", () => {
     });
 
     it("should handle custom resolver option", async ()=> {
-      const resolver = makeCustomResolver({"handler": 
-        async (uri: string): Promise<JSONSchema> => {  
+      const resolver = makeCustomResolver({"handler":
+        async (uri: string): Promise<JSONSchema> => {
           return {}
         }
       });

@@ -39,7 +39,7 @@ export interface ParseOpenRPCDocumentOptions {
   /*
    * Enable custom reference resolver. This will allow people to resolve 3rd party custom reference values like for ipfs.
    *
-   * @default defaultReferenceResolver  
+   * @default defaultReferenceResolver
    *
    */
   resolver?: ReferenceResolver;
@@ -104,6 +104,7 @@ const makeParseOpenRPCDocument = (fetchUrlSchema: TGetOpenRPCDocument, readSchem
     } else {
       parsedSchema = await readSchemaFromFile(schema as string);
     }
+
 
     if (parseOptions.validate) {
       const isValid = validateOpenRPCDocument(parsedSchema);

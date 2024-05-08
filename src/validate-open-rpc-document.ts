@@ -1,5 +1,6 @@
 import metaSchema, { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 import Ajv, { ErrorObject } from "ajv";
+import JsonSchemaMetaSchema from "@json-schema-tools/meta-schema/";
 
 /**
  * @ignore
@@ -37,7 +38,7 @@ export class OpenRPCDocumentValidationError implements Error {
  *
  * import { validateOpenRPCDocument } from "@open-rpc/schema-utils-js";
  * const badOpenRPCDocument = {} as any;
- * 
+ *
  * const result = validateOpenRPCDocument(badOpenRPCDocument);
  * if (result !== true) {
  *   console.error(result);
@@ -46,15 +47,29 @@ export class OpenRPCDocumentValidationError implements Error {
  *
  */
 export default function validateOpenRPCDocument(
-  document: OpenRPC,
+  document: OpenRPC
 ): OpenRPCDocumentValidationError | true {
   const ajv = new Ajv();
+  ajv.addSchema(JsonSchemaMetaSchema, "https://meta.json-schema.tools");
   const metaSchemaCopy = { ...metaSchema } as any;
   delete metaSchemaCopy.definitions.JSONSchema.$id;
   delete metaSchemaCopy.definitions.JSONSchema.$schema;
   delete metaSchemaCopy.$schema;
   delete metaSchemaCopy.$id;
-  ajv.validate(metaSchemaCopy, document);
+  try {
+    ajv.validate(metaSchemaCopy, document);
+  } catch (e) {
+    return new OpenRPCDocumentValidationError([
+      {
+        message: (e as unknown as Error).message,
+        dataPath: "unknown",
+        schemaPath: "unknown",
+        params: {},
+        keyword: "unknown",
+        data: JSON.parse(JSON.stringify(e)),
+      },
+    ]);
+  }
 
   if (ajv.errors) {
     return new OpenRPCDocumentValidationError(ajv.errors as ErrorObject[]);

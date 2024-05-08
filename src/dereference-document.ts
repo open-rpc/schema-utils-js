@@ -28,7 +28,7 @@ const derefItem = async (item: ReferenceObject, doc: OpenRPC, resolver: Referenc
   try {
     // returns resolved value of the reference
     return (await resolver.resolve($ref, doc) as any);
-  } catch (err) {
+  } catch (err: any) {
     throw new OpenRPCDocumentDereferencingError([
       `unable to eval pointer against OpenRPC Document.`,
       `error type: ${err.name}`,
@@ -64,7 +64,7 @@ const handleSchemaWithSchemaComponents = async (s: JSONSchema, schemaComponents:
       delete dereffed.components;
     }
     return dereffed;
-  } catch (e) {
+  } catch (e: any) {
     throw new OpenRPCDocumentDereferencingError([
       "Unable to parse reference inside of JSONSchema",
       s.title ? `Schema Title: ${s.title}` : "",
@@ -189,7 +189,7 @@ const handleMethod = async (methodOrRef: MethodOrReference, doc: OpenrpcDocument
  */
 export default async function dereferenceDocument(openrpcDocument: OpenRPC, resolver: ReferenceResolver): Promise<OpenRPC> {
   let derefDoc = { ...openrpcDocument };
-  
+
   derefDoc = await handleSchemaComponents(derefDoc);
   derefDoc = await handleSchemasInsideContentDescriptorComponents(derefDoc);
   const methods = [] as any;
