@@ -58,17 +58,8 @@ export default function validateOpenRPCDocument(
   delete metaSchemaCopy.$id;
   try {
     ajv.validate(metaSchemaCopy, document);
-  } catch (e) {
-    return new OpenRPCDocumentValidationError([
-      {
-        message: (e as unknown as Error).message,
-        dataPath: "unknown",
-        schemaPath: "unknown",
-        params: {},
-        keyword: "unknown",
-        data: JSON.parse(JSON.stringify(e)),
-      },
-    ]);
+  } catch (e: any) {
+    return new Error(`schema-utils-js: Internal Error: ${e.message}\nIf you see this report it: https://github.com/open-rpc/schema-utils-js/issues`);
   }
 
   if (ajv.errors) {
