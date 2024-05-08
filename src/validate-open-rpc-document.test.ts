@@ -1,5 +1,8 @@
-import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
+import validateOpenRPCDocument, {
+  OpenRPCDocumentValidationError,
+} from "./validate-open-rpc-document";
 import { OpenrpcDocument } from "@open-rpc/meta-schema";
+import Ajv from "ajv";
 
 describe("validateOpenRPCDocument", () => {
   it("errors when passed an incorrect document", () => {
@@ -15,7 +18,7 @@ describe("validateOpenRPCDocument", () => {
     const result = validateOpenRPCDocument(testSchema as OpenrpcDocument);
 
     expect(result).not.toBe(null);
-    expect(result).toBeInstanceOf(OpenRPCDocumentValidationError)
+    expect(result).toBeInstanceOf(OpenRPCDocumentValidationError);
   });
 
   it("errors when passed an incorrect doc that is deep", () => {
@@ -32,16 +35,16 @@ describe("validateOpenRPCDocument", () => {
           result: {
             name: "foobar",
             schema: {
-              type: "not real"
-            }
-          }
-        }
+              type: "not real",
+            },
+          },
+        },
       ],
       openrpc: "1.0.0-rc1",
     };
     const result = validateOpenRPCDocument(testSchema as OpenrpcDocument);
     expect(result).not.toBe(null);
-    expect(result).toBeInstanceOf(OpenRPCDocumentValidationError)
+    expect(result).toBeInstanceOf(OpenRPCDocumentValidationError);
   });
 
   it("works fine whn there are file refs", () => {
@@ -58,16 +61,45 @@ describe("validateOpenRPCDocument", () => {
           result: {
             name: "foobar",
             schema: {
-              $ref: `${__dirname}/good-schema.json`
-            }
-          }
-        }
+              $ref: `${__dirname}/good-schema.json`,
+            },
+          },
+        },
       ],
       openrpc: "1.0.0-rc1",
     };
     const result = validateOpenRPCDocument(testSchema as OpenrpcDocument);
     expect(result).toBe(true);
-    expect(result).not.toBeInstanceOf(OpenRPCDocumentValidationError)
+    expect(result).not.toBeInstanceOf(OpenRPCDocumentValidationError);
   });
-
+  it("throws an error when ajv throws an error", () => {
+    const validateMock = jest
+      .spyOn(Ajv.prototype, "validate")
+      .mockImplementation(() => {
+        throw new Error('bonk')
+      })
+    const testSchema = {
+      info: {
+        title: "foobar",
+        version: "1",
+      },
+      methods: [
+        {
+          name: "foo",
+          params: [],
+          result: {
+            name: "foobar",
+            schema: {
+              $ref: `${__dirname}/good-schema.json`,
+            },
+          },
+        },
+      ],
+      openrpc: "1.0.0-rc1",
+    };
+    expect(() => {
+      validateOpenRPCDocument(testSchema as OpenrpcDocument);
+    }).toThrowError('schema-utils-js');
+    validateMock.mockRestore();
+  });
 });
