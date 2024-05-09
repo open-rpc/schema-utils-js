@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/open-rpc/schema-utils-js/compare/2.0.1...2.0.2) (2024-05-09)
+
+
+### Bug Fixes
+
+* use default reference resolver ([f442cec](https://github.com/open-rpc/schema-utils-js/commit/f442cec27ca55bded8c15516e63e13eac1ea265d))
+
 ## [2.0.1](https://github.com/open-rpc/schema-utils-js/compare/2.0.0...2.0.1) (2024-05-09)
 
 
