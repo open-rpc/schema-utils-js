@@ -1,4 +1,6 @@
-import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
+import validateOpenRPCDocument, {
+  OpenRPCDocumentValidationError,
+} from "./validate-open-rpc-document";
 import { OpenrpcDocument } from "@open-rpc/meta-schema";
 
 describe("validateOpenRPCDocument", () => {
@@ -15,7 +17,7 @@ describe("validateOpenRPCDocument", () => {
     const result = validateOpenRPCDocument(testSchema as OpenrpcDocument);
 
     expect(result).not.toBe(null);
-    expect(result).toBeInstanceOf(OpenRPCDocumentValidationError)
+    expect(result).toBeInstanceOf(OpenRPCDocumentValidationError);
   });
 
   it("errors when passed an incorrect doc that is deep", () => {
@@ -32,16 +34,16 @@ describe("validateOpenRPCDocument", () => {
           result: {
             name: "foobar",
             schema: {
-              type: "not real"
-            }
-          }
-        }
+              type: "not real",
+            },
+          },
+        },
       ],
       openrpc: "1.0.0-rc1",
     };
     const result = validateOpenRPCDocument(testSchema as OpenrpcDocument);
     expect(result).not.toBe(null);
-    expect(result).toBeInstanceOf(OpenRPCDocumentValidationError)
+    expect(result).toBeInstanceOf(OpenRPCDocumentValidationError);
   });
 
   it("works fine whn there are file refs", () => {
@@ -58,16 +60,16 @@ describe("validateOpenRPCDocument", () => {
           result: {
             name: "foobar",
             schema: {
-              $ref: `${__dirname}/good-schema.json`
-            }
-          }
-        }
+              $ref: `${__dirname}/good-schema.json`,
+            },
+          },
+        },
       ],
       openrpc: "1.0.0-rc1",
     };
+
     const result = validateOpenRPCDocument(testSchema as OpenrpcDocument);
     expect(result).toBe(true);
-    expect(result).not.toBeInstanceOf(OpenRPCDocumentValidationError)
+    expect(result).not.toBeInstanceOf(OpenRPCDocumentValidationError);
   });
-
 });

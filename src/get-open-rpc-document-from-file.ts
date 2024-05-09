@@ -5,7 +5,7 @@ import { TGetOpenRPCDocument } from "./get-open-rpc-document";
 const readSchemaFromFile: TGetOpenRPCDocument = async (filePath: string) => {
   try {
     return await readJson(filePath) as OpenRPC;
-  } catch (e) {
+  } catch (e: any) {
     if (e.message.includes("SyntaxError")) {
       throw new Error(`Failed to parse json in file ${filePath}`);
     } else {
