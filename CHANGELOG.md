@@ -1,3 +1,19 @@
+## [2.0.1](https://github.com/open-rpc/schema-utils-js/compare/2.0.0...2.0.1) (2024-05-09)
+
+
+### Bug Fixes
+
+* add metaSchema to ajv + upgrade typescript to 4 ([437eb78](https://github.com/open-rpc/schema-utils-js/commit/437eb7860d33a25fafeef4d4aae9de3c71c50776))
+* added test for new error ([1f4e913](https://github.com/open-rpc/schema-utils-js/commit/1f4e91315ed787678083e6a7b547ead59d7fbdb3))
+* better error for ajv blow up issue ([3691390](https://github.com/open-rpc/schema-utils-js/commit/3691390ea5e7981322b78da489396317b5b37121))
+* bump node version ([023870e](https://github.com/open-rpc/schema-utils-js/commit/023870e02f00dd7b85ea45d8527e51d7afdcf384))
+* package-lock.json ([851b3d8](https://github.com/open-rpc/schema-utils-js/commit/851b3d8278ad137a326c18ff537ab9c30b5e49f8))
+* remove console log and fix ts-jest config ([1879da6](https://github.com/open-rpc/schema-utils-js/commit/1879da6cea5615e7303494159a5d073e439bfc89))
+* testing ajv not worth ([1434c99](https://github.com/open-rpc/schema-utils-js/commit/1434c9904de5325dee54f13bc05c932a07109b1b))
+* update @open-rpc/meta-schema to latest ([5f8502e](https://github.com/open-rpc/schema-utils-js/commit/5f8502e11c1febf7c50e1da623b293ccb7dcce32))
+* update jest ts-jest and typedoc ([59fda50](https://github.com/open-rpc/schema-utils-js/commit/59fda50f46287281b4a7d222d4c778639be7424a))
+* update json-schema-tools/meta-schema & dereferencer ([040c6ea](https://github.com/open-rpc/schema-utils-js/commit/040c6ea3129b6a3e742dab212fdff744dd045690))
+
 # [2.0.0](https://github.com/open-rpc/schema-utils-js/compare/1.16.2...2.0.0) (2024-05-07)
 
 
