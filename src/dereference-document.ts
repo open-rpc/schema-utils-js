@@ -1,7 +1,7 @@
 import Dereferencer from "@json-schema-tools/dereferencer";
 import { OpenrpcDocument as OpenRPC, ReferenceObject, ExamplePairingObject, JSONSchema, SchemaComponents, ContentDescriptorComponents, ContentDescriptorObject, OpenrpcDocument, MethodObject, MethodOrReference } from "@open-rpc/meta-schema";
 import referenceResolver from "@json-schema-tools/reference-resolver";
-import safeStringify from  "fast-safe-stringify";
+import safeStringify from "fast-safe-stringify";
 
 export type ReferenceResolver = typeof referenceResolver
 /**
@@ -118,8 +118,8 @@ const handleSchemasInsideContentDescriptorComponents = async (doc: OpenrpcDocume
 const handleMethod = async (methodOrRef: MethodOrReference, doc: OpenrpcDocument, resolver: ReferenceResolver): Promise<MethodObject> => {
   let method = methodOrRef as MethodObject;
 
-  if(methodOrRef.$ref !== undefined){
-    method = await derefItem({$ref: methodOrRef.$ref}, doc, resolver)
+  if (methodOrRef.$ref !== undefined) {
+    method = await derefItem({ $ref: methodOrRef.$ref }, doc, resolver)
   }
 
   if (method.tags !== undefined) {
@@ -187,7 +187,7 @@ const handleMethod = async (methodOrRef: MethodOrReference, doc: OpenrpcDocument
  * ```
  *
  */
-export default async function dereferenceDocument(openrpcDocument: OpenRPC, resolver: ReferenceResolver): Promise<OpenRPC> {
+export default async function dereferenceDocument(openrpcDocument: OpenRPC, resolver: ReferenceResolver = referenceResolver): Promise<OpenRPC> {
   let derefDoc = { ...openrpcDocument };
 
   derefDoc = await handleSchemaComponents(derefDoc);

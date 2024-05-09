@@ -18,7 +18,7 @@ describe("dereferenceDocument", () => {
 
   it("doesnt explode", async () => {
     expect.assertions(1);
-    const document = await dereferenceDocument(workingDocument, defaultResolver);
+    const document = await dereferenceDocument(workingDocument);
     expect(document.methods).toBeDefined();
   });
 
@@ -33,7 +33,7 @@ describe("dereferenceDocument", () => {
         { name: "abc", params: [], result: { name: "cba", schema: { type: "number" } } }
       ],
       openrpc: "1.0.0-rc1",
-    }, defaultResolver);
+    });
     expect(document.methods).toBeDefined();
   });
 
@@ -43,13 +43,13 @@ describe("dereferenceDocument", () => {
       ...workingDocument,
       "x-methods": {
         foobar: {
-           name: "foobar", 
-           params: [], 
-           result: { 
-             name: "abcfoo", 
-             schema: { type: "number" } 
-          } 
-        } 
+          name: "foobar",
+          params: [],
+          result: {
+            name: "abcfoo",
+            schema: { type: "number" }
+          }
+        }
       },
       components: {
         schemas: {
@@ -102,9 +102,9 @@ describe("dereferenceDocument", () => {
         schema: { $ref: "#/components/schemas/bigOlFoo" }
       }
     });
-    testDoc.methods.push({"$ref":"#/x-methods/foobar"})
+    testDoc.methods.push({ "$ref": "#/x-methods/foobar" })
 
-    const document = await dereferenceDocument(testDoc, defaultResolver);
+    const document = await dereferenceDocument(testDoc);
     const docMethods = document.methods as MethodObject[];
     expect(docMethods).toBeDefined();
     expect(docMethods[0]).toBeDefined();
@@ -158,7 +158,7 @@ describe("dereferenceDocument", () => {
       }
     } as OpenrpcDocument;
 
-    const document = await dereferenceDocument(testDoc, defaultResolver);
+    const document = await dereferenceDocument(testDoc);
     expect(document.methods).toBeDefined();
     expect(document.methods[0]).toBeDefined();
 
@@ -204,7 +204,7 @@ describe("dereferenceDocument", () => {
     };
 
     try {
-      await dereferenceDocument(testDoc as OpenrpcDocument, defaultResolver)
+      await dereferenceDocument(testDoc as OpenrpcDocument)
     } catch (e) {
       expect(e).toBeInstanceOf(OpenRPCDocumentDereferencingError);
     }
@@ -231,7 +231,7 @@ describe("dereferenceDocument", () => {
     };
 
     try {
-      await dereferenceDocument(testDoc as OpenrpcDocument, defaultResolver)
+      await dereferenceDocument(testDoc as OpenrpcDocument)
     } catch (e) {
       expect(e).toBeInstanceOf(OpenRPCDocumentDereferencingError);
     }
@@ -261,7 +261,7 @@ describe("dereferenceDocument", () => {
     };
 
     try {
-      await dereferenceDocument(testDoc as OpenrpcDocument, defaultResolver)
+      await dereferenceDocument(testDoc as OpenrpcDocument)
     } catch (e) {
       expect(e).toBeInstanceOf(OpenRPCDocumentDereferencingError);
     }
@@ -299,7 +299,7 @@ describe("dereferenceDocument", () => {
       }
     };
 
-    const result = await dereferenceDocument(testDoc as OpenrpcDocument, defaultResolver) as any;
+    const result = await dereferenceDocument(testDoc as OpenrpcDocument) as any;
 
     expect(result.methods[0].links[0]).toBe(testDoc.components.links.fooLink)
   });
@@ -325,7 +325,7 @@ describe("dereferenceDocument", () => {
       ]
     };
 
-    const result = await dereferenceDocument(testDoc as OpenrpcDocument, defaultResolver) as any;
+    const result = await dereferenceDocument(testDoc as OpenrpcDocument) as any;
 
     expect(result.methods[0].result.schema.type).toBe("string")
   });
@@ -361,12 +361,12 @@ describe("dereferenceDocument", () => {
       }
     };
 
-    const result = await dereferenceDocument(testDoc as OpenrpcDocument, defaultResolver) as any;
+    const result = await dereferenceDocument(testDoc as OpenrpcDocument) as any;
 
     expect(result.methods[0].result.schema.properties.foo).toBe(result.components.schemas.foo);
   });
 
-  it("throws when a schema cannot be resolved from componnets", async () => {
+  it("throws when a schema cannot be resolved from components", async () => {
     expect.assertions(1);
 
     const testDoc = {
@@ -399,7 +399,7 @@ describe("dereferenceDocument", () => {
     };
 
     try {
-      await dereferenceDocument(testDoc as OpenrpcDocument, defaultResolver) as any;
+      await dereferenceDocument(testDoc as OpenrpcDocument) as any;
     } catch (e) {
       expect(e).toBeInstanceOf(OpenRPCDocumentDereferencingError);
     }
