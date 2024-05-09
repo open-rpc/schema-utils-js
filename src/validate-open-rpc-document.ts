@@ -1,6 +1,6 @@
 import metaSchema, { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 import Ajv, { ErrorObject } from "ajv";
-import JsonSchemaMetaSchema from "@json-schema-tools/meta-schema/";
+import JsonSchemaMetaSchema from "@json-schema-tools/meta-schema";
 
 /**
  * @ignore
@@ -58,8 +58,14 @@ export default function validateOpenRPCDocument(
   delete metaSchemaCopy.$id;
   try {
     ajv.validate(metaSchemaCopy, document);
-  } catch (e: any) {
-    return new Error(`schema-utils-js: Internal Error: ${e.message}\nIf you see this report it: https://github.com/open-rpc/schema-utils-js/issues`);
+  } catch (e) {
+    throw new Error([
+      'schema-utils-js: Internal Error',
+      '-----',
+      e,
+      '-----',
+      'If you see this report it: https://github.com/open-rpc/schema-utils-js/issues',
+    ].join('\n'));
   }
 
   if (ajv.errors) {
