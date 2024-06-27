@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/open-rpc/schema-utils-js/compare/2.0.2...2.0.3) (2024-06-27)
+
+
+### Bug Fixes
+
+* parse notifications ([7c81f67](https://github.com/open-rpc/schema-utils-js/commit/7c81f671a62a7f439396497f64aa2e2b8f54e429))
+
 ## [2.0.2](https://github.com/open-rpc/schema-utils-js/compare/2.0.1...2.0.2) (2024-05-09)
 
 
