@@ -24,6 +24,20 @@ const workingDocument: OpenRPC = {
   openrpc: "1.0.0-rc1",
 };
 
+const notificationDocument: OpenRPC = {
+  ...workingDocument,
+  methods: [
+    {
+      name: "foo",
+      params: [
+        {
+          name: "bar",
+          schema: { "type": "boolean" },
+        },
+      ],
+    },
+  ],
+};
 const badRefDocument: OpenRPC = {
   ...workingDocument,
   methods: [
@@ -98,6 +112,12 @@ describe("parseOpenRPCDocument", () => {
   it("handles being passed an open rpc object", async () => {
     expect.assertions(1);
     const document = await parseOpenRPCDocument(workingDocument);
+    expect(document.methods).toBeDefined();
+  });
+
+  it("handles being passed an open rpc object with notification", async () => {
+    expect.assertions(1);
+    const document = await parseOpenRPCDocument(notificationDocument);
     expect(document.methods).toBeDefined();
   });
 

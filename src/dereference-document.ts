@@ -143,7 +143,9 @@ const handleMethod = async (methodOrRef: MethodOrReference, doc: OpenrpcDocument
   }
 
   method.params = await derefItems(method.params as ReferenceObject[], doc, resolver);
-  method.result = await derefItem(method.result as ReferenceObject, doc, resolver);
+  if (method.result !== undefined) {
+    method.result = await derefItem(method.result as ReferenceObject, doc, resolver);
+  }
 
 
   let componentSchemas: SchemaComponents = {};
@@ -157,8 +159,10 @@ const handleMethod = async (methodOrRef: MethodOrReference, doc: OpenrpcDocument
     p.schema = await handleSchemaWithSchemaComponents(p.schema, componentSchemas);
   }
 
-  const result = method.result as ContentDescriptorObject;
-  result.schema = await handleSchemaWithSchemaComponents(result.schema, componentSchemas);
+  if (method.result !== undefined) {
+    const result = method.result as ContentDescriptorObject;
+    result.schema = await handleSchemaWithSchemaComponents(result.schema, componentSchemas);
+  }
 
   return method;
 };
