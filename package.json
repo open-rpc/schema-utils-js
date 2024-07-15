@@ -34,7 +34,7 @@
     "@json-schema-tools/meta-schema": "^1.7.5",
     "@json-schema-tools/reference-resolver": "^1.2.6",
     "@open-rpc/meta-schema": "^1.14.9",
-    "ajv": "^6.10.0",
+    "ajv": "^8.17.1",
     "detect-node": "^2.0.4",
     "fast-safe-stringify": "^2.0.7",
     "fs-extra": "^10.1.0",
