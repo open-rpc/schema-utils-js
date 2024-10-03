@@ -35,6 +35,17 @@ const notificationDocument: OpenRPC = {
           schema: { "type": "boolean" },
         },
       ],
+      examples: [
+        {
+          name: "example",
+          params: [
+            {
+              name: "bar",
+              value: true,
+            },
+          ],
+        },
+      ]
     },
   ],
 };

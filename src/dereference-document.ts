@@ -138,7 +138,9 @@ const handleMethod = async (methodOrRef: MethodOrReference, doc: OpenrpcDocument
     method.examples = await derefItems(method.examples as ReferenceObject[], doc, resolver);
     for (const exPairing of method.examples as ExamplePairingObject[]) {
       exPairing.params = await derefItems(exPairing.params as ReferenceObject[], doc, resolver);
-      exPairing.result = await derefItem(exPairing.result as ReferenceObject, doc, resolver);
+      if (exPairing.result !== undefined) {
+        exPairing.result = await derefItem(exPairing.result as ReferenceObject, doc, resolver);
+      }
     }
   }
 
