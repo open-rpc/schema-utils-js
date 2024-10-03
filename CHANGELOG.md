@@ -1,3 +1,10 @@
+## [2.0.4](https://github.com/open-rpc/schema-utils-js/compare/2.0.3...2.0.4) (2024-10-03)
+
+
+### Bug Fixes
+
+* handle notification examples ([ae110e0](https://github.com/open-rpc/schema-utils-js/commit/ae110e0aae6db79af2d4bd11a432c528458468bf))
+
 ## [2.0.3](https://github.com/open-rpc/schema-utils-js/compare/2.0.2...2.0.3) (2024-06-27)
 
 
