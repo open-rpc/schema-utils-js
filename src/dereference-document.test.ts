@@ -233,7 +233,6 @@ describe("dereferenceDocument", () => {
         },
       },
     };
-
     const document = await dereferenceDocument(testDoc as OpenrpcDocument);
     const docMethods = document.methods as MethodObject[];
     expect(docMethods).toBeDefined();
