@@ -62,6 +62,7 @@ const handleSchemaWithSchemaComponents = async (s: JSONSchema, schemaComponents:
     const dereffed = await dereffer.resolve();
     if (dereffed !== true && dereffed !== false) {
       delete dereffed.components;
+      delete s.components;
     }
     return dereffed;
   } catch (e: any) {
