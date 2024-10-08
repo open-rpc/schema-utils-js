@@ -1,3 +1,11 @@
+## [2.0.5](https://github.com/open-rpc/schema-utils-js/compare/2.0.4...2.0.5) (2024-10-08)
+
+
+### Bug Fixes
+
+* add failing test around bug with dereffing and leaving .components around ([ffd6c84](https://github.com/open-rpc/schema-utils-js/commit/ffd6c84f9ef559b2546f5a7de138115fcc719041))
+* remove extra components ([39c2120](https://github.com/open-rpc/schema-utils-js/commit/39c2120d47d55d1fde042f634123f8cc57121cff))
+
 ## [2.0.4](https://github.com/open-rpc/schema-utils-js/compare/2.0.3...2.0.4) (2024-10-03)
 
 
