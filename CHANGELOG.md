@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/open-rpc/schema-utils-js/compare/2.0.5...2.1.0) (2025-01-23)
+
+
+### Features
+
+* add support for open-rpc extensions. ([e6c215a](https://github.com/open-rpc/schema-utils-js/commit/e6c215adae36a666f7d92f710a8ce5e51df4519a))
+
 ## [2.0.5](https://github.com/open-rpc/schema-utils-js/compare/2.0.4...2.0.5) (2024-10-08)
 
 
