@@ -33,8 +33,9 @@ describe("methodParamId", () => {
         result: { name: "baz", schema: {} },
       } as MethodObject;
 
-      expect(() => generateMethodParamId(method, { name: "123", schema: {} }))
-        .toThrow("Content Descriptor not found in method.");
+      expect(() => generateMethodParamId(method, { name: "123", schema: {} })).toThrow(
+        "Content Descriptor not found in method."
+      );
     });
   });
 
@@ -82,7 +83,8 @@ describe("methodResultId", () => {
       result: { name: "baz", schema: {} },
     };
 
-    expect(() => generateMethodResultId(method, { name: "peepee", schema: {} }))
-      .toThrow("Content Descriptor not found in method.");
+    expect(() => generateMethodResultId(method, { name: "peepee", schema: {} })).toThrow(
+      "Content Descriptor not found in method."
+    );
   });
 });

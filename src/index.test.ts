@@ -12,7 +12,9 @@ export const mockServer = (file: string): Promise<http.Server> => {
   return new Promise((resolve: (value: http.Server) => void) => {
     const testServer = http.createServer((req, res) => {
       const rs = fs.createReadStream(file);
-      if (!req.url) { throw new Error("Request missing url"); }
+      if (!req.url) {
+        throw new Error("Request missing url");
+      }
       if (req.url.search("download") > 0) {
         res.writeHead(200, { "Content-Type": "application/json" });
         rs.pipe(res);
@@ -22,7 +24,9 @@ export const mockServer = (file: string): Promise<http.Server> => {
         return;
       }
     });
-    testServer.listen(0, () => { resolve(testServer); });
+    testServer.listen(0, () => {
+      resolve(testServer);
+    });
   });
 };
 
@@ -67,5 +71,4 @@ describe("parseOpenRPCDocument", () => {
     const doc = await parseOpenRPCDocument(`http://localhost:${port}/download/openrpc.json`);
     expect(rpcDocIsEqual(doc, testDoc)).toBe(true);
   });
-
 });

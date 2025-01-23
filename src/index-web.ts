@@ -1,11 +1,17 @@
 import makeParseOpenRPCDocument from "./parse-open-rpc-document";
-import validateOpenRPCDocument, { OpenRPCDocumentValidationError } from "./validate-open-rpc-document";
+import validateOpenRPCDocument, {
+  OpenRPCDocumentValidationError,
+} from "./validate-open-rpc-document";
 import {
   generateMethodParamId,
   generateMethodResultId,
   ContentDescriptorNotFoundInMethodError,
 } from "./generate-method-id";
-import { MethodCallValidator, ParameterValidationError, MethodNotFoundError } from "./method-call-validator";
+import {
+  MethodCallValidator,
+  ParameterValidationError,
+  MethodNotFoundError,
+} from "./method-call-validator";
 import fetchUrlSchema from "./get-open-rpc-document-from-url";
 import { TGetOpenRPCDocument } from "./get-open-rpc-document";
 

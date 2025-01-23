@@ -1,6 +1,8 @@
-import metaSchema, { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 import Ajv, { ErrorObject } from "ajv";
 import JsonSchemaMetaSchema from "@json-schema-tools/meta-schema";
+import applyExtensionSpec from "./apply-extension-spec";
+import getExtendedMetaSchema from "./get-extended-metaschema";
 
 /**
  * @ignore
@@ -51,21 +53,20 @@ export default function validateOpenRPCDocument(
 ): OpenRPCDocumentValidationError | true {
   const ajv = new Ajv();
   ajv.addSchema(JsonSchemaMetaSchema, "https://meta.json-schema.tools");
-  const metaSchemaCopy = { ...metaSchema } as any;
-  delete metaSchemaCopy.definitions.JSONSchema.$id;
-  delete metaSchemaCopy.definitions.JSONSchema.$schema;
-  delete metaSchemaCopy.$schema;
-  delete metaSchemaCopy.$id;
+  let extMetaSchema = getExtendedMetaSchema();
   try {
-    ajv.validate(metaSchemaCopy, document);
+    extMetaSchema = applyExtensionSpec(document, extMetaSchema);
+    ajv.validate(extMetaSchema, document);
   } catch (e) {
-    throw new Error([
-      'schema-utils-js: Internal Error',
-      '-----',
-      e,
-      '-----',
-      'If you see this report it: https://github.com/open-rpc/schema-utils-js/issues',
-    ].join('\n'));
+    throw new Error(
+      [
+        "schema-utils-js: Internal Error",
+        "-----",
+        e,
+        "-----",
+        "If you see this report it: https://github.com/open-rpc/schema-utils-js/issues",
+      ].join("\n")
+    );
   }
 
   if (ajv.errors) {

@@ -18,8 +18,9 @@ export default class ParameterValidationError implements Error {
   constructor(
     public paramIndex: number | string,
     public expectedSchema: JSONSchema,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
     public receievedParam: any,
-    errors: ErrorObject[],
+    errors: ErrorObject[]
   ) {
     this.message = [
       `Expected param at ${typeof paramIndex === "string" ? "key" : "position"}: `,
@@ -30,7 +31,7 @@ export default class ParameterValidationError implements Error {
       receievedParam,
       ".",
       "The Validation errors: \n",
-      JSON.stringify(errors)
+      JSON.stringify(errors),
     ].join("");
   }
 }

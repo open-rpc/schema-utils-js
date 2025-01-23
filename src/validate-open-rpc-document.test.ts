@@ -2,6 +2,8 @@ import validateOpenRPCDocument, {
   OpenRPCDocumentValidationError,
 } from "./validate-open-rpc-document";
 import { OpenrpcDocument } from "@open-rpc/meta-schema";
+import goodExtensionSchema from "./extension-good-schema.json";
+import badExtensionSchema from "./extension-bad-schema.json";
 
 describe("validateOpenRPCDocument", () => {
   it("errors when passed an incorrect document", () => {
@@ -18,6 +20,12 @@ describe("validateOpenRPCDocument", () => {
 
     expect(result).not.toBe(null);
     expect(result).toBeInstanceOf(OpenRPCDocumentValidationError);
+  });
+
+  it("errors when a document is corrupted", () => {
+    expect(() => validateOpenRPCDocument(undefined as any)).toThrow(
+      "schema-utils-js: Internal Error"
+    );
   });
 
   it("errors when passed an incorrect doc that is deep", () => {
@@ -71,5 +79,17 @@ describe("validateOpenRPCDocument", () => {
     const result = validateOpenRPCDocument(testSchema as OpenrpcDocument);
     expect(result).toBe(true);
     expect(result).not.toBeInstanceOf(OpenRPCDocumentValidationError);
+  });
+
+  it("supports extensions", () => {
+    const result = validateOpenRPCDocument(goodExtensionSchema as OpenrpcDocument);
+    expect(result).toBe(true);
+    expect(result).not.toBeInstanceOf(OpenRPCDocumentValidationError);
+  });
+
+  it("errors when extensions are not valid", () => {
+    const result = validateOpenRPCDocument(badExtensionSchema as OpenrpcDocument);
+    expect(result).not.toBe(null);
+    expect(result).toBeInstanceOf(OpenRPCDocumentValidationError);
   });
 });

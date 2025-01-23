@@ -1,7 +1,12 @@
 import Ajv, { ErrorObject, Ajv as IAjv } from "ajv";
 import { generateMethodParamId } from "../generate-method-id";
 import ParameterValidationError from "./parameter-validation-error";
-import { OpenrpcDocument as OpenRPC, MethodObject, ContentDescriptorObject, MethodOrReference } from "@open-rpc/meta-schema";
+import {
+  OpenrpcDocument as OpenRPC,
+  MethodObject,
+  ContentDescriptorObject,
+  MethodOrReference,
+} from "@open-rpc/meta-schema";
 import MethodNotFoundError from "./method-not-found-error";
 import { find, compact } from "../helper-functions";
 import MethodRefUnexpectedError from "./method-ref-unexpected-error";
@@ -38,8 +43,11 @@ export default class MethodCallValidator {
       const params = method.params as ContentDescriptorObject[];
 
       params.forEach((param: ContentDescriptorObject) => {
-        if (param.schema === undefined) { return; }
+        if (param.schema === undefined) {
+          return;
+        }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this.ajvValidator.addSchema(param.schema as any, generateMethodParamId(method, param));
       });
     });
@@ -66,42 +74,53 @@ export default class MethodCallValidator {
    */
   public validate(
     methodName: string,
-    params: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+    params: any
   ): ParameterValidationError[] | MethodNotFoundError {
-    if (methodName === "rpc.discover") { return []; }
-    const method = find(this.document.methods, (o: MethodObject) => { return o.name == methodName }) as MethodObject;
+    if (methodName === "rpc.discover") {
+      return [];
+    }
+    const method = find(this.document.methods, (o: MethodObject) => {
+      return o.name == methodName;
+    }) as MethodObject;
 
     if (!method) {
       return new MethodNotFoundError(methodName, this.document, params);
     }
 
-    const paramMap = (method.params as ContentDescriptorObject[]);
-    return compact(paramMap.map((param: ContentDescriptorObject, index: number): ParameterValidationError | undefined => {
-      let id: string | number;
-      if (method.paramStructure === "by-position") {
-        id = index;
-      } else if (method.paramStructure === "by-name") {
-        id = param.name;
-      } else {
-        if (params[index] !== undefined) {
-          id = index;
-        } else {
-          id = param.name;
+    const paramMap = method.params as ContentDescriptorObject[];
+    return compact(
+      paramMap.map(
+        (param: ContentDescriptorObject, index: number): ParameterValidationError | undefined => {
+          let id: string | number;
+          if (method.paramStructure === "by-position") {
+            id = index;
+          } else if (method.paramStructure === "by-name") {
+            id = param.name;
+          } else {
+            if (params[index] !== undefined) {
+              id = index;
+            } else {
+              id = param.name;
+            }
+          }
+          const input = params[id];
+
+          if (input === undefined && !param.required) {
+            return;
+          }
+
+          if (param.schema !== undefined) {
+            const idForMethod = generateMethodParamId(method, param);
+            const isValid = this.ajvValidator.validate(idForMethod, input);
+            const errors = this.ajvValidator.errors as ErrorObject[];
+
+            if (!isValid) {
+              return new ParameterValidationError(id, param.schema, input, errors);
+            }
+          }
         }
-      }
-      const input = params[id];
-
-      if (input === undefined && !param.required) { return; }
-
-      if (param.schema !== undefined) {
-        const idForMethod = generateMethodParamId(method, param);
-        const isValid = this.ajvValidator.validate(idForMethod, input);
-        const errors = this.ajvValidator.errors as ErrorObject[];
-
-        if (!isValid) {
-          return new ParameterValidationError(id, param.schema, input, errors);
-        }
-      }
-    })) as ParameterValidationError[];
+      )
+    ) as ParameterValidationError[];
   }
 }

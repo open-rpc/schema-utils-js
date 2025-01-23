@@ -21,6 +21,22 @@ describe("MethodNotFoundError", () => {
     expect(error).toBeInstanceOf(MethodNotFoundError);
   });
 
+  it("works when params are not an array of valid values", () => {
+    const obj = {
+      name: "Example",
+      circular: {},
+    };
+    obj.circular = obj; // Circular reference
+
+    const error = new MethodNotFoundError("floobar", exampleDoc, [obj]);
+    expect(error).toBeInstanceOf(MethodNotFoundError);
+  });
+
+  it("works when params are an object", () => {
+    const error = new MethodNotFoundError("floobar", exampleDoc, { test: "param" });
+    expect(error).toBeInstanceOf(MethodNotFoundError);
+  });
+
   it("properly parses params in to a string", () => {
     const error = new MethodNotFoundError("floobar", exampleDoc, ["abc", { abc: 123 }, 123]);
     expect(error).toBeInstanceOf(MethodNotFoundError);
