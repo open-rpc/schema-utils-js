@@ -15,6 +15,8 @@ import {
 } from "./method-call-validator";
 import readSchemaFromFile from "./get-open-rpc-document-from-file";
 import fetchUrlSchema from "./get-open-rpc-document-from-url";
+import getExtendedMetaSchema from "./get-extended-metaschema";
+import getDocumentExtendedMetaSchema from "./get-document-extended-metaschema";
 
 const parseOpenRPCDocument = makeParseOpenRPCDocument(fetchUrlSchema, readSchemaFromFile);
 
@@ -24,6 +26,8 @@ export {
   generateMethodParamId,
   generateMethodResultId,
   validateOpenRPCDocument,
+  getExtendedMetaSchema,
+  getDocumentExtendedMetaSchema,
   MethodCallValidator,
   ParameterValidationError,
   MethodNotFoundError,
