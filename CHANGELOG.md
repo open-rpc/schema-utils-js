@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/open-rpc/schema-utils-js/compare/2.1.0...2.1.1) (2025-02-24)
+
+
+### Bug Fixes
+
+* Add support for exposing a public interface to retrieve extension ([134ab6a](https://github.com/open-rpc/schema-utils-js/commit/134ab6a2e8558061cb928174872f1d34c642b17e))
+
 # [2.1.0](https://github.com/open-rpc/schema-utils-js/compare/2.0.5...2.1.0) (2025-01-23)
 
 
