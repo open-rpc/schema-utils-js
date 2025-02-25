@@ -14,7 +14,8 @@ import {
 } from "./method-call-validator";
 import fetchUrlSchema from "./get-open-rpc-document-from-url";
 import { TGetOpenRPCDocument } from "./get-open-rpc-document";
-
+import getDocumentExtendedMetaSchema from "./get-document-extended-metaschema";
+import getExtendedMetaSchema from "./get-extended-metaschema";
 const noop: TGetOpenRPCDocument = (schema: string) => {
   return Promise.reject(`Not Implemented, passed: ${schema}`);
 };
@@ -26,6 +27,8 @@ export {
   generateMethodParamId,
   generateMethodResultId,
   validateOpenRPCDocument,
+  getDocumentExtendedMetaSchema,
+  getExtendedMetaSchema,
   MethodNotFoundError,
   MethodCallValidator,
   ParameterValidationError,
