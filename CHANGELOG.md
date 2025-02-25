@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/open-rpc/schema-utils-js/compare/2.1.1...2.1.2) (2025-02-25)
+
+
+### Bug Fixes
+
+* add missing web export ([8fa2165](https://github.com/open-rpc/schema-utils-js/commit/8fa2165242985281a0a895e64e8600baa5288e77))
+
 ## [2.1.1](https://github.com/open-rpc/schema-utils-js/compare/2.1.0...2.1.1) (2025-02-24)
 
 
