@@ -5,7 +5,7 @@ import getExtendedMetaSchema from "./get-extended-metaschema";
 
 describe("applyExtensionSpec", () => {
   it("should successfully apply extension spec to meta schema", () => {
-    const result = applyExtensionSpec(goodSchema as OpenrpcDocument, getExtendedMetaSchema());
+    const result = applyExtensionSpec(goodSchema as OpenrpcDocument, getExtendedMetaSchema("1.3"));
 
     // Check if extension was applied to methodObject
     const methodObjectDef = result.definitions.methodObject;
@@ -47,7 +47,7 @@ describe("applyExtensionSpec", () => {
       "x-extensions": [],
     };
 
-    const schema = getExtendedMetaSchema();
+    const schema = getExtendedMetaSchema("1.3");
     const result = applyExtensionSpec(emptyExtensionsDoc as OpenrpcDocument, schema);
     expect(result).toEqual(schema);
   });
@@ -64,7 +64,7 @@ describe("applyExtensionSpec", () => {
     };
 
     expect(() => {
-      applyExtensionSpec(badDoc as OpenrpcDocument, getExtendedMetaSchema());
+      applyExtensionSpec(badDoc as OpenrpcDocument, getExtendedMetaSchema("1.3"));
     }).toThrow("nonExistentDefinition does not exist, cannot apply extension x-notification");
   });
 
@@ -96,7 +96,7 @@ describe("applyExtensionSpec", () => {
       ],
     };
 
-    const result = applyExtensionSpec(doc as OpenrpcDocument, getExtendedMetaSchema());
+    const result = applyExtensionSpec(doc as OpenrpcDocument, getExtendedMetaSchema("1.3"));
     expect(result.definitions["x-test-potate"]).toBeDefined();
     expect(result.definitions["x-test-potate"].properties["x-next"]).toBeDefined();
     expect(result.definitions["x-test-potate"].properties["x-next"].type).toBe("boolean");
@@ -119,7 +119,7 @@ describe("applyExtensionSpec", () => {
   });
 
   it("should throw error when extension property already exists", () => {
-    const schema = getExtendedMetaSchema();
+    const schema = getExtendedMetaSchema("1.3");
     const modifiedSchema = {
       ...schema,
       definitions: {

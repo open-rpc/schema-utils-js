@@ -14,3 +14,18 @@ export type SchemaComponents = V1_4.SchemaComponents | V1_3.SchemaComponents;
 export type ContentDescriptorComponents =
   | V1_4.ContentDescriptorComponents
   | V1_3.ContentDescriptorComponents;
+
+export type RefNode = { $ref: string };
+
+export type NoRefs<T> =
+  // If T itself is a ref → remove it
+  T extends RefNode
+    ? never
+    : // If T is an array → apply recursively to element type
+    T extends (infer U)[]
+    ? NoRefs<U>[]
+    : // If T is an object → map over its properties
+    T extends object
+    ? { [K in keyof T]: NoRefs<T[K]> }
+    : // Primitives (string, number, etc.) are left as-is
+      T;
