@@ -53,7 +53,7 @@ export default function validateOpenRPCDocument(
 ): OpenRPCDocumentValidationError | true {
   const ajv = new Ajv();
   ajv.addSchema(JsonSchemaMetaSchema, "https://meta.json-schema.tools");
-  let extMetaSchema = getExtendedMetaSchema();
+  let extMetaSchema = getExtendedMetaSchema(document.openrpc);
   try {
     extMetaSchema = applyExtensionSpec(document, extMetaSchema);
     ajv.validate(extMetaSchema, document);

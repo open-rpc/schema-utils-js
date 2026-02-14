@@ -1,12 +1,12 @@
 import applyExtensionSpec from "./apply-extension-spec";
-import metaSchema from "@open-rpc/meta-schema";
+import getMetaSchemaForVersion from "./get-meta-schema-for-version";
 import { OpenrpcDocument } from "./types";
 import goodSchema from "./extension-good-schema.json";
 import getExtendedMetaSchema from "./get-extended-metaschema";
 
 describe("applyExtensionSpec", () => {
   it("should successfully apply extension spec to meta schema", () => {
-    const result = applyExtensionSpec(goodSchema as OpenrpcDocument, getExtendedMetaSchema());
+    const result = applyExtensionSpec(goodSchema as OpenrpcDocument, getExtendedMetaSchema("1.3"));
 
     // Check if extension was applied to methodObject
     const methodObjectDef = result.definitions.methodObject;
@@ -19,6 +19,7 @@ describe("applyExtensionSpec", () => {
   });
 
   it("should handle multiple extensions", () => {
+    const metaSchema = getMetaSchemaForVersion("1.3");
     const multiExtensionDoc = {
       ...goodSchema,
       "x-extensions": [
@@ -40,6 +41,7 @@ describe("applyExtensionSpec", () => {
   });
 
   it("should return unmodified schema when x-extensions is empty", () => {
+    const metaSchema = getMetaSchemaForVersion("1.3");
     const emptyExtensionsDoc = {
       ...goodSchema,
       "x-extensions": [],
@@ -50,6 +52,7 @@ describe("applyExtensionSpec", () => {
   });
 
   it("should throw error when restricted schema definition doesn't exist", () => {
+    const metaSchema = getMetaSchemaForVersion("1.3");
     const badDoc = {
       ...goodSchema,
       "x-extensions": [
@@ -66,6 +69,7 @@ describe("applyExtensionSpec", () => {
   });
 
   it("should throw error when extension property already exists", () => {
+    const metaSchema = getMetaSchemaForVersion("1.3");
     const modifiedSchema = {
       ...metaSchema,
       definitions: {
