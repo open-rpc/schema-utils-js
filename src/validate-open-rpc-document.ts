@@ -1,4 +1,4 @@
-import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC } from "./types";
 import Ajv, { ErrorObject } from "ajv";
 import JsonSchemaMetaSchema from "@json-schema-tools/meta-schema";
 import applyExtensionSpec from "./apply-extension-spec";

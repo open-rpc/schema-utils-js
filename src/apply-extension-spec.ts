@@ -1,4 +1,4 @@
-import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC } from "./types";
 
 /**
  * Applies extension specifications to an OpenRPC document by modifying the meta schema

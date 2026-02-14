@@ -1,4 +1,4 @@
-import { MethodObject, ContentDescriptorObject } from "@open-rpc/meta-schema";
+import { MethodObject, ContentDescriptorObject } from "./types";
 import { findIndex } from "./helper-functions";
 
 /**

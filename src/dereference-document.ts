@@ -1,5 +1,6 @@
 import Dereferencer from "@json-schema-tools/dereferencer";
-import metaSchema, {
+import metaSchema from "@open-rpc/meta-schema";
+import {
   OpenrpcDocument as OpenRPC,
   ReferenceObject,
   ExamplePairingObject,
@@ -10,7 +11,7 @@ import metaSchema, {
   OpenrpcDocument,
   MethodObject,
   MethodOrReference,
-} from "@open-rpc/meta-schema";
+} from "./types";
 import referenceResolver from "@json-schema-tools/reference-resolver";
 import safeStringify from "fast-safe-stringify";
 

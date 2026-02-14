@@ -1,7 +1,7 @@
 import validateOpenRPCDocument, {
   OpenRPCDocumentValidationError,
 } from "./validate-open-rpc-document";
-import { OpenrpcDocument } from "@open-rpc/meta-schema";
+import { OpenrpcDocument } from "./types";
 import goodExtensionSchema from "./extension-good-schema.json";
 import badExtensionSchema from "./extension-bad-schema.json";
 

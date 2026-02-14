@@ -1,5 +1,5 @@
 import MethodCallValidator from "./method-call-validator";
-import { MethodObject, OpenrpcDocument as OpenRPC, OpenrpcDocument } from "@open-rpc/meta-schema";
+import { MethodObject, OpenrpcDocument as OpenRPC, OpenrpcDocument } from "../types";
 import MethodCallParameterValidationError from "./parameter-validation-error";
 import MethodCallMethodNotFoundError from "./method-not-found-error";
 import MethodNotFoundError from "./method-not-found-error";

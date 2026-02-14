@@ -1,4 +1,4 @@
-import { OpenrpcDocument } from "@open-rpc/meta-schema";
+import { OpenrpcDocument } from "./types";
 import applyExtensionSpec from "./apply-extension-spec";
 import getExtendedMetaSchema from "./get-extended-metaschema";
 

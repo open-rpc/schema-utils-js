@@ -6,7 +6,7 @@ import {
   MethodObject,
   ContentDescriptorObject,
   MethodOrReference,
-} from "@open-rpc/meta-schema";
+} from "../types";
 import MethodNotFoundError from "./method-not-found-error";
 import { find, compact } from "../helper-functions";
 import MethodRefUnexpectedError from "./method-ref-unexpected-error";
