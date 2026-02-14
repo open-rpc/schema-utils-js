@@ -1,5 +1,5 @@
 import { generateMethodParamId, generateMethodResultId } from "./generate-method-id";
-import { MethodObject } from "@open-rpc/meta-schema";
+import { MethodObject } from "./types";
 
 describe("methodParamId", () => {
   describe("default paramStructure: either", () => {

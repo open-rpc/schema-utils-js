@@ -5,7 +5,7 @@ import {
   ContentDescriptorObject,
   JSONSchema,
   MethodObject,
-} from "@open-rpc/meta-schema";
+} from "./types";
 import { JSONSchemaObject } from "@json-schema-tools/meta-schema";
 
 const workingDocument: OpenrpcDocument = {

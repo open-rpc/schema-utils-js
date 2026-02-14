@@ -1,5 +1,5 @@
 import { ErrorObject } from "ajv";
-import { JSONSchema } from "@open-rpc/meta-schema";
+import { JSONSchema } from "../types";
 
 /**
  * Provides an error interface for handling when a function call has invalid parameters.

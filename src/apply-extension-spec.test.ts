@@ -1,5 +1,5 @@
 import applyExtensionSpec from "./apply-extension-spec";
-import { OpenrpcDocument } from "@open-rpc/meta-schema";
+import { OpenrpcDocument } from "./types";
 import goodSchema from "./extension-good-schema.json";
 import getExtendedMetaSchema from "./get-extended-metaschema";
 

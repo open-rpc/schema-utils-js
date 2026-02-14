@@ -1,2 +1,2 @@
-import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC } from "./types";
 export type TGetOpenRPCDocument = (schema: string) => Promise<OpenRPC>;
