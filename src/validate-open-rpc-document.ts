@@ -51,6 +51,8 @@ export class OpenRPCDocumentValidationError implements Error {
 export default function validateOpenRPCDocument(
   document: OpenRPC
 ): OpenRPCDocumentValidationError | true {
+  if (!document) throw new Error("schema-utils-js: Internal Error - document is undefined");
+
   const ajv = new Ajv();
   ajv.addSchema(JsonSchemaMetaSchema, "https://meta.json-schema.tools");
   let extMetaSchema = getExtendedMetaSchema(document.openrpc);
