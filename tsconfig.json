@@ -10,7 +10,11 @@
     "outDir": "./build",
     "strict": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
   },
   "typedocOptions": {
     "name": "@open-rpc/schema-utils-js",
