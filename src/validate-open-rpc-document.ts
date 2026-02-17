@@ -1,5 +1,6 @@
 import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
 import Ajv, { ErrorObject } from "ajv";
+import addFormats from "ajv-formats";
 import JsonSchemaMetaSchema from "@json-schema-tools/meta-schema";
 import applyExtensionSpec from "./apply-extension-spec";
 import getExtendedMetaSchema from "./get-extended-metaschema";
@@ -51,7 +52,8 @@ export class OpenRPCDocumentValidationError implements Error {
 export default function validateOpenRPCDocument(
   document: OpenRPC
 ): OpenRPCDocumentValidationError | true {
-  const ajv = new Ajv();
+  const ajv = new Ajv({ strict: false });
+  addFormats(ajv);
   ajv.addSchema(JsonSchemaMetaSchema, "https://meta.json-schema.tools");
   let extMetaSchema = getExtendedMetaSchema();
   try {

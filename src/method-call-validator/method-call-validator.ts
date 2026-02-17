@@ -1,4 +1,5 @@
-import Ajv, { ErrorObject, Ajv as IAjv } from "ajv";
+import Ajv, { ErrorObject } from "ajv";
+import addFormats from "ajv-formats";
 import { generateMethodParamId } from "../generate-method-id";
 import ParameterValidationError from "./parameter-validation-error";
 import {
@@ -17,7 +18,7 @@ import MethodRefUnexpectedError from "./method-ref-unexpected-error";
  * In doing so, use this class to easily create a re-useable validator for a particular method.
  */
 export default class MethodCallValidator {
-  private ajvValidator: IAjv;
+  private ajvValidator: Ajv;
 
   /**
    * @param document The OpenRPC document containing the methods whose calls we want validated.
@@ -33,6 +34,7 @@ export default class MethodCallValidator {
    */
   constructor(private document: OpenRPC) {
     this.ajvValidator = new Ajv();
+    addFormats(this.ajvValidator);
 
     // Validate that the methods are dereferenced
     document.methods.forEach((method: MethodOrReference) => {
