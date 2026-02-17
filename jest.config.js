@@ -4,5 +4,10 @@ module.exports = {
   resetMocks: true,
   restoreMocks: true,
   rootDir: "./src",
-  preset: "ts-jest",
+  transformIgnorePatterns: [
+    "node_modules/(?!test-open-rpc-spec)",
+  ],
+  transform: {
+    "^.+\\.[tj]sx?$": ["ts-jest", { tsconfig: { allowJs: true } }],
+  },
 };
