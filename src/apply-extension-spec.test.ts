@@ -74,7 +74,7 @@ describe("applyExtensionSpec", () => {
       "x-extensions": [
         {
           ...goodSchema["x-extensions"][0],
-          name: "x-error-groups",
+          name: "x-test-potate",
           restricted: ["methodObject"],
           schema: {
             type: "object",
@@ -88,7 +88,7 @@ describe("applyExtensionSpec", () => {
         {
           ...goodSchema["x-extensions"][0],
           name: "x-next",
-          restricted: ["x-error-groups"], //search everything for key with x-error-groups
+          restricted: ["x-test-potate"], //search everything for key with x-error-groups
           schema: {
             type: "boolean",
           },
@@ -97,9 +97,9 @@ describe("applyExtensionSpec", () => {
     };
 
     const result = applyExtensionSpec(doc as OpenrpcDocument, getExtendedMetaSchema());
-    expect(result.definitions["x-error-groups"]).toBeDefined();
-    expect(result.definitions["x-error-groups"].properties["x-next"]).toBeDefined();
-    expect(result.definitions["x-error-groups"].properties["x-next"].type).toBe("boolean");
+    expect(result.definitions["x-test-potate"]).toBeDefined();
+    expect(result.definitions["x-test-potate"].properties["x-next"]).toBeDefined();
+    expect(result.definitions["x-test-potate"].properties["x-next"].type).toBe("boolean");
   });
 
   it("should throw error when extension name already exists in definitions", () => {
