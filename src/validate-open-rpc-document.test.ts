@@ -23,7 +23,7 @@ describe("validateOpenRPCDocument", () => {
   });
 
   it("errors when a document is corrupted", () => {
-    expect(() => validateOpenRPCDocument(undefined as any)).toThrow(
+    expect(() => validateOpenRPCDocument(undefined as unknown as OpenrpcDocument)).toThrow(
       "schema-utils-js: Internal Error"
     );
   });

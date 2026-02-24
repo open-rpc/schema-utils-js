@@ -16,6 +16,11 @@ function applyExtensionSpec(document: OpenRPC, metaSchema: any): any {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   document["x-extensions"].forEach((extension: any) => {
     const { name, schema, summary, description, restricted } = extension;
+
+    if (extendedMetaSchema.definitions[name]) {
+      throw new Error(`${name} already exists in definitions, cannot apply extension ${name}`);
+    }
+
     restricted.forEach((schemaDefinition: string) => {
       const def = extendedMetaSchema.definitions[schemaDefinition];
 
@@ -33,6 +38,7 @@ function applyExtensionSpec(document: OpenRPC, metaSchema: any): any {
         summary,
         ...schema,
       };
+      extendedMetaSchema.definitions[name] = def.properties[name];
     });
   });
 
