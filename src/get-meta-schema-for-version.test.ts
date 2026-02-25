@@ -12,8 +12,8 @@ describe("getMetaSchemaForVersion", () => {
 
     const result1_4 = getMetaSchemaForVersion("1.4");
     expect(result1_4).toBeDefined();
-    if ("regex" in result1_4.properties["openrpc"]) {
-      expect(result1_4.properties["openrpc"].regex).toContain("4");
+    if ("pattern" in result1_4.properties["openrpc"]) {
+      expect(result1_4.properties["openrpc"].pattern).toContain("4");
     } else {
       throw new Error("OpenRPC schema version 1.4 is not supported");
     }

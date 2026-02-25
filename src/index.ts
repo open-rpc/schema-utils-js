@@ -17,6 +17,7 @@ import readSchemaFromFile from "./get-open-rpc-document-from-file";
 import fetchUrlSchema from "./get-open-rpc-document-from-url";
 import getExtendedMetaSchema from "./get-extended-metaschema";
 import getDocumentExtendedMetaSchema from "./get-document-extended-metaschema";
+import { NoRefs } from "./types";
 
 const parseOpenRPCDocument = makeParseOpenRPCDocument(fetchUrlSchema, readSchemaFromFile);
 
@@ -34,4 +35,5 @@ export {
   OpenRPCDocumentValidationError,
   OpenRPCDocumentDereferencingError,
   ContentDescriptorNotFoundInMethodError,
+  NoRefs,
 };

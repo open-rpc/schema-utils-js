@@ -34,7 +34,7 @@
     "@json-schema-tools/dereferencer": "^1.6.3",
     "@json-schema-tools/meta-schema": "^1.7.5",
     "@json-schema-tools/reference-resolver": "^1.2.6",
-    "@open-rpc/spec-types": "^0.0.1",
+    "@open-rpc/spec-types": "0.0.2",
     "@open-rpc/specification-extension-spec": "^1.0.2",
     "ajv": "^6.10.0",
     "detect-node": "^2.0.4",
