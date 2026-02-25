@@ -1,3 +1,17 @@
+# [2.2.0](https://github.com/open-rpc/schema-utils-js/compare/2.1.2...2.2.0) (2026-02-25)
+
+
+### Bug Fixes
+
+* allow extending extensions themselves by name ([109f53b](https://github.com/open-rpc/schema-utils-js/commit/109f53b9dc260aeed9b72f51d52ce8d59941643a))
+* change test spec extension name ([5ff0ae0](https://github.com/open-rpc/schema-utils-js/commit/5ff0ae044d403f1a45de8ea15b9904d75fa7e003))
+* update types to match the new specific schema types update ([8de1fc3](https://github.com/open-rpc/schema-utils-js/commit/8de1fc32f7049af35560014017f214157c5ed77b))
+
+
+### Features
+
+* add support for proper schema segmentation ([6df92b2](https://github.com/open-rpc/schema-utils-js/commit/6df92b230b425071b5afa6bbe9fe6bd955313aa0))
+
 ## [2.1.2](https://github.com/open-rpc/schema-utils-js/compare/2.1.1...2.1.2) (2025-02-25)
 
 
