@@ -1,5 +1,5 @@
 import applyExtensionSpec from "./apply-extension-spec";
-import metaSchema, { OpenrpcDocument } from "@open-rpc/meta-schema";
+import { OpenrpcDocument } from "@open-rpc/meta-schema";
 import goodSchema from "./extension-good-schema.json";
 import getExtendedMetaSchema from "./get-extended-metaschema";
 
@@ -30,7 +30,10 @@ describe("applyExtensionSpec", () => {
       ],
     };
 
-    const result = applyExtensionSpec(multiExtensionDoc as OpenrpcDocument, metaSchema);
+    const result = applyExtensionSpec(
+      multiExtensionDoc as OpenrpcDocument,
+      getExtendedMetaSchema()
+    );
     const methodObjectDef = result.definitions.methodObject;
 
     expect(methodObjectDef.properties["x-notification"]).toBeDefined();
@@ -44,8 +47,9 @@ describe("applyExtensionSpec", () => {
       "x-extensions": [],
     };
 
-    const result = applyExtensionSpec(emptyExtensionsDoc as OpenrpcDocument, metaSchema);
-    expect(result).toEqual(metaSchema);
+    const schema = getExtendedMetaSchema();
+    const result = applyExtensionSpec(emptyExtensionsDoc as OpenrpcDocument, schema);
+    expect(result).toEqual(schema);
   });
 
   it("should throw error when restricted schema definition doesn't exist", () => {
@@ -60,15 +64,68 @@ describe("applyExtensionSpec", () => {
     };
 
     expect(() => {
-      applyExtensionSpec(badDoc as OpenrpcDocument, metaSchema);
+      applyExtensionSpec(badDoc as OpenrpcDocument, getExtendedMetaSchema());
     }).toThrow("nonExistentDefinition does not exist, cannot apply extension x-notification");
   });
 
+  it("should allow restricted schema definition by extension name", () => {
+    const doc = {
+      ...goodSchema,
+      "x-extensions": [
+        {
+          ...goodSchema["x-extensions"][0],
+          name: "x-test-potate",
+          restricted: ["methodObject"],
+          schema: {
+            type: "object",
+            properties: {
+              id: { type: "string" },
+              title: { type: "string" },
+              description: { type: "string" },
+            },
+          },
+        },
+        {
+          ...goodSchema["x-extensions"][0],
+          name: "x-next",
+          restricted: ["x-test-potate"], //search everything for key with x-error-groups
+          schema: {
+            type: "boolean",
+          },
+        },
+      ],
+    };
+
+    const result = applyExtensionSpec(doc as OpenrpcDocument, getExtendedMetaSchema());
+    expect(result.definitions["x-test-potate"]).toBeDefined();
+    expect(result.definitions["x-test-potate"].properties["x-next"]).toBeDefined();
+    expect(result.definitions["x-test-potate"].properties["x-next"].type).toBe("boolean");
+  });
+
+  it("should throw error when extension name already exists in definitions", () => {
+    const doc = {
+      ...goodSchema,
+      "x-extensions": [
+        {
+          ...goodSchema["x-extensions"][0],
+          name: "methodObject",
+        },
+      ],
+    };
+
+    expect(() => {
+      applyExtensionSpec(doc as OpenrpcDocument, getExtendedMetaSchema());
+    }).toThrow("methodObject already exists in definitions, cannot apply extension methodObject");
+  });
+
   it("should throw error when extension property already exists", () => {
+    const schema = getExtendedMetaSchema();
     const modifiedSchema = {
-      ...metaSchema,
+      ...schema,
       definitions: {
+        ...schema.definitions,
         methodObject: {
+          ...schema.definitions.methodObject,
           properties: {
             "x-notification": {}, // Already exists
           },
