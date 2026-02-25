@@ -1,4 +1,4 @@
-import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC } from "./types";
 import { readJson } from "fs-extra";
 import { TGetOpenRPCDocument } from "./get-open-rpc-document";
 

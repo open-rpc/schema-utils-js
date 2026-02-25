@@ -4,7 +4,7 @@ import validateOpenRPCDocument, {
 } from "./validate-open-rpc-document";
 import defaultResolver from "@json-schema-tools/reference-resolver";
 import isUrl = require("is-url");
-import { OpenrpcDocument } from "@open-rpc/meta-schema";
+import { OpenrpcDocument } from "./types";
 import { TGetOpenRPCDocument } from "./get-open-rpc-document";
 import ReferenceResolver, {
   ProtocolHandlerMap,

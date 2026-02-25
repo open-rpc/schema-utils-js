@@ -1,5 +1,5 @@
 import MethodRefUnexpectedError from "./method-ref-unexpected-error";
-import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC } from "../types";
 
 const exampleDoc = {
   info: {

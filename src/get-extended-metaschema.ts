@@ -1,10 +1,10 @@
-import metaSchema from "@open-rpc/meta-schema";
+import getMetaSchemaForVersion from "./get-meta-schema-for-version";
 import { metaSchema as extensionMetaSchema } from "@open-rpc/specification-extension-spec";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function getExtendedMetaSchema(): any {
+function getExtendedMetaSchema(version = "1.3"): any {
   // NOTE: this is to make sure we don't mutate the original meta schema
-  const metaSchemaCopy = JSON.parse(JSON.stringify(metaSchema));
+  const metaSchemaCopy = JSON.parse(JSON.stringify(getMetaSchemaForVersion(version)));
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const extensionMetaSchemaCopy = { ...extensionMetaSchema } as any;
 

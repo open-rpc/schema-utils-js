@@ -1,4 +1,4 @@
-import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC } from "./types";
 import Ajv, { ErrorObject } from "ajv";
 import JsonSchemaMetaSchema from "@json-schema-tools/meta-schema";
 import applyExtensionSpec from "./apply-extension-spec";
@@ -51,9 +51,11 @@ export class OpenRPCDocumentValidationError implements Error {
 export default function validateOpenRPCDocument(
   document: OpenRPC
 ): OpenRPCDocumentValidationError | true {
+  if (!document) throw new Error("schema-utils-js: Internal Error - document is undefined");
+
   const ajv = new Ajv();
   ajv.addSchema(JsonSchemaMetaSchema, "https://meta.json-schema.tools");
-  let extMetaSchema = getExtendedMetaSchema();
+  let extMetaSchema = getExtendedMetaSchema(document.openrpc);
   try {
     extMetaSchema = applyExtensionSpec(document, extMetaSchema);
     ajv.validate(extMetaSchema, document);

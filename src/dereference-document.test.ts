@@ -1,11 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import dereferenceDocument, { OpenRPCDocumentDereferencingError } from "./dereference-document";
-import {
-  OpenrpcDocument,
-  ContentDescriptorObject,
-  JSONSchema,
-  MethodObject,
-} from "@open-rpc/meta-schema";
+import { OpenrpcDocument, ContentDescriptorObject, JSONSchema, MethodObject } from "./types";
 import { JSONSchemaObject } from "@json-schema-tools/meta-schema";
 
 const workingDocument: OpenrpcDocument = {

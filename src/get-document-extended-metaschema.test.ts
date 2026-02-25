@@ -1,6 +1,6 @@
 import getDocumentExtendedMetaSchema from "./get-document-extended-metaschema";
 import goodSchema from "./extension-good-schema.json";
-import { OpenrpcDocument } from "@open-rpc/meta-schema";
+import { OpenrpcDocument } from "./types";
 
 describe("getDocumentExtendedMetaSchema", () => {
   it("should successfully apply extension spec to meta schema", () => {

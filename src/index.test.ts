@@ -1,5 +1,5 @@
 import fs from "fs-extra";
-import { OpenrpcDocument as OpenRPC } from "@open-rpc/meta-schema";
+import { OpenrpcDocument as OpenRPC } from "./types";
 import { parseOpenRPCDocument } from "./";
 import rimraf from "rimraf";
 import { promisify } from "util";

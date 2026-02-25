@@ -1,5 +1,6 @@
 import Dereferencer from "@json-schema-tools/dereferencer";
-import metaSchema, {
+import getMetaSchemaForVersion from "./get-meta-schema-for-version";
+import {
   OpenrpcDocument as OpenRPC,
   ReferenceObject,
   ExamplePairingObject,
@@ -10,7 +11,7 @@ import metaSchema, {
   OpenrpcDocument,
   MethodObject,
   MethodOrReference,
-} from "@open-rpc/meta-schema";
+} from "./types";
 import referenceResolver from "@json-schema-tools/reference-resolver";
 import safeStringify from "fast-safe-stringify";
 
@@ -475,6 +476,7 @@ export default async function dereferenceDocument(
   derefDoc = await handleSchemaComponents(derefDoc);
   derefDoc = await handleSchemasInsideContentDescriptorComponents(derefDoc);
 
+  const metaSchema = getMetaSchemaForVersion(openrpcDocument.openrpc);
   const definitionsMap = createDefinitionsMap(metaSchema);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const extensions = [] as any;
