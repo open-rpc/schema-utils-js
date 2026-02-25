@@ -1,4 +1,4 @@
-import { spec } from "test-open-rpc-spec-types";
+import { spec } from "@open-rpc/spec-types";
 
 const getMetaSchemaForVersion = (version: string) => {
   if (/^1\.4(\..*)?$/.test(version)) return spec.OpenRPCSpecificationSchema1_4;

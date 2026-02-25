@@ -1,4 +1,4 @@
-import type { V1_4, V1_3 } from "test-open-rpc-spec-types";
+import type { V1_4, V1_3 } from "@open-rpc/spec-types";
 
 export type { V1_4, V1_3 };
 

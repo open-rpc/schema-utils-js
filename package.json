@@ -34,15 +34,14 @@
     "@json-schema-tools/dereferencer": "^1.6.3",
     "@json-schema-tools/meta-schema": "^1.7.5",
     "@json-schema-tools/reference-resolver": "^1.2.6",
-    "@open-rpc/spec-types": "file:open-rpc-spec-types-0.0.0.tgz",
+    "@open-rpc/spec-types": "^0.0.1",
     "@open-rpc/specification-extension-spec": "^1.0.2",
     "ajv": "^6.10.0",
     "detect-node": "^2.0.4",
     "fast-safe-stringify": "^2.0.7",
     "fs-extra": "^10.1.0",
     "is-url": "^1.2.4",
-    "isomorphic-fetch": "^3.0.0",
-    "test-open-rpc-spec-types": "^0.0.4"
+    "isomorphic-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
