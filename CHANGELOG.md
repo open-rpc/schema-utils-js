@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/open-rpc/schema-utils-js/compare/2.2.0...2.2.1) (2026-02-25)
+
+
+### Bug Fixes
+
+* package bump and no-refs exposure ([f788c32](https://github.com/open-rpc/schema-utils-js/commit/f788c3249ea73731e30a87602be2e51aa9d65dfe))
+
 # [2.2.0](https://github.com/open-rpc/schema-utils-js/compare/2.1.2...2.2.0) (2026-02-25)
 
 
