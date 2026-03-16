@@ -1,4 +1,5 @@
 import makeParseOpenRPCDocument from "./parse-open-rpc-document";
+import dereferenceDocument, { OpenRPCDocumentDereferencingError } from "./dereference-document";
 import validateOpenRPCDocument, {
   OpenRPCDocumentValidationError,
 } from "./validate-open-rpc-document";
@@ -23,6 +24,7 @@ const noop: TGetOpenRPCDocument = (schema: string) => {
 const parseOpenRPCDocument = makeParseOpenRPCDocument(fetchUrlSchema, noop);
 
 export {
+  dereferenceDocument,
   parseOpenRPCDocument,
   generateMethodParamId,
   generateMethodResultId,
@@ -33,5 +35,6 @@ export {
   MethodCallValidator,
   ParameterValidationError,
   OpenRPCDocumentValidationError,
+  OpenRPCDocumentDereferencingError,
   ContentDescriptorNotFoundInMethodError,
 };
